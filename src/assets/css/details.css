@@ -1,0 +1,218 @@
+.shixiang {
+  background-color: #ffffff;
+}
+.shixiang /deep/ .van-cell__title {
+  display: flex;
+  justify-content: space-between;
+}
+.shixiang /deep/ .van-cell__value {
+  /* text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden; */
+}
+.shixiang .detail {
+  margin: 0 0.25rem;
+}
+.shixiang .title {
+  text-align: left;
+  height: 1rem;
+  line-height: 1rem;
+  border-bottom: 1px solid #dee8ee;
+}
+.shixiang .title .sxIcon {
+  vertical-align: middle;
+  width: 0.35rem;
+  height: 0.35rem;
+  margin-right: 0.1rem;
+}
+.shixiang .text_l {
+  padding: 10px 0;
+  justify-content: space-between;
+  text-align: left;
+}
+.shixiang /deep/ .van-cell::after {
+  border-bottom: 0px solid #ffffff;
+  right: 0;
+  bottom: 0; 
+  left: 0;
+  position: relative;
+  content: none;
+  display: none;
+}
+.line {
+  height: 0.2rem;
+  background-color: #f3f6f9;
+}
+.margin {
+  margin: 0 0.25rem;
+}
+.total{
+    display: flex;
+    justify-content: center;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: 0.24rem;
+}
+.tabHead {
+  display: flex;
+  justify-content: space-around;
+  height: 1.03rem;
+  line-height: 1rem;
+  background-color: #f3f8fb;
+}
+.tabContent{
+  display: flex;
+  justify-content: space-between;
+
+}
+.direct /deep/ .van-cell__title{
+  display: flex;
+  justify-content: space-between;
+}
+.disbursement /deep/ .van-cell{
+    padding: 10px 0;
+}
+.details /deep/ .van-cell{
+    padding: 10px 0;
+    
+}
+.details /deep/ .el-table th>.cell{
+  white-space: nowrap;
+  overflow-x: auto;
+  text-overflow: initial;
+}
+.details /deep/ .el-table .cell{
+  white-space: nowrap;
+  overflow-x: auto;
+  text-overflow: initial;
+}
+.details /deep/ .el-table thead{
+  font-size: 0.22rem;
+}
+.details /deep/ .el-table th{
+  width: 33%;
+}
+.info{
+  width: 100%;
+  /* height: 1rem; */
+	background-color: #1890ff;
+}
+.back {
+  /* background-color: #f3f6f9; */
+}
+/* 流转信息 */
+.step {
+ padding: 0 0.3rem;
+ margin-bottom: 0.2rem;
+ 
+}
+
+.stepList{
+  background: url('../img/liuzhuan1.png') no-repeat;
+  background-size: 21px;
+  background-position: 0px 25px;
+  padding-left: 0.6rem;
+  position: relative;
+}
+/* '../img/liuzhuan0.png' */
+.select{
+  background: url('../img/liuzhuan0.png') no-repeat;
+  background-size: 21px;
+  background-position: 0px 25px;
+  padding-left: 0.6rem;
+  position: relative;
+}
+ .content{
+    background-color: #fff;
+    height: auto;
+    font-size: 0.26rem;
+    padding: 0.25rem;
+}
+ .content .title .appay{
+  width: 70%;
+  font-size: 0.32rem;
+  color: #000000;
+  text-align: left;
+  /* text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden; */
+}
+ .content .title .time{
+  color: #aeb2b7;
+    font-size: 0.24rem;
+    margin-top: 0.05rem;
+}
+ .content .user{
+    margin: 0.22rem 0;
+}
+.flex{
+  display: flex;
+  justify-content: space-between;
+}
+.content .option .isTrue{
+    color: #1890ff;
+}
+.ifFalse{
+color: #e54728;
+}
+.userName{
+  width: 40%;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.optionS{
+  width: 85%;
+  text-align: left;
+  /* text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden; */
+}
+
+.setp_line{
+    top: 40px;
+    left: 9px;
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    background-color: #ebedf0;
+}
+
+/* 附件信息 */
+.file{
+    background: #ffffff;
+    padding: 0 0.2rem;
+    position: relative;
+    width: 90%;
+    margin: auto;
+    height: 0.91rem;
+    background-color: #ffffff;
+    margin-bottom: 0.22rem;
+    display: flex;
+    justify-content: space-between;
+    line-height: 0.91rem;
+}
+.file .fileIcon{
+    width: 0.40rem;
+    height: 0.5rem;
+    margin-top: 0.22rem;
+}
+.fileNnme{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 80%;
+}
+.rightIcon{
+    font-size: 0.38rem;
+    color: #b4c5d5;
+    margin-top: 0.25rem;
+}
+  /* .select{
+    background: url('../img/liuzhuan0.png') no-repeat;
+    background-size: 21px;
+    background-position: 0px 25px;
+    padding-left: 0.6rem;
+    position: relative;
+  } */

@@ -1,0 +1,250 @@
+<template>
+   <div id="page">
+      <!-- 非合同采购 -->
+    <div class="shixiang" v-show="index == 0">
+      <div class="detail">
+        <div class="title">
+          <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />
+          事项详情
+        </div>
+        <van-cell-group>
+          <van-cell
+            title="单位名称"
+            :value="dataObject.reimbursement.unit.shortName"
+            size="small"
+            class="text_l"
+          />
+          <van-cell
+            title="申请部门"
+            :value="dataObject.reimbursement.department.shortName"
+            size="small"
+            class="text_l"
+          />
+          <van-cell
+            title="申请人"
+            :value="dataObject.reimbursement.declarer.name"
+            size="small"
+            class="text_l"
+          />
+           <van-cell
+            title="报销单号"
+            :value="dataObject.reimbursement.code"
+            size="small"
+            class="text_l"
+          />
+          <van-cell
+            title="申请时间"
+            :value="dataObject.reimbursement.applyDate"
+            size="small"
+            class="text_l"
+          />
+          <van-cell
+            title="采购申请单号"
+            :value="dataObject.purchaseReport.code"
+            size="small"
+            class="text_l"
+          />
+          <van-cell
+            title="采购名称"
+            :value="dataObject.purchaseReport.title"
+            size="small"
+            class="text_l"
+          />
+          <van-cell
+            title="是否最后一笔报销"
+            value="是"
+            size="small"
+            class="text_l"
+          />
+          <van-cell
+            title="验收结果"
+            value="已通过"
+            size="small"
+            class="text_l"
+          />
+          <van-cell
+            title="验收说明"
+            value=""
+            size="small"
+            class="text_l"
+          />
+          <van-cell
+            title="备注"
+            :value="dataObject.reimbursement.reason"
+            size="small"
+            class="text_l"
+          />  
+        </van-cell-group>
+      </div>
+      
+
+      <!--  采购内容明细 -->
+      <div class="direct" v-if="!dataObject.purchaseReport.categories.length==''">
+        <div class="line"></div>
+       <div class="detail">
+        <div class="title">
+          <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />           
+              {{title}}
+        </div>
+         <div v-for="(item,index) in dataObject.purchaseReport.categories" :key="index">
+            <van-cell-group>
+            <van-cell
+              title="品目名称"
+              :value="item.name"
+              size="small"
+              class="text_l"
+            />
+            <van-cell
+              title="规格型号"
+              :value="item.spec"
+              size="small"
+              class="text_l"
+            />
+            <van-cell
+              title="采购金额"
+              :value="item.price"
+              size="small"
+              class="text_l"
+            />
+            <van-cell
+              title="申请金额合计(元)"
+              :value="item.total"
+              size="small"
+              class="text_l"
+            />
+            </van-cell-group>
+            <!-- <div class="details disbursement">
+                <van-collapse v-model="AcTab">
+                  <van-collapse-item title="支出详情" name="1">
+                          <el-table :data="labourExpenses" stripe style="width: 100%" >
+                            <el-table-column prop="duration" label="天数" ></el-table-column>
+                            <el-table-column prop="referenceStandard" label="参考标准"></el-table-column>
+                            <el-table-column prop="total" label="劳务费合计"></el-table-column>
+                            <el-table-column prop="remark" label="备注" ></el-table-column>
+                          </el-table>
+                  </van-collapse-item>
+                </van-collapse>
+            </div> -->
+         </div>
+      </div>
+      </div>
+      <!-- 收款信息 -->
+      <div class="details">
+          <van-collapse v-model="details">
+            <van-collapse-item title="收款信息" name="1">
+                     <el-table :data="dataObject.details" style="width: 100%">
+                            <el-table-column prop="payee.name" label="收款人" ></el-table-column>
+                            <el-table-column prop="payee.oaAccount" label="非本单位收款人" ></el-table-column>
+                            <el-table-column prop="totalAmount" label="金额(元)"></el-table-column>
+                    </el-table>
+            </van-collapse-item>
+          </van-collapse>
+      </div>
+      <div class="line"></div>
+       <!-- 去审批 -->
+      <div v-if="!state" class="">
+          <van-button class="info" type="info" @click="openNewOption">去审批</van-button>
+      </div>
+    </div>
+
+      <div v-show="index == 1" class="back">
+        <van-empty description="暂无数据" v-if="flow.length == ''" />
+          <div class="step" v-for="(item,index) in flow" :key="index">
+              <div :class="index === flow.length-1 ? 'select' : 'stepList'">
+                  <div class="content">
+                      <div class="title flex">
+                          <div class="appay">{{item.name}}</div>
+                          <div class="time">{{item.beginDate}}</div>
+                      </div>
+                      <div class="user flex">
+                          <div class="userName">审核人：{{item.userName}}</div>
+                          <div class="next">下一环节处理人：姚建平</div>
+                      </div>
+                      <div class="option flex">
+                          <div class="optionS">意见：{{item.advice}}</div>
+                          <div class="isTrue" v-if="item.enable">同意</div>
+                          <div class="ifFalse" v-if="!item.enable">不同意</div>
+                      </div>
+                  </div>
+                  <div :class="index > -1 && index < flow.length - 1 ? 'setp_line' :  '' "></div>
+                </div>
+          </div>
+
+      
+      </div>
+
+      <div v-show="index == 2" class="back">
+             <div class="file">
+                  <img :src="activeIcon0" class="fileIcon" />
+                  <div class="fileNmae">广西交通厅内部控制系统招标文件.pdf</div>
+                  <van-icon name="arrow" class="rightIcon" />
+             </div>
+             <div class="file">
+                  <img :src="activeIcon1" class="fileIcon" />
+                  <div class="fileNmae">广西交通厅内部控制系统招标文件.ppt</div>
+                  <van-icon name="arrow" class="rightIcon" />
+             </div>
+             <div class="file">
+                  <img :src="activeIcon2" class="fileIcon" />
+                  <div class="fileNmae">广西交通厅内部控制系统招标文件.doc</div>
+                  <van-icon name="arrow" class="rightIcon" />
+             </div>
+      </div>
+
+  </div>
+</template>
+<script>
+import "../../../assets/css/details.css";
+import { goOption } from '@/core/common.js';
+export default {
+    props: ["index", "dataObject","flow"],
+    data() {
+        return {
+            shixiangIcon: require("../../../assets/img/shixianxiangqing.png"),
+            activeIcon0: require("../../../assets/img/PDF.png"),
+            activeIcon1: require("../../../assets/img/ppt.png"),
+            activeIcon2: require("../../../assets/img/DOC.png"),
+            activeNames: ["1"],
+            details: ["1"],
+            title:localStorage.getItem('title'),
+            state:false, //判断是否已办
+            isEnable:true, //流转信息 亮灯
+        }
+    },
+    created() { //SKETCH  UNDONE
+     if(this.$route.query.taskId){ //从首页跳转过来判断是否已办
+        this.state == this.$route.query.taskId;
+      }else{
+        this.state = this.$route.query.state == 'DONE';//事前报销页面跳转过来判断是否已办
+      }
+    },
+    components: {
+
+    },
+    mounted(){
+
+    },
+    methods:{
+       openNewOption(){ //跳转到下一个处理节点 -- 填写意见
+        this.$toast.loading({
+          message: '加载中...',
+          forbidClick: true,
+        });
+        goOption(this,this.$route.query.taskId,{
+            test: false,
+            workflowKey: this.$route.query.type,
+            variables: this.dataObject
+        })
+      },
+
+    }
+
+}
+</script>
+
+<style lang="css" scoped>
+#page {
+  background-color: #f3f6f9;
+  min-height: calc(100vh - 100px);
+}
+</style>

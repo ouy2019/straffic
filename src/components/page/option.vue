@@ -1,0 +1,415 @@
+<template>
+<div id="page">
+    <Nav />
+    <div class="line"></div>
+    <van-form @submit="onSubmit">
+        <div class="box">
+            <div class="send">
+                <div class="back">下一节点 : </div>
+                <van-radio-group v-model="send" v-for="(item,index) in nextNodeFlag" :key="index">
+                    <van-radio :name="item.id">{{item.name}}</van-radio>
+                </van-radio-group>
+            </div>
+            <!-- <div class="send" v-if="">
+                <div class="back">退回节点 : {{}}</div>
+                <van-radio-group v-model="send2">
+                    <van-radio name="1">退回申请人</van-radio>
+                </van-radio-group>
+            </div> -->
+            
+            <!-- <div class="result title">审批结果</div>
+            <div class="value">
+                <van-dropdown-menu>
+                    <van-dropdown-item v-model="value1" :options="option1" />
+                </van-dropdown-menu>
+            </div> -->
+            <div class="handler title">下一环节处理人</div>
+            <div class="value">
+                <van-dropdown-menu >
+                    <van-dropdown-item v-model="value2" :options="option2" />
+                </van-dropdown-menu>
+            </div>
+            <div class="option title">
+                  <span>审批意见</span>
+                  <span class="popup" @click="showPopup">常用意见</span>
+            </div>
+            <div class="optionContent">
+                <van-popup v-model="show">
+                       <div class="optionPopup">
+                           <div class="optionTitle">
+                               <span>常用审批意见</span>
+                               <span class="close" @click="close">x</span>
+                            </div>
+                           <div class="optionSelect">
+                               <van-radio-group v-model="optionSelect" v-for="(item,index) in optionText" :key="index">
+                                    <van-radio :name="item.opinion"  @click="radioClick">{{item.opinion}}</van-radio>
+                                    <!-- <van-radio name="b">不同意</van-radio> -->
+                                </van-radio-group>
+                           </div>
+                           <div class="inputDisplay" v-show="showHidden">
+                                <div class="input">
+                                    <van-field v-model="inputValue" clearable  placeholder="请输入常用意见"/>
+                                </div>
+                                <div class="cancel" @click="downHidden">取消</div>
+                                <div class="preserve" @click="preserve">保存</div>
+                           </div>
+                           <div class="addOption" @click="downShow">添加意见</div>
+                       </div>
+                </van-popup>
+            </div>
+
+
+            
+            <div class="textarea">
+                <van-field v-model="message" rows="1"  autosize type="textarea" placeholder="请输入内容" />
+            </div>  
+        </div>
+         <div class="bottom">
+              <div class="submit">
+                 <van-button id="submitLeft" round block type="info" native-type="submit" @click="showSavePopup">保存</van-button>
+                 <van-button id="submitRight" round block type="info" native-type="submit" @click="showSubmit">提交</van-button>
+               </div>
+         </div>
+        <div class="showSave">
+            <van-popup v-model="showSave">
+                <div class="save">
+                    <img :src="holdIcon" alt="">
+                    <div class="txt">您的待办已保存！</div>
+                    <van-button class="btn" round type="info" @click="hold">确定</van-button>
+                </div>
+            </van-popup>
+        </div>
+        <div class="showDisplay">
+            <van-popup v-model="showDisplay">
+               <div class="save">
+                    <img :src="succeedIcon" alt="">
+                    <div class="txt">您的待办已提交！</div>
+                    <van-button class="btn" round type="info" @click="succeed">确定</van-button>
+                </div>
+            </van-popup>
+        </div>
+        
+   </van-form>
+</div>
+</template>
+<script>
+import Nav from "../common/navbar";
+export default {
+    data() {
+        return {
+            checked: false,
+            send:'1',
+            nextNodeFlag:[],//下一环节点数据  
+            transfersType:'',//送审类型
+            optionSelect:'',//常用意见选择
+            optionText:[],//常用意见数据
+            details:[], //详情数据
+            value2: 'a', //下一环节处理人
+            option2: [],//下一环节处理人数据
+            message:'',//意见文本框值
+            show: false, //常用意见弹出层
+            showSave: false,//待办已保存弹出层
+            showDisplay: false,//待办已提交弹出层
+            showHidden:false,//取消隐藏输入框
+            inputValue:'',//输入框值
+            optionUserId:'',//保存常见意见人的user.id
+            holdIcon:require("../../assets/img/hold.png"),
+            succeedIcon:require("../../assets/img/succeed.png"),
+        }
+    },
+    created() {
+        if(localStorage.getItem("nextNodeUser") && localStorage.getItem('nextNodeFlag')){
+            let nextNodeUser = [];  //下一环节处理人数据
+            JSON.parse(localStorage.getItem("nextNodeUser")).map(
+                (item)=>nextNodeUser.push({...item,text:item.name,value:item.id})
+            )
+            this.option2 = nextNodeUser;
+            this.value2 = this.option2[0] ? this.option2[0].value : '';
+            //下一环节点数据   
+            this.nextNodeFlag = JSON.parse(localStorage.getItem('nextNodeFlag'))
+            this.send = this.nextNodeFlag[0] ? this.nextNodeFlag[0].id : '';
+            this.transfersType = this.nextNodeFlag[0] ? this.nextNodeFlag[0].transfers[0].type : '';
+            this.details = JSON.parse(localStorage.getItem('details'))
+        }else{
+            this.$toast("获取处理人失败");
+        }
+    },
+    watch:{
+       showSave(newSave,oldSave){
+           console.log(newSave)
+           if(!newSave){
+               this.$native.back();
+           }
+       },
+       showDisplay(newDisplay,oldDisplay){
+           if(!newDisplay){
+               this.$native.back();
+           }
+       }
+    },
+    components:{
+        Nav,
+    },
+    mounted() {
+      
+    },
+    methods: {
+        onSubmit(values) {
+            console.log('submit', values);
+        },
+        showSavePopup(){//待办已保存弹出层
+          if(this.value2 == ''){
+            this.$toast("请选择处理人")
+          }else if(this.message == ''){
+            this.$toast("请输入常用意见")
+          }else{
+            //let arr = []; //存储保存的处理人和常用意见
+            localStorage.value2 = this.value2; 
+            localStorage.message = this.message; 
+            this.showSave = true;
+            
+          };
+          
+          
+        },
+        showPopup() {//常用意见弹出层
+            let optionTxt = this.option2.filter((item)=>item.value==this.value2);
+            // console.log(optionTxt[0].text,'选中的数据');
+            console.log(optionTxt[0].id,'选中的id');
+            this.optionUserId = optionTxt[0].id;//选中下一环节处理人的id
+            this.$axios.get(apiAddress+`/icm-base/common-opinion/all/${this.optionUserId}`).then((res)=>{
+                 if(res.status == 200) {
+                    this.optionText = res.data;      
+                    // this.optionSelect = this.optionText[0] ? this.optionText[0].opinion : '';
+                 }
+                 
+            }).catch((res)=>{
+                this.$toast("暂无常用意见");
+            })
+            this.show = true;
+        },
+        showSubmit() {//待办已提交弹出层
+          if(this.value2 == ''){
+            this.$toast("请选择处理人")
+          }else if(this.message == ''){
+            this.$toast("请输入常用意见")
+          }else{
+            var that = this;  
+            this.$axios.post(apiAddress+`/app/index/before/complete`,{
+                action:this.transfersType, 
+                adivce:this.message, 
+                nextNodeId:this.send, 
+                nextUserIds:[this.value2],
+                workflowInstanceEditInfo:{
+                    variables:this.details
+                }
+                
+            }).then((res)=>{
+                 console.log(res,'9999');
+                 if(!res.status == 200) return;
+                 this.showDisplay = true;
+            }).catch((err)=>{
+                that.$toast(err.message);
+            })
+            
+            // console.log(this.value2)
+            // console.log(this.message)
+            // console.log(this.send)
+            
+          }
+           
+          
+          ///icm-payment/reimbursement/beforehand/availability?id=295255812727771136 提交
+          ///icm-payment/reimbursement/beforehand/295255812727771136  提交
+          ///icm-base/common-opinion/all/226633768910327808  常用意见
+          //icm-base/common-opinion  保存input数据接口
+        },
+        downHidden(){//取消隐藏输入框
+            this.showHidden = false;
+        },
+        downShow(){//显示输入框
+            this.showHidden = true;
+        },
+        preserve(){//保存数据
+            var that = this; 
+            if(!that.inputValue == '' && !that.optionUserId == ''){
+                that.$axios.post(apiAddress+`/icm-base/common-opinion`,{opinion: that.inputValue,userId:that.optionUserId}).then((res)=>{
+                    that.optionText.push(res.data);
+                    that.inputValue = '';
+                }).catch((err)=>{
+                    that.$toast(err.message);
+                })
+            }else{
+                that.$toast("请输入常用意见");
+            }
+            
+            
+        },
+        radioClick(){//单选框点击事件
+            console.log(this.optionSelect);
+            this.message = this.optionSelect;
+            if(this.message == ''){
+                this.optionSelect = '';
+            }
+            this.show = false;
+        },
+        close(){ //点击关闭按钮
+            this.show = false;
+        },
+        succeed(){//待办已提交成功事件
+
+        },
+        hold(){//待办保存事件
+          this.$native.back();//保存成功返回上一个页面
+        },
+        
+
+    },
+}
+</script>
+<style lang="css" scoped>
+#page{
+    min-height: calc(100vh - 100px);
+    position: relative;
+}
+.line{
+  height: 0.2rem;
+  background-color: #f3f6f9;
+}
+.title{
+    font-size: 0.32rem;
+    color: #1d1d1d;
+    margin: 0.47rem 0 0.25rem 0;
+    text-align: left;
+}
+.box{
+    padding:  0 0.24rem;
+}
+.send{
+    display: flex;
+    justify-content: space-between;
+    margin: 0.32rem 0;
+    font-size: 0.32rem;
+    flex-wrap: wrap;
+}
+.send /deep/ .van-radio-group{
+font-size: 0.28rem;
+margin-top: 0.1rem;
+}
+.send /deep/ .van-radio__icon--checked .van-icon,.van-radio__icon--round .van-icon{font-size: 0.24rem;}
+.box .send .back{
+  /* width:65%;
+  text-align:left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden; */
+}
+.box .result{
+margin: 0.15rem 0 0.25rem 0;
+}
+.value /deep/ .van-dropdown-menu__item{
+    justify-content: left;
+    background-color: #fdfeff;
+    border: solid 1px #d5e5ef;
+}
+.value /deep/ .van-dropdown-menu__title{
+   width: 95%;
+   text-align: left;
+}
+.bottom{
+    position: fixed;
+    bottom: 0;
+    left:0;
+    width: 100%;
+}
+
+.submit{
+   display: flex;
+   justify-content: space-between;
+
+}
+.submit /deep/ .van-button--round{ border-radius: 0;}
+.submit /deep/ .van-popup--center{border-radius: 0.2rem;}
+#submitLeft{
+    background-color: #efcb4a;
+    border: 1px solid #efcb4a;
+}
+.send /deep/ .van-checkbox__label{font-size: 0.28rem;}
+.send /deep/ .van-checkbox__icon--checked .van-icon{font-size: 0.24rem;}
+.send /deep/ .van-radio__label{margin-left: 0.1rem}
+.textarea{
+    height: 4rem;
+    background-color: #fdfeff;
+    border: solid 1px #d5e5ef;
+}
+.save{
+    width: 5.14rem;
+	height: 4.10rem;
+	background-color: #ffffff;
+}
+.save img{
+    width: 1rem;
+    height: 1rem;
+    margin: 0.46rem 0;
+}
+.save .txt{
+
+}
+.save .btn{
+    width: 85%;
+    margin-top: 0.58rem;
+}
+.popup{
+    color: #fff;
+    background-color: #1890ff;
+    border-color: #1890ff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+    font-size: 0.24rem;
+    padding: 0.1rem;
+    border-radius: 5px;
+}
+.optionContent /deep/ .van-popup--center{border-radius: 0.2rem;}
+.showSave /deep/ .van-popup--center{border-radius: 0.2rem;}
+.showDisplay /deep/ .van-popup--center{border-radius: 0.2rem;}
+.optionTitle{
+ padding: 0.2rem;
+display: flex;
+justify-content: space-between;
+}
+.optionPopup{
+    width: 5.14rem;
+	min-height: 4.10rem;
+	background-color: #ffffff;
+}
+.optionSelect /deep/ .van-radio{
+    margin-bottom: 0.12rem;
+    margin-left: 0.12rem;
+}
+.optionSelect /deep/ .van-radio__icon,.van-radio__label{
+    font-size: 0.26rem;
+}
+.inputDisplay{
+    justify-content: space-around;
+    display: flex;
+    line-height: 0.6rem;
+}
+.inputDisplay .input{
+    width: 65%;
+    border: 1px solid #e5e5e5;
+}
+.inputDisplay .input /deep/ .van-cell{
+  padding: 6px 16px;  
+}
+.addOption{
+   padding: 0.12rem;
+   text-align: left;
+}
+.close{
+    width: 0.4rem;
+    height: 0.4rem;
+    background-color: #e5e5e5;
+    line-height: 0.4rem;
+    border-radius: 50%;
+}
+</style>
