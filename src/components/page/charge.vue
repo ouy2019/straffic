@@ -90,6 +90,7 @@ export default {
                 "TO_PAY":"待支付",
                 "CAR":"已完成",
           }
+          
           msg.data.data.contract.payments.map((items)=>{
             items.paymentStr = payment[items.paymentState]
             items.amount = items.amount.toFixed(2)
