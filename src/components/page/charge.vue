@@ -91,7 +91,6 @@ export default {
                 "CAR":"已完成",
           }
           msg.data.data.contract.payments.map((items)=>{
-            // console.log(items,'9999')
             items.paymentStr = payment[items.paymentState]
             items.amount = items.amount.toFixed(2)
           })
