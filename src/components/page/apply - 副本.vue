@@ -47,6 +47,7 @@ export default {
   },
   created() {
     // this.$route.meta.navBarTxt= this.$route.query.title;
+   
   },
   components: {
     Nav,
@@ -121,6 +122,7 @@ export default {
 .van-pull-refresh {
   min-height: calc(100vh - 46px);
 }
+
 .listBox {
   padding: 0.2rem 0.25rem;
 }
