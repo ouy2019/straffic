@@ -90,7 +90,6 @@ export default {
                 "TO_PAY":"待支付",
                 "CAR":"已完成",
           }
-          
           msg.data.data.contract.payments.map((items)=>{
             // console.log(items,'9999')
             items.paymentStr = payment[items.paymentState]
