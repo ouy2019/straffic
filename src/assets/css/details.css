@@ -30,14 +30,39 @@
   justify-content: space-between;
   text-align: left;
 }
-.shixiang /deep/ .van-cell::after {
-  border-bottom: 0px solid #ffffff;
+
+.shixiang .text_l /deep/ .van-cell::after{
+  border-bottom: 0px solid #fff !important;
+  content: none !important;
+  content: -webkit-none !important;
+  display: none !important;
+  display: -webkit-none !important;
+}
+.travel{
+  margin-bottom: 1rem;
+}
+.travel .van-cell-group /deep/ .van-cell::after{
+  border-bottom: 0px solid #fff !important;
+  content: none !important;
+  content: -webkit-none !important;
+  display: none !important;
+  display: -webkit-none !important;
+  visibility: hidden;
+}
+.detail .van-cell-group /deep/ .van-cell::after {
+  border-bottom: 0px solid #fff !important;  
   right: 0;
   bottom: 0; 
   left: 0;
   position: relative;
-  content: none;
-  display: none;
+  content: none !important;
+  content: -webkit-none !important;
+  display: none !important;
+  display: -webkit-none !important; 
+  visibility: hidden;
+}
+.shenpiBtn{
+  padding-top: 1rem;
 }
 .line {
   height: 0.2rem;
@@ -74,7 +99,7 @@
 }
 .details /deep/ .van-cell{
     padding: 10px 0;
-    
+    text-align: left;
 }
 .details /deep/ .el-table th>.cell{
   white-space: nowrap;
@@ -95,7 +120,11 @@
 .info{
   width: 100%;
   /* height: 1rem; */
-	background-color: #1890ff;
+  background-color: #1890ff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
 }
 .back {
   /* background-color: #f3f6f9; */
@@ -198,13 +227,14 @@ color: #e54728;
     height: 0.5rem;
     margin-top: 0.22rem;
 }
-.fileNnme{
+.file .fileNmae{
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    width: 80%;
+    width: 82%;
+    text-align: left;
 }
-.rightIcon{
+.file .rightIcon{
     font-size: 0.38rem;
     color: #b4c5d5;
     margin-top: 0.25rem;
@@ -216,3 +246,4 @@ color: #e54728;
     padding-left: 0.6rem;
     position: relative;
   } */
+  

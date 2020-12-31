@@ -18,6 +18,8 @@ function back() {
     }
 }
 
+
+
 function equipment(val){
     var res = false;
     var userAgent = navigator.userAgent.toLowerCase();
@@ -53,6 +55,16 @@ function forward(url) {
         // window.location.href = url;
     }
 }
+//调用原生打开文档页面
+function loadpage(url, title) {
+ 
+    if (equipment('iphone') || equipment("ipad")) {
+        watchFile({ 'url': url, 'title': title });
+      } else {
+        JsBridge.call('JSBridge', 'watchFile', { 'url': url ,'title': title}, function (res) {
+        })
+    }
+}
 
 function openSearch() {
     if (equipment('iphone')) {
@@ -67,5 +79,5 @@ function openSearch() {
 }
 
 export default {
-    back, forward, openSearch,
+    back, forward, loadpage, openSearch, 
 }

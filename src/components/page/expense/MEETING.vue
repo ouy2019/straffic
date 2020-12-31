@@ -63,7 +63,7 @@
           />
            <van-cell
             title="总额(元)"
-            :value="dataObject.reimbursement.amount"
+            :value="dataObject.reimbursement.amount.toFixed(2)"
             size="small"
             class="text_l" 
           />
@@ -76,7 +76,7 @@
         <div class="line"></div>
        <div class="detail">
           <div class="title">
-              <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />           
+              <img :src="huiyiIcon" alt="" srcset="" class="sxIcon" />           
                 {{title}}
            </div>
          <div v-for="(meetings,index) in dataObject.meetings" :key="index">
@@ -127,7 +127,7 @@
       <!--  指标信息 -->
       <div class="travel margin" v-if="!dataObject.indices.length==''">
         <div class="title">
-          <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />指标信息
+          <img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息
         </div>
         <div v-for="(indices,index) in dataObject.indices" :key="index"> 
            <van-cell-group>
@@ -145,13 +145,13 @@
             />
             <van-cell
               title="指标余额"
-              :value="indices.reportIndex.index.allocationAmount"
+              :value="indices.reportIndex.index.allocationAmount.toFixed(2)"
               size="small"
               class="text_l"
             />
             <van-cell
               title="申请金额"
-              :value="indices.applyAmount"
+              :value="indices.applyAmount.toFixed(2)"
               size="small"
               class="text_l"
             />
@@ -172,9 +172,9 @@
       </div>
       <div class="line"></div>
       <!-- 去审批 -->
-      <div v-if="!state" class="">
-          <van-button class="info" type="info" @click="openNewOption">去审批</van-button>
-      </div>
+        <div v-if="!state" class="shenpiBtn">
+            <van-button class="info" type="info" @click="openNewOption">去审批</van-button>
+        </div>
     </div>
 
       <div v-show="index == 1" class="back">
@@ -204,21 +204,15 @@
       </div>
 
       <div v-show="index == 2" class="back">
-             <div class="file">
+        <van-empty description="暂无数据" v-if="dataObject.attaches == ''" />
+          <div v-for="(item,index) in dataObject.attaches" :key="index">
+            <div class="file" v-for="(items,index) in item.files" :key="index" @click="gofilespage(items.originalName,items.name)">
                   <img :src="activeIcon0" class="fileIcon" />
-                  <div class="fileNmae">广西交通厅内部控制系统招标文件.pdf</div>
+                  <div class="fileNmae">{{items.originalName}}</div>
                   <van-icon name="arrow" class="rightIcon" />
-             </div>
-             <div class="file">
-                  <img :src="activeIcon1" class="fileIcon" />
-                  <div class="fileNmae">广西交通厅内部控制系统招标文件.ppt</div>
-                  <van-icon name="arrow" class="rightIcon" />
-             </div>
-             <div class="file">
-                  <img :src="activeIcon2" class="fileIcon" />
-                  <div class="fileNmae">广西交通厅内部控制系统招标文件.doc</div>
-                  <van-icon name="arrow" class="rightIcon" />
-             </div>
+            </div>
+          </div>
+            
       </div>
   </div>
 </template>
@@ -230,10 +224,10 @@ export default {
     data() {
         return {
             shixiangIcon: require("../../../assets/img/shixianxiangqing.png"),
-            activeIcon0: require("../../../assets/img/PDF.png"),
-            activeIcon1: require("../../../assets/img/ppt.png"),
-            activeIcon2: require("../../../assets/img/DOC.png"),
-            activeNames: ["1"],
+            zhibiaoxinxi: require("../../../assets/img/zhibiaoxinxi.png"),
+            huiyiIcon: require("../../../assets/img/huiyiIcon.png"),
+            activeIcon0: require("../../../assets/img/file.png"),
+            activeNames: [""],
             details: [""],
             AcTab: [""],
             title:localStorage.getItem('title'),
@@ -266,6 +260,14 @@ export default {
             variables: this.dataObject
         })
       },
+      gofilespage(filesName,filesUrl){//调用原生跳转到pdf页面
+      console.log(filesName)
+        this.$toast.loading({
+          message: '加载中...',
+          forbidClick: true,
+        });
+        this.$native.loadpage(filesUrl,filesName);
+      }
     }
 
 }

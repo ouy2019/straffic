@@ -6,9 +6,14 @@
         <div class="box">
             <div class="send">
                 <div class="back">下一节点 : </div>
-                <van-radio-group v-model="send" v-for="(item,index) in nextNodeFlag" :key="index">
-                    <van-radio :name="item.id">{{item.name}}</van-radio>
-                </van-radio-group>
+                <div v-for="(item,index) in nextNodeFlag" :key="index">
+                    <van-radio-group v-model="send" >
+                        <van-radio :name="item.id">{{item.name}}</van-radio>
+                    </van-radio-group>
+                    <van-radio-group v-model="nextNode" style="display:none;">
+                        <van-radio :name="item.nextNodeFlag"></van-radio>
+                    </van-radio-group>
+                </div>
             </div>
             <!-- <div class="send" v-if="">
                 <div class="back">退回节点 : {{}}</div>
@@ -94,13 +99,14 @@
 </template>
 <script>
 import Nav from "../common/navbar";
+import { useoptionChian} from '@/core/common'
 export default {
     data() {
         return {
             checked: false,
             send:'1',
+            nextNode:'',
             nextNodeFlag:[],//下一环节点数据  
-            transfersType:'',//送审类型
             optionSelect:'',//常用意见选择
             optionText:[],//常用意见数据
             details:[], //详情数据
@@ -115,6 +121,8 @@ export default {
             optionUserId:'',//保存常见意见人的user.id
             holdIcon:require("../../assets/img/hold.png"),
             succeedIcon:require("../../assets/img/succeed.png"),
+            workflowTask:'',//送审的taskId
+            workflowKeyType:'',//送审的workflowKey
         }
     },
     created() {
@@ -125,11 +133,17 @@ export default {
             )
             this.option2 = nextNodeUser;
             this.value2 = this.option2[0] ? this.option2[0].value : '';
-            //下一环节点数据   
+            //下一环节点数据  
             this.nextNodeFlag = JSON.parse(localStorage.getItem('nextNodeFlag'))
             this.send = this.nextNodeFlag[0] ? this.nextNodeFlag[0].id : '';
-            this.transfersType = this.nextNodeFlag[0] ? this.nextNodeFlag[0].transfers[0].type : '';
-            this.details = JSON.parse(localStorage.getItem('details'))
+            this.nextNode =this.nextNodeFlag[0] ? this.nextNodeFlag[0].nextNodeFlag : '';
+            this.details = JSON.parse(localStorage.getItem('details'))//详情数据
+            if(this.details.workflowTask){
+               this.workflowTask = this.details.workflowTask.id; //送审的taskId
+            }else{
+               this.workflowTask = this.details.reimbursement.workflowTask.id
+            }
+            
         }else{
             this.$toast("获取处理人失败");
         }
@@ -143,7 +157,7 @@ export default {
        },
        showDisplay(newDisplay,oldDisplay){
            if(!newDisplay){
-               this.$native.back();
+               this.$native.back();//保存成功返回上一个页面
            }
        }
     },
@@ -151,9 +165,11 @@ export default {
         Nav,
     },
     mounted() {
-      
+      console.log(this.send)
+      console.log(this.nextNode)
     },
     methods: {
+       
         onSubmit(values) {
             console.log('submit', values);
         },
@@ -164,6 +180,7 @@ export default {
             this.$toast("请输入常用意见")
           }else{
             //let arr = []; //存储保存的处理人和常用意见
+            
             localStorage.value2 = this.value2; 
             localStorage.message = this.message; 
             this.showSave = true;
@@ -193,36 +210,34 @@ export default {
             this.$toast("请选择处理人")
           }else if(this.message == ''){
             this.$toast("请输入常用意见")
-          }else{
-            var that = this;  
-            this.$axios.post(apiAddress+`/app/index/before/complete`,{
-                action:this.transfersType, 
-                adivce:this.message, 
-                nextNodeId:this.send, 
-                nextUserIds:[this.value2],
-                workflowInstanceEditInfo:{
-                    variables:this.details
-                }
-                
+          }else{  
+            var that = this; 
+            if(useoptionChian(that.details,'workflowTask?.instance?.definition?.workflowInfo?.workflowKey')){
+               that.workflowKeyType = that.details.workflowTask.instance.definition.workflowInfo.workflowKey;
+            }
+            if(useoptionChian(that.details,'reimbursement?.workflowTask?.instance?.definition?.workflowInfo?.workflowKey')){
+                that.workflowKeyType = that.details.reimbursement.workflowTask.instance.definition.workflowInfo.workflowKey;
+            }
+            if(that.nextNode == "GENERAL"){
+                that.nextNode = "COMPLETE"
+            }     
+            that.$axios.put(apiAddress+`/app/complete/${that.details.id}?workflowKey=${that.workflowKeyType}`,{
+            action:that.nextNode, 
+            adivce:that.message, 
+            nextNodeId:that.send, 
+            nextUserIds:[that.value2],
+            taskId:that.workflowTask,
+            workflowInstanceEditInfo:{
+                variables:{}
+            }
+        
             }).then((res)=>{
-                 console.log(res,'9999');
-                 if(!res.status == 200) return;
-                 this.showDisplay = true;
+                if(!res.status == 200) return;
+                that.showDisplay = true;
             }).catch((err)=>{
                 that.$toast(err.message);
             })
-            
-            // console.log(this.value2)
-            // console.log(this.message)
-            // console.log(this.send)
-            
           }
-           
-          
-          ///icm-payment/reimbursement/beforehand/availability?id=295255812727771136 提交
-          ///icm-payment/reimbursement/beforehand/295255812727771136  提交
-          ///icm-base/common-opinion/all/226633768910327808  常用意见
-          //icm-base/common-opinion  保存input数据接口
         },
         downHidden(){//取消隐藏输入框
             this.showHidden = false;
@@ -257,7 +272,7 @@ export default {
             this.show = false;
         },
         succeed(){//待办已提交成功事件
-
+           this.$native.back();//保存成功返回上一个页面
         },
         hold(){//待办保存事件
           this.$native.back();//保存成功返回上一个页面

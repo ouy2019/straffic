@@ -49,7 +49,7 @@ function errorHandle (status, other) {
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 //请求拦截器
 axios.interceptors.request.use((config) => {
-	config.headers.Authorization ='Bearer '+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTYiLCJleHAiOjE2MDk5MzEyODgsImlhdCI6MTYwOTMyNjQ4OCwianRpIjoiMTkxOTQ2NjA2OTk0NjU3MjgwIn0.JdbLTGVLWnM3vKZmTNdBG3KbfOcGKKA4HhKKZeEhdp_k7BkwX-ooobjSbLZmy0m79uwuGeNHvoLYUgrwHWDS-w";
+	config.headers.Authorization ='Bearer '+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLmnY7nm4rljY4iLCJleHAiOjE2MTAwMTk1NzEsImlhdCI6MTYwOTQxNDc3MSwianRpIjoiMjI2NDM5NTY2MzY4ODM3NjMyIn0.nnmvn5Jmes0mHOsd1GsBeXAqWUgqzaqkvB4JCBbj2gY3KFlQB3BB12c4baGqPULjMFQl2btFzkDuNqCbDfqO4Q";
 	// config.headers.Authorization ='Bearer '+localStorage.getItem('token');
 	// config.headers.Authorization = localStorage.getItem('Authorization');
 	return config;

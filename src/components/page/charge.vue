@@ -70,7 +70,7 @@ export default {
       var dataUrl = `/app/index/reimbursement/get/${that.$route.query.id}`
       var msg = await that.$axios.get(apiAddress+dataUrl)
         if(msg.data.code != 200)return;
-        if(!that.$route.query.state == 'DONE'){ //如果是已办就跳过
+        if(that.$route.query.state != 'DONE'){ //如果是已办就跳过
             let traffic = { //差旅费的交通工具转换
               "PLANE":"飞机",
               "TRAIN":"火车",
@@ -86,9 +86,11 @@ export default {
         }
         if(useoptionChian(msg,'data?.data?.contract?.payments')){
           let payment = { //合同资金状态
-                "PAYING":"在途",
-                "TO_PAY":"待支付",
-                "CAR":"已完成",
+            "PAYING":"在途",
+            "TO_PAY":"待支付",
+            "PAID":"已支付",
+            "REIMBURSED":"已报销",
+            "REIMBURSEMENT":"报销中",
           }
           msg.data.data.contract.payments.map((items)=>{
             items.paymentStr = payment[items.paymentState]

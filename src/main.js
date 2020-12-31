@@ -8,10 +8,12 @@ import './core/http';
 import './core/vant';
 import echarts from 'echarts';
 import native from '@/jslibs/native/native';
+import loadpage from '@/jslibs/native/native';
 
 Vue.prototype.$native = native;
 Vue.prototype.$echarts = echarts;
 Vue.prototype.$axios = axios;
+Vue.prototype.$loadpage = loadpage;
 Vue.config.productionTip = false;
 
 

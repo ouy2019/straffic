@@ -63,18 +63,21 @@ export default {
         var that = this;
         var msg = await this.$axios.get(apiAddress+`/app/index/reports/${this.$route.query.id}`)
         if(msg.data.code != 200)return;
-        let traffic = { //差旅费的交通工具转换
-          "PLANE":"飞机",
-          "TRAIN":"火车",
-          "CAR":"汽车",
-          "OTHER":"其他",
-        }
-        let nwevalue = msg.data.data.travelExpenses;
-        nwevalue.map((items)=>{
-          items.paymentDetails.map((item)=> {
-           item.transportationFacility = traffic[item.transportationFacility]
+        if(msg.data.data.state != 'DONE'){
+          let traffic = { //差旅费的交通工具转换
+            "PLANE":"飞机",
+            "TRAIN":"火车",
+            "CAR":"汽车",
+            "OTHER":"其他",
+          }
+          let nwevalue = msg.data.data.travelExpenses;
+          nwevalue.map((items)=>{
+            items.paymentDetails.map((item)=> {
+            item.transportationFacility = traffic[item.transportationFacility]
+            })
           })
-        })
+        }
+        localStorage.setItem('details',JSON.stringify(msg.data.data));
         that.costObject = msg.data.data;
         that.haveData = true;
       },

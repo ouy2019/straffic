@@ -71,7 +71,7 @@ export default new Router({  //hash
       name: 'pdf',
       component: ()=>import("../components/page/pdf.vue"),
       meta:{
-        navBarTxt: '', showBack: true,rightIcon: true, class: 'bluestyle'
+        navBarTxt: '', showBack: true,rightIcon: true, class: 'whitestyle'
       }
     },
    
