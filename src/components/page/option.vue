@@ -5,31 +5,22 @@
     <van-form @submit="onSubmit">
         <div class="box">
             <div class="send">
-                <div class="back">下一节点 : </div>
-                <div v-for="(item,index) in nextNodeFlag" :key="index">
+                <div v-for="(item,index) in listDataNode" :key="index">
                     <van-radio-group v-model="send" >
-                        <van-radio :name="item.id">{{item.name}}</van-radio>
-                    </van-radio-group>
-                    <van-radio-group v-model="nextNode" style="display:none;">
-                        <van-radio :name="item.nextNodeFlag"></van-radio>
+                    <div v-if="item.nextNodeFlag == 'GENERAL'">
+                        <div class="back">下一节点 : </div>
+                        <van-radio :name="item.nextNodeFlag">{{item.name}}</van-radio>
+                    </div>
+                    <div v-if="item.nextNodeFlag == 'BACK_TO_START'">
+                        <div class="back">退回节点 : </div>
+                        <van-radio :name="item.nextNodeFlag">{{item.name}}</van-radio>
+                    </div>
                     </van-radio-group>
                 </div>
             </div>
-            <!-- <div class="send" v-if="">
-                <div class="back">退回节点 : {{}}</div>
-                <van-radio-group v-model="send2">
-                    <van-radio name="1">退回申请人</van-radio>
-                </van-radio-group>
-            </div> -->
-            
-            <!-- <div class="result title">审批结果</div>
-            <div class="value">
-                <van-dropdown-menu>
-                    <van-dropdown-item v-model="value1" :options="option1" />
-                </van-dropdown-menu>
-            </div> -->
+        
             <div class="handler title">下一环节处理人</div>
-            <div class="value">
+            <div class="value" v-if="send === 'GENERAL'">
                 <van-dropdown-menu >
                     <van-dropdown-item v-model="value2" :options="option2" />
                 </van-dropdown-menu>
@@ -105,8 +96,8 @@ export default {
         return {
             checked: false,
             send:'1',
-            nextNode:'',
-            nextNodeFlag:[],//下一环节点数据  
+            nextNodeFlag:[],//下一环节点数据 
+            listDataNode:[], //下一环节点判断后的数据 
             optionSelect:'',//常用意见选择
             optionText:[],//常用意见数据
             details:[], //详情数据
@@ -135,9 +126,26 @@ export default {
             this.value2 = this.option2[0] ? this.option2[0].value : '';
             //下一环节点数据  
             this.nextNodeFlag = JSON.parse(localStorage.getItem('nextNodeFlag'))
-            this.send = this.nextNodeFlag[0] ? this.nextNodeFlag[0].id : '';
-            this.nextNode =this.nextNodeFlag[0] ? this.nextNodeFlag[0].nextNodeFlag : '';
+            this.send = this.nextNodeFlag[0] ? this.nextNodeFlag[0].nextNodeFlag : '';
+            
             this.details = JSON.parse(localStorage.getItem('details'))//详情数据
+            let BACK_TO_START = false;
+            let BACK_TO_PREVIOUS = false;
+            let listNode = [];
+            this.nextNodeFlag.forEach(item=>{
+                if(item.nextNodeFlag === 'BACK_TO_START' && !BACK_TO_START){
+                    listNode.push({id:item.id,name:'退回申请人',nextNodeFlag:item.nextNodeFlag})
+                    BACK_TO_START = true;
+                }else if(item.nextNodeFlag === 'BACK_TO_PREVIOUS' && !BACK_TO_PREVIOUS){
+                    listNode.push({id:item.id,name:'退回上级审批',nextNodeFlag:item.nextNodeFlag})
+                    BACK_TO_PREVIOUS = true;
+                }else if(item.nextNodeFlag === 'BACK_TO_NODE'){
+                    listNode.push({id:item.id,name:item.name,nextNodeFlag:item.nextNodeFlag})
+                }else if(item.nextNodeFlag === 'GENERAL'){
+                    listNode.push({id:item.id,name:item.name,nextNodeFlag:item.nextNodeFlag})
+                }
+            });
+            this.listDataNode = listNode;
             if(this.details.workflowTask){
                this.workflowTask = this.details.workflowTask.id; //送审的taskId
             }else{
@@ -218,18 +226,19 @@ export default {
             if(useoptionChian(that.details,'reimbursement?.workflowTask?.instance?.definition?.workflowInfo?.workflowKey')){
                 that.workflowKeyType = that.details.reimbursement.workflowTask.instance.definition.workflowInfo.workflowKey;
             }
-            if(that.nextNode == "GENERAL"){
-                that.nextNode = "COMPLETE"
-            }     
-            that.$axios.put(apiAddress+`/app/complete/${that.details.id}?workflowKey=${that.workflowKeyType}`,{
-            action:that.nextNode, 
-            adivce:that.message, 
-            nextNodeId:that.send, 
-            nextUserIds:[that.value2],
-            taskId:that.workflowTask,
-            workflowInstanceEditInfo:{
-                variables:{}
+            let listNode = that.listDataNode.filter(item=>item.nextNodeFlag == that.send);//过滤nextNodeFlag
+            if(listNode[0].nextNodeFlag == "GENERAL"){
+                listNode[0].nextNodeFlag = "COMPLETE"
             }
+            that.$axios.put(apiAddress+`/app/complete/${that.details.id}?workflowKey=${that.workflowKeyType}`,{
+                action:listNode[0].nextNodeFlag, 
+                adivce:that.message, 
+                nextNodeId:listNode[0].id, 
+                nextUserIds:[that.value2],
+                taskId:that.workflowTask,
+                workflowInstanceEditInfo:{
+                    variables:{}
+                }
         
             }).then((res)=>{
                 if(!res.status == 200) return;

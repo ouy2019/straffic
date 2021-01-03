@@ -187,7 +187,7 @@
       <div v-show="index == 1" class="back">
         <van-empty description="暂无数据" v-if="flow.length == ''" />
           <div class="step" v-for="(item,index) in flow" :key="index">
-              <div :class="index === flow.length-1 ? 'select' : 'stepList'">
+              <div :class="index == 0 ? 'select' : 'stepList'">
                   <div class="content">
                       <div class="title flex">
                           <div class="appay">{{item.name}}</div>
@@ -244,6 +244,7 @@ export default {
     created() {
       this.title = this.$route.query.title;
       this.state = this.dataObject.state == 'DONE';
+      
     },
     components: {
     

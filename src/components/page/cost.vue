@@ -84,7 +84,7 @@ export default {
       flow(){ //流转信息 --流程图
         this.$axios.get(apiAddress+`/app/index/workflow/users?instanceIds=${this.$route.query.instanceId}`).then((res)=>{
             if(res.data.code != 200)return;
-            this.instanceId = res.data.data
+            this.instanceId = res.data.data.reverse();
         })
     }
     }
