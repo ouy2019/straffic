@@ -6,32 +6,37 @@
               <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />
               事项详情
             </div>
-            <van-cell-group>
+            <van-cell-group :border="false">
               <van-cell
+               :border="false"
                 title="单位名称"
                 :value="dataObject.reimbursement.unit.shortName"
                 size="small"
                 class="text_l"
               />
               <van-cell
+              :border="false"
                 title="申请部门"
                 :value="dataObject.reimbursement.department.shortName"
                 size="small"
                 class="text_l"
               />
               <van-cell
+              :border="false"
                 title="申请人"
                 :value="dataObject.reimbursement.declarer.name"
                 size="small"
                 class="text_l"
               />
               <van-cell
+              :border="false"
                 title="申请时间"
                 :value="dataObject.reimbursement.applyDate"
                 size="small"
                 class="text_l"
               />
               <van-cell
+              :border="false"
                 title="申请单号"
                 :value="dataObject.reimbursement.code"
                 size="small"
@@ -39,6 +44,7 @@
               />
               <div v-if="state">
               <van-cell
+              :border="false"
                 title="支出事由"
                 value="差旅费-负数问题"
                 size="small"
@@ -46,24 +52,28 @@
               />
               </div>
               <van-cell
+              :border="false"
                 title="事前业务标题"
                 :value="dataObject.paymentReport.title"
                 size="small"
                 class="text_l"
               />
               <van-cell
+              :border="false"
                 title="事前申请单号"
                 :value="dataObject.reimbursement.paymentReportCode"
                 size="small"
                 class="text_l"
               />
               <van-cell
+              :border="false"
                 title="本次报销(元)"
                 :value="dataObject.reimbursement.amount.toFixed(2)"
                 size="small"
                 class="text_l"
               />
               <van-cell
+              :border="false"
                 title="总额"
                 :value="dataObject.reimbursement.amount.toFixed(2)"
                 size="small"
@@ -81,20 +91,23 @@
                     {{title}}
               </div>
               <div v-for="(item,index) in dataObject.travelExpenses" :key="index">
-                  <van-cell-group>
+                  <van-cell-group :border="false">
                   <van-cell
+                  :border="false"
                     title="出差人员"
                     :value="item.users"
                     size="small"
                     class="text_l"
                   />
                   <van-cell
+                  :border="false"
                     title="出差地区"
                     :value="item.travelLocation"
                     size="small"
                     class="text_l"
                   />
                   <van-cell
+                  :border="false"
                     title="出差日期"
                     :value="item.beginDate+'至'+item.endDate"
                     size="small"
@@ -102,12 +115,14 @@
                   />
                   <div v-if="state">
                   <van-cell
+                  :border="false"
                     title="出差事由"
                     value="其它"
                     size="small"
                     class="text_l"
                   />
                   <van-cell
+                  :border="false"
                     title="申请金额"
                     :value="item.details.amount.toFixed(2)"
                     size="small"
@@ -136,8 +151,9 @@
               <img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息
             </div>
             <div v-for="(indices,index) in dataObject.indices" :key="index"> 
-              <van-cell-group>
+              <van-cell-group :border="false">
                 <van-cell
+                :border="false"
                   title="项目名称"
                   :value="indices.index.projectName"
                   size="small"
@@ -145,6 +161,7 @@
                 />
                 <div v-if="state">
                 <van-cell
+                :border="false"
                   title="支出明细"
                   :value="indices.index.largeProjectName"
                   size="small"
@@ -152,12 +169,14 @@
                 />
                 </div>
                 <van-cell
+                :border="false"
                   title="指标余额"
                   :value="indices.index.allocationAmount.toFixed(2)"
                   size="small"
                   class="text_l"
                 />
                 <van-cell
+                :border="false"
                   title="申请金额"
                   :value="indices.applyAmount.toFixed(2)"
                   size="small"

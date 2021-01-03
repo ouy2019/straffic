@@ -60,6 +60,7 @@
   </div>
 </template>
 <script>
+let isTrue = true;
 export default {
     data() {
         return {
@@ -89,7 +90,7 @@ export default {
             pageNum: 0,
         }
         this.tabBarIndex.push(vanPull);
-       
+        this.showPage();
     }
 
     },
@@ -98,9 +99,25 @@ export default {
     },
     mounted(){
          this.mssgae();//菜单总数信息
-        
     },
+    
     methods:{
+        showPage() {
+            let that = this;
+            var hiddenProperty = 'hidden' in document ? 'hidden' :
+                                'webkitHidden' in document ? 'webkitHidden' :   
+                                'mozHidden' in document ? 'mozHidden' :   
+                                null;
+            var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
+            var onVisibilityChange = function(){
+                if (!document[hiddenProperty]) {   
+                        that.mssgae();
+                 }else{
+                 }
+             }
+            console.log(document[visibilityChangeEvent],11)
+            document.addEventListener(visibilityChangeEvent, onVisibilityChange)
+        },
         goApproval(menu) {  //菜单事件传参
             this.$native.forward({path:menu.linkUrl});
         },
@@ -108,6 +125,9 @@ export default {
             this.activeName = index;
         },
         mssgae(){  //菜单 信息数据 
+            if(!isTrue) return;
+            isTrue = false 
+            setTimeout(()=>{isTrue = true},500);
             var that = this;
             this.$axios.get(apiAddress+`/app/index/getCount`).then((res)=>{
               
