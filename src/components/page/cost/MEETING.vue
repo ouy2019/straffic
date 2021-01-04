@@ -6,68 +6,68 @@
           <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />
           事项详情
         </div>
-        <van-cell-group>
-          <van-cell
+        <van-cell-group :border="false">
+          <van-cell :border="false"
             title="单位名称"
-            :value="dataObject.unit.shortName"
+            :value="dataObject.unit.name"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
             title="申请部门"
-            :value="dataObject.applyDepartment.shortName"
+            :value="dataObject.applyDepartment.name"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
             title="经办人"
             :value="dataObject.declarer.name"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
             title="申请人"
             :value="dataObject.applyUser.name"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
             title="申请时间"
             :value="dataObject.applyDate"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
             title="申请单号"
             :value="dataObject.code"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
             title="经办部门"
-            :value="dataObject.department.shortName"
+            :value="dataObject.department.name"
             size="small"
             class="text_l"
           />
-           <van-cell
+           <van-cell :border="false"
             title="业务标题"
             :value="dataObject.title"
             size="small"
             class="text_l"
           />
-           <van-cell
+           <van-cell :border="false"
             title="申请金额(元)"
             :value="dataObject.total.toFixed(2)"
             size="small"
             class="text_l" 
           />
-           <van-cell
+           <van-cell :border="false"
             title="请示内容"
             :value="dataObject.content"
             size="small"
             class="text_l" 
           />
-           <van-cell
+           <van-cell :border="false"
             title="费用摘要"
             :value="dataObject.remark"
             size="small"
@@ -82,30 +82,29 @@
         <div class="line"></div>
         <div class="detail">
             <div class="title">
-                <img :src="huiyiIcon" alt="" srcset="" class="sxIcon" />           
-                  {{title}}
+                <img :src="huiyiIcon" alt="" srcset="" class="sxIcon" />{{title}}
             </div>
           <div v-for="(item,index) in dataObject.meetings" :key="index">
-              <van-cell-group>
-              <van-cell
+              <van-cell-group :border="false">
+              <van-cell :border="false"
                 title="会议名称"
                 :value="item.name"
                 size="small"
                 class="text_l"
               />
-              <van-cell
+              <van-cell :border="false"
                 title="会议日期"
                 :value="item.beginDate"
                 size="small"
                 class="text_l"
               />
-              <van-cell
+              <van-cell :border="false"
                 title="结束日期"
                 :value="item.endDate"
                 size="small"
                 class="text_l"
               />
-              <van-cell
+              <van-cell :border="false"
                 title="会议地点"
                 :value="item.place"
                 size="small"
@@ -137,27 +136,26 @@
           <img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息
         </div>
         <div v-for="(item,index) in dataObject.meetingIndexes" :key="index"> 
-           <van-cell-group>
-            <van-cell
+           <van-cell-group :border="false">
+            <van-cell :border="false"
               title="项目名称"
               :value="item.index.projectName"
               size="small"
               class="text_l"
-              
             />
-            <van-cell
+            <van-cell :border="false"
               title="支出明细"
               :value="item.index.largeProjectName"
               size="small"
               class="text_l"
             />
-            <van-cell
+            <van-cell :border="false"
               title="指标余额"
               :value="item.index.allocationAmount.toFixed(2)"
               size="small"
               class="text_l"
             />
-            <van-cell
+            <van-cell :border="false"
               title="申请金额"
               :value="item.amount.toFixed(2)"
               size="small"
@@ -195,12 +193,9 @@
                       </div>
                       <div class="user flex">
                           <div class="userName">审核人：{{item.userName}}</div>
-                          <div class="next">下一环节处理人：姚建平</div>
                       </div>
                       <div class="option flex">
                           <div class="optionS">意见：{{item.advice}}</div>
-                          <div class="isTrue" v-if="item.enable">同意</div>
-                          <div class="ifFalse" v-if="!item.enable">不同意</div>
                       </div>
                   </div>
                   <div :class="index > -1 && index < flow.length - 1 ? 'setp_line' :  '' "></div>
@@ -238,7 +233,6 @@ export default {
             AcTab: [""],
             title:'',
             state:false,
-            isEnable:true, //流转信息 亮灯
         }
     },
     created() {

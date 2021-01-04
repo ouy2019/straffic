@@ -22,7 +22,7 @@ Vue.config.productionTip = false;
 
 // 路由拦截
 router.beforeEach((from,to,next)=>{
-  // console.log(from,to,'000')
+  //  console.log(from,to,'000')
   let {token,userId,title} = from.query;
   if(token) {
     localStorage.token = token;

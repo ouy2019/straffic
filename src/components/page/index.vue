@@ -11,7 +11,7 @@
              <div class="MenuList" >
                  <div class="small"  v-for="(item,indexs) in menu" :key="indexs" @click="goApproval(item)">
                     <el-badge :value="item.count" :max="99" class="item" >
-                      <img :src="menuIcon0" alt="" />
+                      <img :src="require('../../assets/img/menu'+indexs+'.png')" alt="" />
                     </el-badge>
                     <p>{{item.name}}</p>    
                  </div>
@@ -65,8 +65,6 @@ export default {
     data() {
         return {
             // topIcon:require('../../assets/img/indextxt.png'),
-            menuIcon0:require('../../assets/img/menu0.png'),
-            menuIcon1:require('../../assets/img/menu1.png'),
             menu:[] , //菜单数据
             tabbar:["待办事项","已办事项","全部事项"], //tab栏数据
             tabList:[], //待办--已办--全部数据
@@ -78,6 +76,7 @@ export default {
             tabBarIndex : [],
             value:'',
             isTrue:false, //是否有数据
+            type:'',//事项的type类型
         }
     },
     created() {
@@ -104,10 +103,7 @@ export default {
     methods:{
         showPage() {
             let that = this;
-            var hiddenProperty = 'hidden' in document ? 'hidden' :
-                                'webkitHidden' in document ? 'webkitHidden' :   
-                                'mozHidden' in document ? 'mozHidden' :   
-                                null;
+            var hiddenProperty = 'hidden' in document ? 'hidden' : 'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : null;
             var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
             var onVisibilityChange = function(){
                 if (!document[hiddenProperty]) {   
@@ -135,21 +131,29 @@ export default {
              
             })
         },
-        goDetail(applyDate) {
-            
+        async goDetail(applyDate) {
+            console.log(applyDate.id)
+             var that = this;
             if(applyDate.taskType == 'payment'){ //跳转到事前申请  reimbursement报销申请
                 var linkUrl = "/cost";
+                var msg = await that.$axios.get( apiAddress+`/app/index/reports/${applyDate.id}/getType`)
+                if(!msg.code == 200)return;
+                that.type = msg.data.data;
             }else{
                var linkUrl = "/charge";
+               var msg = await that.$axios.get( apiAddress+`/app/index/reimbursement/${applyDate.id}/type`)
+                if(!msg.code == 200)return;
+                that.type = msg.data.data;
+               
             }
             this.$native.forward({
                 path: linkUrl,
                 query: { 
                     id:applyDate.id,
                     instanceId: applyDate.id,
-                    type: applyDate.type,
+                    type: that.type,
                     title: applyDate.workFlowName,
-                    taskId:applyDate.isDone,
+                    isDone:applyDate.isDone, //首页判断已办和待办
                 },
             });
         },

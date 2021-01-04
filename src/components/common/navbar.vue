@@ -2,7 +2,7 @@
   <div>
     <van-nav-bar
       :title="$route.meta.navBarTxt" 
-      right-text="首页"
+      right-text=""
       :left-arrow="$route.meta.showBack"
       :class="$route.meta.class" 
       @click-left="onClickLeft"

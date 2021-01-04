@@ -7,11 +7,11 @@
             <div class="send">
                 <div v-for="(item,index) in listDataNode" :key="index">
                     <van-radio-group v-model="send" >
-                    <div v-if="item.nextNodeFlag == 'GENERAL'">
+                    <div v-if="item.nextNodeFlag == 'GENERAL'" class="nextNodeBox">
                         <div class="back">下一节点 : </div>
                         <van-radio :name="item.nextNodeFlag">{{item.name}}</van-radio>
                     </div>
-                    <div v-if="item.nextNodeFlag == 'BACK_TO_START'">
+                    <div v-if="item.nextNodeFlag == 'BACK_TO_START'" class="nextNodeBox">
                         <div class="back">退回节点 : </div>
                         <van-radio :name="item.nextNodeFlag">{{item.name}}</van-radio>
                     </div>
@@ -46,8 +46,8 @@
                                 <div class="input">
                                     <van-field v-model="inputValue" clearable  placeholder="请输入常用意见"/>
                                 </div>
-                                <div class="cancel" @click="downHidden">取消</div>
-                                <div class="preserve" @click="preserve">保存</div>
+                                <div class="cancel clickButton" @click="downHidden">取消</div>
+                                <div class="preserve clickButton" @click="preserve">保存</div>
                            </div>
                            <div class="addOption" @click="downShow">添加意见</div>
                        </div>
@@ -151,6 +151,7 @@ export default {
             }else{
                this.workflowTask = this.details.reimbursement.workflowTask.id
             }
+            if(localStorage.message){ this.message = localStorage.message; }
             
         }else{
             this.$toast("获取处理人失败");
@@ -158,7 +159,6 @@ export default {
     },
     watch:{
        showSave(newSave,oldSave){
-           console.log(newSave)
            if(!newSave){
                this.$native.back();
            }
@@ -173,11 +173,9 @@ export default {
         Nav,
     },
     mounted() {
-      console.log(this.send)
-      console.log(this.nextNode)
+      
     },
     methods: {
-       
         onSubmit(values) {
             console.log('submit', values);
         },
@@ -187,31 +185,24 @@ export default {
           }else if(this.message == ''){
             this.$toast("请输入常用意见")
           }else{
-            //let arr = []; //存储保存的处理人和常用意见
-            
+            //存储保存的处理人和常用意见
             localStorage.value2 = this.value2; 
             localStorage.message = this.message; 
             this.showSave = true;
-            
           };
-          
-          
         },
         showPopup() {//常用意见弹出层
             let optionTxt = this.option2.filter((item)=>item.value==this.value2);
-            // console.log(optionTxt[0].text,'选中的数据');
-            console.log(optionTxt[0].id,'选中的id');
+           // console.log(optionTxt[0].id,'选中的id');
             this.optionUserId = optionTxt[0].id;//选中下一环节处理人的id
-            this.$axios.get(apiAddress+`/icm-base/common-opinion/all/${this.optionUserId}`).then((res)=>{
-                 if(res.status == 200) {
-                    this.optionText = res.data;      
-                    // this.optionSelect = this.optionText[0] ? this.optionText[0].opinion : '';
-                 }
-                 
+            var that = this;
+            that.$axios.get(apiAddress+`/icm-base/common-opinion/all/${that.optionUserId}`).then((res)=>{
+                if(!res.status == 200) return;
+                that.optionText = res.data;      
             }).catch((res)=>{
-                this.$toast("暂无常用意见");
+                that.$toast("暂无常用意见");
             })
-            this.show = true;
+            that.show = true;
         },
         showSubmit() {//待办已提交弹出层
           if(this.value2 == ''){
@@ -227,9 +218,11 @@ export default {
                 that.workflowKeyType = that.details.reimbursement.workflowTask.instance.definition.workflowInfo.workflowKey;
             }
             let listNode = that.listDataNode.filter(item=>item.nextNodeFlag == that.send);//过滤nextNodeFlag
-            if(listNode[0].nextNodeFlag == "GENERAL"){
-                listNode[0].nextNodeFlag = "COMPLETE"
-            }
+            
+            if(listNode[0].nextNodeFlag == "GENERAL")listNode[0].nextNodeFlag = "COMPLETE"; //同意审批
+            if(listNode[0].nextNodeFlag == "BACK_TO_START")listNode[0].nextNodeFlag = "REJECTION"//退回申请人
+            
+            
             that.$axios.put(apiAddress+`/app/complete/${that.details.id}?workflowKey=${that.workflowKeyType}`,{
                 action:listNode[0].nextNodeFlag, 
                 adivce:that.message, 
@@ -310,17 +303,18 @@ export default {
     padding:  0 0.24rem;
 }
 .send{
-    display: flex;
+    /* display: flex;
     justify-content: space-between;
+    flex-wrap: wrap; */
     margin: 0.32rem 0;
     font-size: 0.32rem;
-    flex-wrap: wrap;
+    
 }
 .send /deep/ .van-radio-group{
 font-size: 0.28rem;
 margin-top: 0.1rem;
 }
-.send /deep/ .van-radio__icon--checked .van-icon,.van-radio__icon--round .van-icon{font-size: 0.24rem;}
+.send .nextNodeBox /deep/ .van-radio .van-radio__icon{font-size: 0.24rem;}
 .box .send .back{
   /* width:65%;
   text-align:left;
@@ -328,6 +322,11 @@ margin-top: 0.1rem;
   white-space: nowrap;
   overflow: hidden; */
 }
+.send .nextNodeBox{
+    display: flex;
+    justify-content: space-between;
+}
+
 .box .result{
 margin: 0.15rem 0 0.25rem 0;
 }
@@ -425,14 +424,26 @@ justify-content: space-between;
 .inputDisplay .input /deep/ .van-cell{
   padding: 6px 16px;  
 }
+.clickButton{
+    padding: 0.1rem;
+    color: #fff;
+    background-color: #1890ff;
+    border-radius: 5px;
+}
 .addOption{
-   padding: 0.12rem;
-   text-align: left;
+    padding: 0.12rem;
+    text-align: left;
+    color: #fff;
+    background-color: #1890ff;
+    border-radius: 5px;
+    width: 25%;
+    margin: 0.1rem 0;
 }
 .close{
     width: 0.4rem;
     height: 0.4rem;
-    background-color: #e5e5e5;
+    background-color: #1890ff;
+    color: #fff;
     line-height: 0.4rem;
     border-radius: 50%;
 }

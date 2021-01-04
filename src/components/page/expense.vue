@@ -107,7 +107,7 @@ export default {
     },
     init(val,children) {
       // 子组件传参 val
-    
+    console.log(val);
       let api = `/app/index/reimbursement/getAll`;
       let dataUrl= [`?stateType=UNDONE&`,`?stateType=DONE&`,`?`];
       
@@ -117,7 +117,8 @@ export default {
         this.tabBarIndex[this.active].list = [];  //是否是子组件的值有就为空 
       }
       if(this.value){ //防止关键字被覆盖
-         dataUrl[this.active] +=`declarerName=${this.value}`;
+        //  dataUrl[this.active] +=`declarerName=${this.value}`; 
+        dataUrl[this.active] +=`search=${this.value}`; 
       }
 
       let {pageNum,finished,loading,refreshing,list} = this.tabBarIndex[this.active];

@@ -40,7 +40,8 @@ export default {
     }else{
       this.$toast("获取详情失败，返回后重新进入");
     }
-   
+    this.getTabData(); //基本信息
+    this.flow(); //流转信息
   },
   components: {
     Nav,
@@ -61,8 +62,7 @@ export default {
     TRAINING: () => import('./expense/TRAINING.vue'), //培训费 --
   },
   mounted() {
-      this.getTabData(); //基本信息
-      this.flow(); //流转信息
+      
   },
   methods: {
     async getTabData(){ //详情信息
@@ -106,7 +106,7 @@ export default {
       this.$axios.get(apiAddress+`/app/index/workflow/users?instanceIds=${this.$route.query.instanceId}`).then((res)=>{
           console.log(res)
           if(res.data.code != 200)return;
-          this.instanceId = res.data.data;
+          this.instanceId = res.data.data.reverse();
       })
     }
 

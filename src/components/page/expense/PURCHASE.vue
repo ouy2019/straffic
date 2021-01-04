@@ -4,71 +4,70 @@
     <div class="shixiang" v-show="index == 0">
       <div class="detail">
         <div class="title">
-          <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />
-          事项详情
+          <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />事项详情
         </div>
-        <van-cell-group>
-          <van-cell
-            title="单位名称"
-            :value="dataObject.reimbursement.unit.shortName"
-            size="small"
-            class="text_l"
-          />
-          <van-cell
-            title="申请部门"
-            :value="dataObject.reimbursement.department.shortName"
-            size="small"
-            class="text_l"
-          />
-          <van-cell
-            title="申请人"
-            :value="dataObject.reimbursement.declarer.name"
-            size="small"
-            class="text_l"
-          />
-           <van-cell
+        <van-cell-group :border="false">
+          <van-cell :border="false"
             title="报销单号"
             :value="dataObject.reimbursement.code"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
+            title="单位名称"
+            :value="dataObject.reimbursement.unit.name"
+            size="small"
+            class="text_l"
+          />
+          <van-cell :border="false"
+            title="申请部门"
+            :value="dataObject.reimbursement.department.name"
+            size="small"
+            class="text_l"
+          />
+          <van-cell :border="false"
+            title="申请人"
+            :value="dataObject.reimbursement.declarer.name"
+            size="small"
+            class="text_l"
+          />
+          <van-cell :border="false"
             title="申请时间"
             :value="dataObject.reimbursement.applyDate"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
             title="采购申请单号"
             :value="dataObject.purchaseReport.code"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
             title="采购名称"
             :value="dataObject.purchaseReport.title"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
             title="是否最后一笔报销"
-            value="是"
+            :value="dataObject.isLastOne = dataObject.isLastOne ? '是' : '否'"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
             title="验收结果"
-            value="已通过"
+            :value="dataObject.purchaseReport.purchaseAcceptance[0].acceptanceResult ? '已通过' : '未通过'"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
             title="验收说明"
-            value=""
+            :value="dataObject.purchaseReport.reason"
             size="small"
             class="text_l"
           />
-          <van-cell
+          <van-cell :border="false"
             title="备注"
             :value="dataObject.reimbursement.reason"
             size="small"
@@ -81,57 +80,48 @@
       <!--  采购内容明细 -->
       <div class="direct" v-if="!dataObject.purchaseReport.categories.length==''">
         <div class="line"></div>
-       <div class="detail">
-        <div class="title">
-          <img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />           
-              {{title}}
+        <div class="detail">
+          <div class="title">
+            <img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />{{title}}
+          </div>
+          <div v-for="(item,index) in dataObject.purchaseReport.categories" :key="index">
+              <van-cell-group :border="false">
+              <van-cell :border="false"
+                title="品目名称"
+                :value="item.name"
+                size="small"
+                class="text_l"
+              />
+              <van-cell :border="false"
+                title="规格型号"
+                :value="item.spec"
+                size="small"
+                class="text_l"
+              />
+              <van-cell :border="false"
+                title="采购金额"
+                :value="item.price.toFixed(2)"
+                size="small"
+                class="text_l"
+              />
+              <van-cell :border="false"
+                title="申请金额合计(元)"
+                :value="item.total.toFixed(2)"
+                size="small"
+                class="text_l"
+              />
+              </van-cell-group>
+          </div>
         </div>
-         <div v-for="(item,index) in dataObject.purchaseReport.categories" :key="index">
-            <van-cell-group>
-            <van-cell
-              title="品目名称"
-              :value="item.name"
-              size="small"
-              class="text_l"
-            />
-            <van-cell
-              title="规格型号"
-              :value="item.spec"
-              size="small"
-              class="text_l"
-            />
-            <van-cell
-              title="采购金额"
-              :value="item.price"
-              size="small"
-              class="text_l"
-            />
-            <van-cell
-              title="申请金额合计(元)"
-              :value="item.total"
-              size="small"
-              class="text_l"
-            />
-            </van-cell-group>
-            <!-- <div class="details disbursement">
-                <van-collapse v-model="AcTab">
-                  <van-collapse-item title="支出详情" name="1">
-                          <el-table :data="labourExpenses" stripe style="width: 100%" >
-                            <el-table-column prop="duration" label="天数" ></el-table-column>
-                            <el-table-column prop="referenceStandard" label="参考标准"></el-table-column>
-                            <el-table-column prop="total" label="劳务费合计"></el-table-column>
-                            <el-table-column prop="remark" label="备注" ></el-table-column>
-                          </el-table>
-                  </van-collapse-item>
-                </van-collapse>
-            </div> -->
-         </div>
       </div>
-      </div>
-      <!-- 收款信息 -->
-      <div class="details">
+      <div class="line"></div>
+      <!-- 收款明细 -->
+      <div class="details margin" v-if="dataObject.details">
+              <div class="title">
+                <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />收款明细
+              </div>
           <van-collapse v-model="details">
-            <van-collapse-item title="收款信息" name="1">
+            <van-collapse-item title="收款明细" name="1">
                      <el-table :data="dataObject.details" style="width: 100%">
                             <el-table-column prop="payee.name" label="收款人" ></el-table-column>
                             <el-table-column prop="payee.oaAccount" label="非本单位收款人" ></el-table-column>
@@ -142,9 +132,9 @@
       </div>
       <div class="line"></div>
        <!-- 去审批 -->
-        <div v-if="!state" class="shenpiBtn">
-            <van-button class="info" type="info" @click="openNewOption">去审批</van-button>
-        </div>
+      <div v-if="!state" class="shenpiBtn">
+          <van-button class="info" type="info" @click="openNewOption">去审批</van-button>
+      </div>
     </div>
 
       <div v-show="index == 1" class="back">
@@ -158,12 +148,9 @@
                       </div>
                       <div class="user flex">
                           <div class="userName">审核人：{{item.userName}}</div>
-                          <div class="next">下一环节处理人：姚建平</div>
                       </div>
                       <div class="option flex">
                           <div class="optionS">意见：{{item.advice}}</div>
-                          <div class="isTrue" v-if="item.enable">同意</div>
-                          <div class="ifFalse" v-if="!item.enable">不同意</div>
                       </div>
                   </div>
                   <div :class="index > -1 && index < flow.length - 1 ? 'setp_line' :  '' "></div>
@@ -201,14 +188,14 @@ export default {
             details: ["1"],
             title:localStorage.getItem('title'),
             state:false, //判断是否已办
-            isEnable:true, //流转信息 亮灯
         }
     },
     created() { //SKETCH  UNDONE
-     if(this.$route.query.taskId){ //从首页跳转过来判断是否已办
-        this.state == this.$route.query.taskId;
+     if(this.$route.query.isDone){ //从首页跳转过来判断是否已办
+        this.state == this.$route.query.isDone;
       }else{
-        this.state = this.$route.query.state == 'DONE';//事前报销页面跳转过来判断是否已办
+        // this.state = this.$route.query.state == 'DONE';//事前报销页面跳转过来判断是否已办
+        this.state = this.dataObject.reimbursement.state == 'DONE';
       }
     },
     components: {

@@ -185,14 +185,14 @@
 color: #e54728;
 }
 .userName{
-  width: 40%;
   text-align: left;
+  /* width: 40%;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: hidden; */
 }
 .optionS{
-  width: 85%;
+  /* width: 85%; */
   text-align: left;
   /* text-overflow: ellipsis;
   white-space: nowrap;

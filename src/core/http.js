@@ -49,8 +49,8 @@ function errorHandle (status, other) {
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 //请求拦截器
 axios.interceptors.request.use((config) => {
-	config.headers.Authorization ='Bearer '+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLmnY7ngb_kupEiLCJleHAiOjE2MTAyNjY5NzQsImlhdCI6MTYwOTY2MjE3NCwianRpIjoiMjI2NjMzNzY4OTEwMzI3ODA4In0.beDBo0MZkVEHVSvJzLZulH3h7p2BF1-TZFrwgT2X1q7Rf0wzw-xovYpf59Rt852SQ_u4aWLjEvmOoLnJVC3MyA";
-	// config.headers.Authorization ='Bearer '+localStorage.getItem('token');
+	//config.headers.Authorization ='Bearer '+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLmnY7ngb_kupEiLCJleHAiOjE2MTAyNjY5NzQsImlhdCI6MTYwOTY2MjE3NCwianRpIjoiMjI2NjMzNzY4OTEwMzI3ODA4In0.beDBo0MZkVEHVSvJzLZulH3h7p2BF1-TZFrwgT2X1q7Rf0wzw-xovYpf59Rt852SQ_u4aWLjEvmOoLnJVC3MyA";
+	config.headers.Authorization ='Bearer '+localStorage.getItem('token');
 	// config.headers.Authorization = localStorage.getItem('Authorization');
 	return config;
 },(error)=>{
