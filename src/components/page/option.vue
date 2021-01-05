@@ -90,7 +90,8 @@
 </template>
 <script>
 import Nav from "../common/navbar";
-import { useoptionChian} from '@/core/common'
+import { useoptionChian} from '@/core/common';
+
 export default {
     data() {
         return {
@@ -169,13 +170,15 @@ export default {
            }
        }
     },
+    
     components:{
         Nav,
     },
     mounted() {
-      
+       
     },
     methods: {
+        
         onSubmit(values) {
             console.log('submit', values);
         },

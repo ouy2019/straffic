@@ -1,10 +1,10 @@
 <template>
   <div id="page">
+    <!--多类经费-->
      <div class="shixiang" v-show="index == 0">
       <div class="detail">
         <div class="title">
-          <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />
-          事项详情
+          <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />事项详情
         </div>
         <van-cell-group :border="false">
           <van-cell :border="false"
@@ -57,13 +57,13 @@
           />
           <van-cell :border="false"
             title="申请总额"
-            :value="dataObject.multipleTotal.toFixed(2)"
+            :value="dataObject.multipleTotal | num"
             size="small"
             class="text_l"
           />
           <van-cell :border="false"
             title="预估费用"
-            :value="dataObject.withholdAndRemitTaxTotal"
+            :value="dataObject.withholdAndRemitTaxTotal | num"
             size="small"
             class="text_l"
           />
@@ -75,7 +75,7 @@
           />
           <van-cell :border="false"
             title="费用类型"
-            :value="dataObject.expenseType"
+            value=""
             size="small"
             class="text_l"
           />
@@ -94,55 +94,131 @@
         </van-cell-group>
       </div>
       
-     
-        <!--多类经费-->
+
+      <!-- 会议费 -->
       <div class="direct" v-if="!dataObject.meetings.length == ''">
         <div class="line"></div>
        <div class="detail">
-         <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />会议费</div>
+          <div class="title">
+           <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />会议费
+          </div>
          <div class="" v-for="(item,index) in dataObject.meetings" :key="index">
-               <van-cell-group :border="false">
-                  <van-cell :border="false"
-                    title="会议名称"
-                    :value="item.name"
-                    size="small"
-                    class="text_l"
-                  />
-                  <van-cell :border="false"
-                    title="会议日期"
-                    :value="item.beginDate"
-                    size="small"
-                    class="text_l"
-                  />
-                  <van-cell :border="false"
-                    title="结束日期"
-                    :value="item.endDate"
-                    size="small"
-                    class="text_l"
-                  />
-                  <van-cell :border="false"
-                    title="会议地点"
-                    :value="item.place"
-                    size="small"
-                    class="text_l"
-                  />
-                </van-cell-group>
-                <div class="details disbursement">
-                    <van-collapse v-model="AcTab">
-                    <van-collapse-item title="租车费用信息" name="1">
-                            <el-table :data="item.paymentDetails" stripe style="width: 100%" >
-                                <el-table-column prop="content" label="支出内容" ></el-table-column>
-                            <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
-                            <el-table-column prop="amount" label="金额"></el-table-column>
-                            <el-table-column prop="total" label="总金额"></el-table-column>
-                            <el-table-column prop="remark" label="备注" ></el-table-column>
-                            </el-table>
-                    </van-collapse-item>
-                    </van-collapse>
-                </div>
+            <van-cell-group :border="false">
+              <van-cell :border="false"
+                title="会议名称"
+                :value="item.name"
+                size="small"
+                class="text_l"
+              />
+              <van-cell :border="false"
+                title="会议日期"
+                :value="item.beginDate"
+                size="small"
+                class="text_l"
+              />
+              <van-cell :border="false"
+                title="结束日期"
+                :value="item.endDate"
+                size="small"
+                class="text_l"
+              />
+              <van-cell :border="false"
+                title="会议地点"
+                :value="item.place"
+                size="small"
+                class="text_l"
+              />
+            </van-cell-group>
+            <div class="details disbursement">
+              <van-collapse v-model="AcTab">
+                <van-collapse-item title="支出详情" name="1">
+                  <el-table :data="item.paymentDetails" stripe style="width: 100%" >
+                    <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
+                    <el-table-column prop="amount" label="金额"></el-table-column>
+                    <el-table-column prop="remark" label="备注" ></el-table-column>
+                  </el-table>
+                  <div class="total">合计: {{dataObject.total | num}}</div>
+                </van-collapse-item>
+              </van-collapse>
+            </div>
          </div>
        </div>
       </div>
+     
+     <!--  会议费指标信息 -->
+      <div class="travel margin" v-if="!dataObject.meetingIndexes.length == ''">
+        <div class="title">
+          <img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息
+        </div>
+        <div class="indicator">
+          <el-table :data="dataObject.meetingIndexes" style="width: 100%">
+            <el-table-column prop="index.projectName" label="项目名称" ></el-table-column>
+            <el-table-column prop="index.largeProjectName" label="支出明细" ></el-table-column>
+            <el-table-column prop="availableAmount" label="指标余额"></el-table-column>
+            <el-table-column prop="amount" label="申请金额"></el-table-column>
+          </el-table>
+          <div class="total">合计: {{dataObject.total | num}}</div>
+        </div>
+      </div>
+
+      <!-- 差旅费 -->
+      <div class="direct" v-if="!dataObject.travelExpenses.length==''">
+        <div class="line"></div>
+        <div class="detail">
+          <div class="title">
+            <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />差旅费
+          </div>
+          <div v-for="(item,index) in dataObject.travelExpenses" :key="index">
+              <van-cell-group :border="false">
+              <van-cell :border="false"
+                title="出差人员"
+                :value="item.users"
+                size="small"
+                class="text_l"
+              />
+              <van-cell :border="false"
+                title="出差地区"
+                :value="item.travelLocation"
+                size="small"
+                class="text_l"
+              />
+              <van-cell :border="false"
+                title="出差日期"
+                :value="item.beginDate+'至'+item.endDate"
+                size="small"
+                class="text_l"
+              />
+              <div v-if="state">
+              <van-cell :border="false"
+                title="出差事由"
+                value="其它"
+                size="small"
+                class="text_l"
+              />
+              <van-cell :border="false"
+                title="申请金额"
+                :value="dataObject.travelExpenseEstimateTotal | num"
+                size="small"
+                class="text_l"
+              />
+              </div>
+              </van-cell-group>
+              <!-- 支出详情 -->
+              <div class="details disbursement">
+                  <van-collapse v-model="AcTab">
+                    <van-collapse-item title="支出详情" name="1">
+                      <el-table :data="item.paymentDetails" stripe style="width: 100%" >
+                        <el-table-column prop="transportationFacility" label="交通工具" ></el-table-column>
+                        <el-table-column prop="total" label="申请总金额"></el-table-column>
+                      </el-table>
+                      <div class="total">合计: {{dataObject.travelExpenseEstimateTotal | num}}</div>
+                    </van-collapse-item>
+                  </van-collapse>
+              </div>
+          </div>
+      </div>
+      </div>
+      
       <!-- 培训费 -->
       <div class="direct" v-if="!dataObject.trainings.length == ''">
         <div class="line"></div>
@@ -151,140 +227,66 @@
          <div class="" v-for="(item,index) in dataObject.trainings" :key="index">
                <van-cell-group :border="false">
                 <van-cell :border="false"
-                title="培训班名称"
-                :value="item.name"
-                size="small"
-                class="text_l"
+                  title="培训班名称"
+                  :value="item.name"
+                  size="small"
+                  class="text_l"
                 />
                 <van-cell :border="false"
-                title="培训地点"
-                :value="item.place"
-                size="small"
-                class="text_l"
+                  title="培训地点"
+                  :value="item.place"
+                  size="small"
+                  class="text_l"
                 />
                 <van-cell :border="false"
-                title="授课内容"
-                :value="item.teachers[0].content"
-                size="small"
-                class="text_l"
+                  title="授课内容"
+                  :value="item.teachers[0].content"
+                  size="small"
+                  class="text_l"
                 />
                 <van-cell :border="false"
-                title="培训日期"
-                :value="item.beginDate+'至'+item.endDate"
-                size="small"
-                class="text_l"
+                  title="培训日期"
+                  :value="item.beginDate+'至'+item.endDate"
+                  size="small"
+                  class="text_l"
                 />
                 <van-cell :border="false"
-                title="税后申请总金额(元)"
-                :value="item.teachers[0].amount / (item.teachers[0].lessonPeriod)"
-                size="small"
-                class="text_l"
+                  title="税后申请总金额(元)"
+                  :value="Number(item.teachers[0].amount)*Number(item.teachers[0].lessonPeriod) + parseInt(Number(item.teachers[0].withholdAndRemitTax)) | num"
+                  size="small"
+                  class="text_l"
                 />
                 </van-cell-group>
                 <div class="details disbursement">
                     <van-collapse v-model="AcTab">
-                    <van-collapse-item title="租车费用信息" name="1">
-                            <el-table :data="item.paymentDetails" stripe style="width: 100%" >
-                                <el-table-column prop="content" label="支出内容" ></el-table-column>
-                                <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
-                                <el-table-column prop="amount" label="金额"></el-table-column>
-                                <el-table-column prop="total" label="总金额"></el-table-column>
-                                <el-table-column prop="remark" label="备注" ></el-table-column>
-                            </el-table>
+                    <van-collapse-item title="支出详情" name="1">
+                      <el-table :data="item.paymentDetails" stripe style="width: 100%" >
+                          <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
+                          <el-table-column prop="amount" label="金额"></el-table-column>
+                          <el-table-column prop="remark" label="备注" ></el-table-column>
+                      </el-table>
+                      <div class="total">合计: {{Number(item.teachers[0].amount)*Number(item.teachers[0].lessonPeriod) + parseInt(Number(item.teachers[0].withholdAndRemitTax)) | num}}</div>
                     </van-collapse-item>
                     </van-collapse>
                 </div>
          </div>
        </div>
       </div>
+      
       <div class="line"></div>
-      <!--  指标信息 -->
-      <div class="travel margin" v-if="dataObject.meetingIndexes">
-        <div class="title">
-          <img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息
-        </div>
-        <div v-for="(item,index) in dataObject.meetingIndexes" :key="index"> 
-           <van-cell-group :border="false">
-            <van-cell :border="false"
-              title="项目名称"
-              :value="item.index.projectName"
-              size="small"
-              class="text_l"
-            />
-            <van-cell :border="false"
-              title="支出明细"
-              :value="item.index.largeProjectName"
-              size="small"
-              class="text_l"
-            />
-            <van-cell :border="false"
-              title="指标余额"
-              :value="item.index.allocationAmount.toFixed(2)"
-              size="small"
-              class="text_l"
-            />
-            <van-cell :border="false"
-              title="申请金额"
-              :value="item.availableAmount.toFixed(2)"
-              size="small"
-              class="text_l"
-            />
-            </van-cell-group>
-            <!-- <div class="details">
-                <van-collapse v-model="details">
-                  <van-collapse-item title="收款信息" name="1">
-                          <el-table :data="dataObject.details" style="width: 100%">
-                                  <el-table-column prop="payee.name" label="收款人" ></el-table-column>
-                                  <el-table-column prop="collectionUserByNonUnit" label="非本单位收款人" ></el-table-column>
-                                  <el-table-column prop="totalAmount" label="金额(元)"></el-table-column>
-                          </el-table>
-                  </van-collapse-item>
-                </van-collapse>
-            </div> -->
-        </div>
-      </div>
+      <!-- 培训费指标信息 -->
       <div class="travel margin" v-if="!dataObject.trainingIndexes.length==''">
         <div class="title">
           <img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息
         </div>
-        <div v-for="(item,index) in dataObject.trainingIndexes" :key="index"> 
-           <van-cell-group :border="false">
-            <van-cell :border="false"
-              title="项目名称"
-              :value="item.index.projectName"
-              size="small"
-              class="text_l"
-            />
-            <van-cell :border="false"
-              title="支出明细"
-              :value="item.index.largeProjectName"
-              size="small"
-              class="text_l"
-            />
-            <van-cell :border="false"
-              title="指标余额"
-              :value="item.index.allocationAmount.toFixed(2)"
-              size="small"
-              class="text_l"
-            />
-            <van-cell :border="false"
-              title="申请金额"
-              :value="item.availableAmount.toFixed(2)"
-              size="small"
-              class="text_l"
-            />
-            </van-cell-group>
-            <!-- <div class="details">
-                <van-collapse v-model="details">
-                  <van-collapse-item title="收款信息" name="1">
-                          <el-table :data="dataObject.details" style="width: 100%">
-                                  <el-table-column prop="payee.name" label="收款人" ></el-table-column>
-                                  <el-table-column prop="collectionUserByNonUnit" label="非本单位收款人" ></el-table-column>
-                                  <el-table-column prop="totalAmount" label="金额(元)"></el-table-column>
-                          </el-table>
-                  </van-collapse-item>
-                </van-collapse>
-            </div> -->
+        <div class="indicator">
+          <el-table :data="dataObject.trainingIndexes" style="width: 100%">
+            <el-table-column prop="index.projectName" label="项目名称" ></el-table-column>
+            <el-table-column prop="index.largeProjectName" label="支出明细" ></el-table-column>
+            <el-table-column prop="availableAmount" label="指标余额"></el-table-column>
+            <el-table-column prop="amount" label="申请金额"></el-table-column>
+          </el-table>
+          <div class="total">合计: {{dataObject.trainingContractsTotal | num}}</div>
         </div>
       </div>
       <div class="line"></div>
@@ -344,7 +346,6 @@ export default {
             AcTab: [""],
             title:'',
             state:false,//判断已办和待办
-            isEnable:true, //流转信息 亮灯
         }
     },
     created() {

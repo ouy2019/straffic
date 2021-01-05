@@ -9,6 +9,7 @@ import './core/vant';
 import echarts from 'echarts';
 import native from '@/jslibs/native/native';
 import loadpage from '@/jslibs/native/native';
+import filter from './core/filter';
 
 Vue.prototype.$native = native;
 Vue.prototype.$echarts = echarts;
@@ -16,8 +17,13 @@ Vue.prototype.$axios = axios;
 Vue.prototype.$loadpage = loadpage;
 Vue.config.productionTip = false;
 
-
-
+/* 注册过滤器 */
+for (const key in filter) {
+    if (filter.hasOwnProperty(key)) {
+        const element = filter[key]
+        Vue.filter(key, element)
+    }
+}
 
 
 // 路由拦截

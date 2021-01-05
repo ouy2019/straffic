@@ -43,7 +43,15 @@ const useoptionChian = (target,str)=>{
     docubce(target,str);
     return isTrue;
 }
+
+
+
+
+
+
+
 export {
     goOption,
-    useoptionChian
+    useoptionChian,
+    
 }

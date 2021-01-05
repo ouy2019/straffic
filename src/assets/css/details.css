@@ -61,6 +61,10 @@
   display: -webkit-none !important; 
   visibility: hidden;
 }
+
+.indicator{
+
+}
 .shenpiBtn{
   padding-top: 1rem;
 }
@@ -72,11 +76,11 @@
   margin: 0 0.25rem;
 }
 .total{
-    display: flex;
-    justify-content: center;
-    height: 1rem;
-    line-height: 1rem;
+    height: 0.8rem;
+    line-height: 0.8rem;
     font-size: 0.24rem;
+    text-align:right;
+    margin-right: 0.4rem;
 }
 .tabHead {
   display: flex;
@@ -111,8 +115,11 @@
   overflow-x: auto;
   text-overflow: initial;
 }
-.details /deep/ .el-table thead{
+/* .details /deep/ .el-table thead{
   font-size: 0.22rem;
+} */
+.details /deep/ .van-collapse-item__content{
+  color: #2c3e50;
 }
 .details /deep/ .el-table th{
   width: 33%;

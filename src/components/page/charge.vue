@@ -16,7 +16,8 @@
 </template>
 <script>
 import Nav from "../common/navbar";
-import { useoptionChian} from '@/core/common'
+import { useoptionChian} from '@/core/common';
+import { pageChange } from '@/core/test';
 export default {
   data() {
     return {
@@ -61,29 +62,40 @@ export default {
     MULTI: () => import('./expense/MULTI.vue'), //多类经费 --
     TRAINING: () => import('./expense/TRAINING.vue'), //培训费 --
   },
+  mixins:[pageChange],
   mounted() {
-      
+      this.onShow();
+      this.onHide();
   },
   methods: {
+    onShow(){
+        console.log('onShow');//监听是否离开页面
+        this.getTabData(); //详情基本信息
+    },
+    onHide(){
+        console.log('onHide',111);
+    },
     async getTabData(){ //详情信息
       var that = this;
       var dataUrl = `/app/index/reimbursement/get/${that.$route.query.id}`
       var msg = await that.$axios.get(apiAddress+dataUrl)
         if(msg.data.code != 200)return;
-        if(that.$route.query.state != 'DONE'){ //如果是已办就跳过
-            let traffic = { //差旅费的交通工具转换
-              "PLANE":"飞机",
-              "TRAIN":"火车",
-              "CAR":"汽车",
-              "OTHER":"其他",
-            }
+        //如果是已办就跳过
+          if(useoptionChian(msg,'data?.data?.travelExpenses')){
+              let traffic = { //差旅费的交通工具转换
+                "PLANE":"飞机",
+                "TRAIN":"火车",
+                "CAR":"汽车",
+                "OTHER":"其他",
+              }
             let nwevalue = msg.data.data.travelExpenses;
             nwevalue.map((items)=>{
               items.details.map((item)=> {
                 item.transportationFacility = traffic[item.transportationFacility]
               })
             })
-        }
+          }
+       
         if(useoptionChian(msg,'data?.data?.contract?.payments')){
           let payment = { //合同资金状态
             "PAYING":"在途",

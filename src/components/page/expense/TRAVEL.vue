@@ -67,63 +67,57 @@
               <van-cell
               :border="false"
                 title="本次报销(元)"
-                :value="dataObject.reimbursement.amount.toFixed(2)"
+                :value="dataObject.reimbursement.amount | num"
                 size="small"
                 class="text_l"
               />
               <van-cell
               :border="false"
                 title="报销总额(元)"
-                :value="dataObject.reimbursement.amount.toFixed(2)"
+                :value="dataObject.reimbursement.amount | num"
                 size="small"
                 class="text_l"
               />
             </van-cell-group>
           </div>
           
-            <!-- 差旅费 -->
+          <!-- 差旅费 -->
           <div class="direct" v-if="!dataObject.travelExpenses.length==''">
             <div class="line"></div>
             <div class="detail">
               <div class="title">
-                <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />
-                    {{title}}
+                <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}}
               </div>
               <div v-for="(item,index) in dataObject.travelExpenses" :key="index">
                   <van-cell-group :border="false">
-                  <van-cell
-                  :border="false"
+                  <van-cell :border="false"
                     title="出差人员"
                     :value="item.users"
                     size="small"
                     class="text_l"
                   />
-                  <van-cell
-                  :border="false"
+                  <van-cell :border="false"
                     title="出差地区"
                     :value="item.travelLocation"
                     size="small"
                     class="text_l"
                   />
-                  <van-cell
-                  :border="false"
+                  <van-cell :border="false"
                     title="出差日期"
                     :value="item.beginDate+'至'+item.endDate"
                     size="small"
                     class="text_l"
                   />
                   <div v-if="state">
-                  <van-cell
-                  :border="false"
+                  <van-cell :border="false"
                     title="出差事由"
                     value="其它"
                     size="small"
                     class="text_l"
                   />
-                  <van-cell
-                  :border="false"
+                  <van-cell :border="false"
                     title="申请金额"
-                    :value="item.details.amount.toFixed(2)"
+                    :value="item.details.amount | num"
                     size="small"
                     class="text_l"
                   />
@@ -133,10 +127,11 @@
                   <div class="details disbursement">
                       <van-collapse v-model="AcTab">
                         <van-collapse-item title="支出详情" name="1">
-                                <el-table :data="item.details" stripe style="width: 100%" >
-                                  <el-table-column prop="transportationFacility" label="交通工具" ></el-table-column>
-                                  <el-table-column prop="total" label="申请总金额"></el-table-column>
-                                </el-table>
+                          <el-table :data="item.details" stripe style="width: 100%" >
+                            <el-table-column prop="transportationFacility" label="交通工具" ></el-table-column>
+                            <el-table-column prop="total" label="申请总金额"></el-table-column>
+                          </el-table>
+                          <div class="total">合计: {{dataObject.reimbursement.amount | num}}</div>
                         </van-collapse-item>
                       </van-collapse>
                   </div>
@@ -150,7 +145,17 @@
                 <div class="title">
                   <img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息
                 </div>
-                <div v-for="(indices,index) in dataObject.indices" :key="index"> 
+                <div class="indicator">
+                  <el-table :data="dataObject.indices" style="width: 100%">
+                    <el-table-column prop="index.projectName" label="项目名称" ></el-table-column>
+                    <el-table-column prop="index.largeProjectName" label="支出明细" ></el-table-column>
+                    <el-table-column prop="index.allocationAmount" label="指标余额"></el-table-column>
+                    <el-table-column prop="applyAmount" label="申请金额"></el-table-column>
+                  </el-table>
+                  <div class="total">合计: {{dataObject.reimbursement.amount | num}}</div>
+                </div>
+
+                <!-- <div v-for="(indices,index) in dataObject.indices" :key="index"> 
                   <van-cell-group :border="false">
                     <van-cell
                     :border="false"
@@ -183,20 +188,22 @@
                       class="text_l"
                     />
                     </van-cell-group>
-                </div>
+                </div> -->
             </div>
+            <div class="line"></div>
             <!-- 收款明细 -->
             <div class="details margin">
                 <div class="title">
                     <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />收款明细
                 </div>
                 <van-collapse v-model="details">
-                  <van-collapse-item title="收款明细" name="1">
-                          <el-table :data="dataObject.details" style="width: 100%">
-                                  <el-table-column prop="payee.name" label="收款人" ></el-table-column>
-                                  <el-table-column prop="collectionUserByNonUnit" label="非本单位收款人" ></el-table-column>
-                                  <el-table-column prop="totalAmount" label="金额(元)"></el-table-column>
-                          </el-table>
+                  <van-collapse-item title="收款人明细" name="1">
+                    <el-table :data="dataObject.details" style="width: 100%">
+                      <el-table-column prop="payee.name" label="收款人" ></el-table-column>
+                      <el-table-column prop="collectionUserByNonUnit" label="非本单位收款人" ></el-table-column>
+                      <el-table-column prop="totalAmount" label="金额(元)"></el-table-column>
+                    </el-table>
+                    <div class="total">合计: {{dataObject.reimbursement.amount | num}}</div>
                   </van-collapse-item>
                 </van-collapse>
             </div>

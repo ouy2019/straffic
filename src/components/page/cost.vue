@@ -14,6 +14,8 @@
 </template>
 <script>
 import Nav from '../common/navbar';
+import { useoptionChian} from '@/core/common';
+import { pageChange } from '@/core/test';
 export default {
     data() {
         return {
@@ -54,16 +56,26 @@ export default {
       TRAINING: () => import('./cost/TRAINING.vue'), //培训费 --
        
     },
+    mixins:[pageChange],
     mounted(){
       this.getTabData(); //基本信息
       this.flow(); //流转信息
+      this.onShow();
+      this.onHide();
     },
     methods:{
+      onShow(){
+        console.log('onShow');//监听是否离开页面
+        this.getTabData(); //详情基本信息
+      },
+      onHide(){
+          console.log('onHide',111);
+      },
      async getTabData(){
         var that = this;
         var msg = await this.$axios.get(apiAddress+`/app/index/reports/${this.$route.query.id}`)
         if(msg.data.code != 200)return;
-        if(msg.data.data.state != 'DONE'){
+        if(useoptionChian(msg,'data?.data?.travelExpenses')){
           let traffic = { //差旅费的交通工具转换
             "PLANE":"飞机",
             "TRAIN":"火车",
