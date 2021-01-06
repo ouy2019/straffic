@@ -1,14 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-// const TRAVEL = () => import('../components/page/expense/TRAVEL.vue')
+Vue.use(Router);
 
-
-
-
-Vue.use(Router)
-export default new Router({  //hash
+export default new Router({  //hash   history
   mode: 'hash',
+  // mode: 'history',
+  // base:'/icm-app/',
   routes: [
     {
       path: '/',
@@ -74,10 +72,6 @@ export default new Router({  //hash
         navBarTxt: '', showBack: true,rightIcon: true, class: 'whitestyle'
       }
     },
-   
-    
-   
-   
    
    
   ]

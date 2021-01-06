@@ -33,16 +33,15 @@ function equipment(val){
 
 // 调用原生打开页面
 function forward(url) {
-    let appUrl = location.origin+'/#'
-    // let appUrl = location.origin
+    let appUrl = location.origin+'/#';
+    // let appUrl = location.origin+'/icm-app';
     let linkUrl = appUrl  + url.path ;
     if(!linkUrl.includes('?')){
         linkUrl += '?';
     }
     if(url.query){
         linkUrl +=  $qs(url.query)
-     }
-
+    }
     if (equipment('iphone')) {
         openNewPage(linkUrl);
     } else if (equipment('ipad')) {
@@ -50,7 +49,7 @@ function forward(url) {
     } else if(equipment('android')) {
         JsBridge.call('JSBridge', 'openNewPage', { url:linkUrl }, (res) => {});
     } else {
-        console.log(linkUrl,'000')
+        console.log(linkUrl,'--访问地址--');
         router.push(url) 
         // window.location.href = url;
     }

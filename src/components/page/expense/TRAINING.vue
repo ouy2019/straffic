@@ -120,17 +120,17 @@
       
       <div class="line"></div>
       <!--  指标信息 -->
-      <div class="travel " v-if="!dataObject.trainingIndexes.length==''">
+      <div class="travel " v-if="!dataObject.indices.length == ''">
         <div class="margin">
             <div class="title">
               <img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息
             </div>
             <div class="indicator">
-              <el-table :data="dataObject.trainingIndexes" style="width: 100%">
-                <el-table-column prop="index.projectName" label="项目名称" ></el-table-column>
-                <el-table-column prop="index.largeProjectName" label="支出明细" ></el-table-column>
-                <el-table-column prop="index.allocationAmount" label="指标余额"></el-table-column>
-                <el-table-column prop="availableAmount" label="申请金额"></el-table-column>
+              <el-table :data="dataObject.indices" style="width: 100%">
+                <el-table-column prop="reportIndex.index.projectName" label="项目名称" ></el-table-column>
+                <el-table-column prop="reportIndex.index.largeProjectName" label="支出明细" ></el-table-column>
+                <el-table-column prop="reportIndex.index.allocationAmount" label="指标余额"></el-table-column>
+                <el-table-column prop="applyAmount" label="申请金额"></el-table-column>
               </el-table>
               <div class="total">合计: {{dataObject.reimbursement.amount | num}}</div>
             </div>
@@ -227,6 +227,7 @@
 <script>
 import "../../../assets/css/details.css";
 import { goOption } from '@/core/common.js';
+import { useoptionChian} from '@/core/common';
 export default {
     props: ["index", "dataObject","flow"],
     data() {
@@ -261,11 +262,16 @@ export default {
           message: '加载中...',
           forbidClick: true,
         });
+        if(!this.$route.query.taskId){
+          this.$toast("已经在审核中，请勿重新提交！");
+          return;
+        }
         goOption(this,this.$route.query.taskId,{
             test: false,
             workflowKey: this.$route.query.type,
             variables: this.dataObject
         })
+        
       },
       gofilespage(filesName,filesUrl){//调用原生跳转到pdf页面
       console.log(filesName)

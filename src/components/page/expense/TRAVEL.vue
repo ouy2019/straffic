@@ -259,6 +259,7 @@
 <script>
 import "../../../assets/css/details.css";
 import { goOption } from '@/core/common.js';
+import { useoptionChian} from '@/core/common';
 export default {
     props: ["index", "dataObject","flow"],
     data() {
@@ -293,11 +294,16 @@ export default {
           message: '加载中...',
           forbidClick: true,
         });
+        if(!this.$route.query.taskId){
+          this.$toast("已经在审核中，请勿重新提交！");
+          return;
+        }
         goOption(this,this.$route.query.taskId,{
             test: false,
             workflowKey: this.$route.query.type,
             variables: this.dataObject
         })
+        
       },
       gofilespage(filesName,filesUrl){//调用原生跳转到pdf页面
       console.log(filesName)

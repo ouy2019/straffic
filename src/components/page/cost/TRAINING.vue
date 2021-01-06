@@ -225,6 +225,7 @@
 <script>
 import "../../../assets/css/details.css";
 import { goOption } from '@/core/common.js';
+import { useoptionChian} from '@/core/common';
 export default {
     props: ["index", "dataObject","flow"],
     data() {
@@ -256,6 +257,10 @@ export default {
           message: '加载中...',
           forbidClick: true,
         });
+        if(!useoptionChian(this.dataObject,'workflowTask?.id')){
+          this.$toast("已经在审核中，请勿重新提交！");
+          return;
+        }
         goOption(this,this.dataObject.workflowTask.id,{
             test: false,
             workflowKey: this.$route.query.type,

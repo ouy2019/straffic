@@ -126,8 +126,11 @@ export default {
             setTimeout(()=>{isTrue = true},500);
             var that = this;
             this.$axios.get(apiAddress+`/app/index/getCount`).then((res)=>{
-              
-               if(res.status == 200) that.menu = res.data.data;
+                if(res.data.code == 200){
+                   that.menu = res.data.data;
+                }else{
+                   that.$toast('没有足够的权限访问，也许是token失效，请重新登录！')
+                } 
              
             })
         },

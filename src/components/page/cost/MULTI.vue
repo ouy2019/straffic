@@ -362,7 +362,8 @@ export default {
         'guestExpenses':"公务接待费",
         'rentalFees':"公务用车经费",
         'labourExpenses':"劳务费",
-        'contract':"合同资金",
+        'contracts':"合同资金",
+        "purchase":"非合同采购",
       }
       let expenseArr = [];
       for(let item in nameObj){
