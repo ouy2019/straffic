@@ -376,12 +376,13 @@ export default {
         this.$toast.loading({
           message: '加载中...',
           forbidClick: true,
-        });
+        });      
         goOption(this,this.$route.query.taskId,{
             test: false,
             workflowKey: this.$route.query.type,
             variables: this.dataObject
         })
+        
       },
       gofilespage(filesName,filesUrl){//调用原生跳转到pdf页面
       console.log(filesName)

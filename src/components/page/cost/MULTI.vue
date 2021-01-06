@@ -272,7 +272,7 @@
          </div>
        </div>
       </div>
-      
+
       <div class="line"></div>
       <!-- 培训费指标信息 -->
       <div class="travel margin" v-if="!dataObject.trainingIndexes.length==''">
