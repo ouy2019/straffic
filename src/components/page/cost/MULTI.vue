@@ -75,7 +75,7 @@
           />
           <van-cell :border="false"
             title="费用类型"
-            value=""
+            :value="expenseType.join(',')"
             size="small"
             class="text_l"
           />
@@ -334,6 +334,7 @@
 <script>
 import "../../../assets/css/details.css";
 import { goOption } from '@/core/common.js';
+import { useoptionChian} from '@/core/common';
 export default {
     props: ["index", "dataObject","flow"],
     data() {
@@ -346,11 +347,28 @@ export default {
             AcTab: [""],
             title:'',
             state:false,//判断已办和待办
+            expenseType:[],
         }
     },
     created() {
       this.title = this.$route.query.title;
       this.state = this.dataObject.state == 'DONE';//判断已办和待办
+      let nameObj = {
+        'meetings':"会议费",
+        'travelExpenses':"差旅费",
+        'trainings':"培训费",
+        'abroadExpenses':"因公出国(境)",
+        'paymentDetails':"一般经费",
+        'guestExpenses':"公务接待费",
+        'rentalFees':"公务用车经费",
+        'labourExpenses':"劳务费",
+        'contract':"合同资金",
+      }
+      let expenseArr = [];
+      for(let item in nameObj){
+        useoptionChian(this.dataObject,`${item}?.length`) ? expenseArr.push(nameObj[item]) : ''
+      }
+      this.expenseType = expenseArr;
     },
     components: {
  
@@ -364,6 +382,10 @@ export default {
           message: '加载中...',
           forbidClick: true,
         });
+        if(!useoptionChian(this.dataObject,'workflowTask?.id')){
+          this.$toast("已经在审核中，请勿重新提交！");
+          return;
+        }
         goOption(this,this.dataObject.workflowTask.id,{
             test: false,
             workflowKey: this.$route.query.type,
