@@ -289,7 +289,6 @@ export default {
 </script>
 <style lang="css" scoped>
 #page{
-    min-height: calc(100vh - 100px);
     position: relative;
 }
 .line{
@@ -303,7 +302,7 @@ export default {
     text-align: left;
 }
 .box{
-    padding:  0 0.24rem;
+    padding: 0.89rem 0.24rem 0 0.24rem;
 }
 .send{
     /* display: flex;
@@ -439,7 +438,7 @@ justify-content: space-between;
     color: #fff;
     background-color: #1890ff;
     border-radius: 5px;
-    width: 25%;
+    width: 32%;
     margin: 0.1rem 0;
 }
 .close{

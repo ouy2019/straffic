@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="page">
     <Nav></Nav>
     <!-- 报销待审详情  审批-->
     <div class="tabBar">
@@ -73,7 +73,7 @@ export default {
         this.getTabData(); //详情基本信息
     },
     onHide(){
-        console.log('onHide',111);
+        console.log('onHide');
     },
     async getTabData(){ //详情信息
       var that = this;
@@ -108,7 +108,6 @@ export default {
             items.paymentStr = payment[items.paymentState]
             items.amount = items.amount.toFixed(2)
           })
-          console.log(msg.data.data.contract.payments,100)
         }
         localStorage.setItem('details',JSON.stringify(msg.data.data));
         that.chargeObject = msg.data.data;
@@ -116,7 +115,6 @@ export default {
     },
     flow(){ //流转信息 --流程图
       this.$axios.get(apiAddress+`/app/index/workflow/users?instanceIds=${this.$route.query.instanceId}`).then((res)=>{
-          console.log(res)
           if(res.data.code != 200)return;
           this.instanceId = res.data.data.reverse();
       })
@@ -127,8 +125,19 @@ export default {
 };
 </script>
 <style lang="css" scoped>
+.tabBar{
+  padding-top: 0.88rem;
+}
 .tabBar /deep/ .van-tabs--line .van-tabs__wrap {
   height: 1rem;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  top: 0.88rem;
+
+}
+.tabBar /deep/ .van-tabs__content{
+  padding-top: 1rem;
 }
 .tabBar /deep/ .van-tabs__line{
   width: 1rem;

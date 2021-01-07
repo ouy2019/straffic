@@ -7,8 +7,8 @@
       <li  @click="oontabbar(index)" v-for="(items,index) in dataList" :key="index"
         :class="{tabColor:active == index}" >{{items}}</li>
     </ul>
-    <!-- 报销待审 -->
-    <div v-show="active==index" v-for="(itemss,index) in dataList" :key="index">
+    <!-- 事前申请 -->
+    <div style="padding-top:2.9rem;" v-show="active==index" v-for="(itemss,index) in dataList" :key="index">
       
       <van-pull-refresh v-model="tabBarIndex[index].refreshing" @refresh="onRefresh">
       <van-list v-model="tabBarIndex[index].loading"
@@ -195,6 +195,11 @@ export default {
   line-height: 1rem;
   background-color: #ffffff;
   justify-content: space-around;
+  position: fixed;
+  top: 1.89rem;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
 }
 .tabColor{
   font-size: 0.32rem;

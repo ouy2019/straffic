@@ -319,7 +319,7 @@
       </div>
 
       <div v-show="index == 2" class="back">
-        <van-empty description="暂无数据" v-if="dataObject.attaches == ''" />
+        <van-empty description="暂无数据" v-if="dataObject.attaches.length == ''" />
           <div v-for="(item,index) in dataObject.attaches" :key="index">
             <div class="file" v-for="(items,index) in item.files" :key="index" @click="gofilespage(items.originalName,items.name)">
                   <img :src="activeIcon0" class="fileIcon" />

@@ -78,7 +78,7 @@
           <div class="title">
               <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}}
            </div>
-         <div v-for="(item,index) in dataObject.labourExpenses" :key="index">
+         <!-- <div v-for="(item,index) in dataObject.labourExpenses" :key="index">
             <van-cell-group :border="false">
             <van-cell :border="false"
               title="支出内容"
@@ -93,32 +93,22 @@
               class="text_l"
             />
             <van-cell :border="false"
-              title="申请金额"
-              :value="item.amount | num"
-              size="small"
-              class="text_l"
-            />
-            <van-cell :border="false"
-              title="申请总额（元）"
+              title="税后申请总额(元)"
               :value="item.total | num"
               size="small"
               class="text_l"
             />
-            </van-cell-group>
+            </van-cell-group> -->
              <!-- 支出详情 -->
             <div class="details disbursement">
-                <van-collapse v-model="AcTab">
-                  <van-collapse-item title="支出详情" name="1">
-                    <el-table :data="dataObject.labourExpenses" style="width: 100%" >
-                      <el-table-column prop="content" label="支出内容" ></el-table-column>
-                      <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
-                      <el-table-column prop="total" label="税后申请总额"></el-table-column>
-                    </el-table>
-                    <div class="total">合计: {{dataObject.total | num}}</div>
-                  </van-collapse-item>
-                </van-collapse>
+              <el-table :data="dataObject.labourExpenses" style="width: 100%" >
+                <el-table-column prop="content" label="支出内容" ></el-table-column>
+                <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
+                <el-table-column prop="total" label="税后申请总额"></el-table-column>
+              </el-table>
             </div>
-         </div>
+            <div class="total">合计: {{dataObject.total | num}}</div>
+         <!-- </div> -->
       </div>
     </div>
       
@@ -168,7 +158,7 @@
       </div>
 
       <div v-show="index == 2" class="back">
-        <van-empty description="暂无数据" v-if="dataObject.attaches == ''" />
+        <van-empty description="暂无数据" v-if="dataObject.attaches.length == ''" />
           <div v-for="(item,index) in dataObject.attaches" :key="index">
             <div class="file" v-for="(items,index) in item.files" :key="index" @click="gofilespage(items.originalName,items.name)">
                   <img :src="activeIcon0" class="fileIcon" />
@@ -197,7 +187,6 @@ export default {
             title:'',
             state:false,//判断已办和待办
             active:0, //pitch //select
-            isEnable:true, //流转信息 亮灯
         }
     },
     created() {

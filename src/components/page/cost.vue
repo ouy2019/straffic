@@ -1,15 +1,16 @@
 <template>
    <div id="page">
     <Nav></Nav>
-    <!-- 事前申请待审详情 审批-->
-    <van-tabs v-model="activeName">
-        <van-tab v-for="(tabData,index) in tabName" :key="index" :title="tabData.name" >
-            <div class="line"></div>
-            <van-loading v-if="!haveData" size="24px" style="margin-top: 1rem;" vertical>加载中...</van-loading>
-            <component v-if="haveData" v-show="index === index" :index="activeName" :is="active" :dataObject="costObject" :flow="instanceId" />
-        </van-tab>
-    </van-tabs>
-    
+    <!-- 事前申请待审详情 审批--> 
+    <div class="tabBar">
+      <van-tabs v-model="activeName">
+          <van-tab v-for="(tabData,index) in tabName" :key="index" :title="tabData.name" >
+              <div class="line"></div>
+              <van-loading v-if="!haveData" size="24px" style="margin-top: 1rem;" vertical>加载中...</van-loading>
+              <component v-if="haveData" v-show="index === index" :index="activeName" :is="active" :dataObject="costObject" :flow="instanceId" />
+          </van-tab>
+      </van-tabs>
+    </div>
   </div>
 </template>
 <script>
@@ -104,14 +105,24 @@ export default {
 }
 </script>
 <style lang="css" scoped>
-#page /deep/ .van-tabs--line .van-tabs__wrap{
-      height: 0.98rem;
+.tabBar{
+  padding-top: 0.88rem;
 }
-#page /deep/ .van-tabs__line{
-  width:0.8rem;
- background-color: #1890ff;
+.tabBar /deep/ .van-tabs--line .van-tabs__wrap {
+  height: 1rem;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  top: 0.88rem
 }
-.line{
+.tabBar /deep/ .van-tabs__content{
+  padding-top: 1rem;
+}
+.tabBar /deep/ .van-tabs__line{
+  width: 1rem;
+  background-color: #1890ff;
+}
+.line {
   height: 0.2rem;
   background-color: #f3f6f9;
 }

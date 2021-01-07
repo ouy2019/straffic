@@ -3,8 +3,7 @@
      <div class="shixiang" v-show="index == 0">
       <div class="detail">
         <div class="title">
-          <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />
-          事项详情
+          <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />事项详情
         </div>
         <van-cell-group :border="false">
           <van-cell :border="false"
@@ -108,15 +107,15 @@
               <div class="details disbursement">
                   <van-collapse v-model="AcTab">
                     <van-collapse-item title="支出详情" name="1">
-                      <el-table :data="dataObject.travelExpenses[0].paymentDetails" stripe style="width: 100%" >
+                      <el-table :data="item.paymentDetails" stripe style="width: 100%" >
                         <el-table-column prop="transportationFacility" label="交通工具" ></el-table-column>
-                        <el-table-column prop="amount" label="申请总金额"></el-table-column>
+                        <el-table-column prop="total" label="申请总金额"></el-table-column>
                       </el-table>
-                      <div class="total">合计: {{dataObject.travelExpenseEstimateTotal | num}}</div>
                     </van-collapse-item>
                   </van-collapse>
               </div>
           </div>
+          <div class="total">合计: {{dataObject.travelExpenseEstimateTotal | num}}</div>
         </div>
       </div>
       
@@ -195,7 +194,7 @@
       </div>
 
       <div v-show="index == 2" class="back">
-        <van-empty description="暂无数据" v-if="dataObject.attaches == ''" />
+        <van-empty description="暂无数据" v-if="dataObject.attaches.length == ''" />
           <div v-for="(item,index) in dataObject.attaches" :key="index">
             <div class="file" v-for="(items,index) in item.files" :key="index" @click="gofilespage(items.originalName,items.name)">
                   <img :src="activeIcon0" class="fileIcon" />

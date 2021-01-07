@@ -76,38 +76,38 @@
        <div class="detail">
          <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}} </div>
          <div class="" v-for="(item,index) in dataObject.rentalFees" :key="index">
-                <van-cell-group :border="false">
-                <van-cell :border="false"
-                title="租车供应商"
-                :value="item.supplier"
-                size="small"
-                class="text_l"
-                />
-                <van-cell :border="false"
-                title="租用车型"
-                :value="item.carType"
-                size="small"
-                class="text_l"
-                />
-                <van-cell :border="false"
-                title="租用总额"
-                :value="item.total | num"
-                size="small"
-                class="text_l"
-                />
-                </van-cell-group>
-                <div class="details disbursement">
-                  <van-collapse v-model="AcTab">
-                  <van-collapse-item title="租车费用信息" name="1">
-                    <el-table :data="item" stripe style="width: 100%" >
-                        <el-table-column prop="rentDay" label="租车供应商" ></el-table-column>
-                        <el-table-column prop="carType" label="车型"></el-table-column>
-                        <el-table-column prop="total" label="租金总额"></el-table-column>
-                    </el-table>
-                    <div class="total">合计: {{dataObject.total | num}}</div>
-                  </van-collapse-item>
-                  </van-collapse>
-                </div>
+            <van-cell-group :border="false">
+            <van-cell :border="false"
+            title="租车供应商"
+            :value="item.supplier"
+            size="small"
+            class="text_l"
+            />
+            <van-cell :border="false"
+            title="租用车型"
+            :value="item.carType"
+            size="small"
+            class="text_l"
+            />
+            <van-cell :border="false"
+            title="租用总额"
+            :value="item.total | num"
+            size="small"
+            class="text_l"
+            />
+            </van-cell-group>
+            <div class="details disbursement">
+              <van-collapse v-model="AcTab">
+              <van-collapse-item title="租车费用信息" name="1">
+                <el-table :data="item" stripe style="width: 100%" >
+                    <el-table-column prop="rentDay" label="租车供应商" ></el-table-column>
+                    <el-table-column prop="carType" label="车型"></el-table-column>
+                    <el-table-column prop="total" label="租金总额"></el-table-column>
+                </el-table> 
+              </van-collapse-item>
+              </van-collapse>
+            </div>
+            <div class="total">合计: {{dataObject.total | num}}</div>
          </div>
        </div>
       </div>
@@ -198,7 +198,7 @@
       </div>
 
       <div v-show="index == 2" class="back">
-        <van-empty description="暂无数据" v-if="dataObject.attaches == ''" />
+        <van-empty description="暂无数据" v-if="dataObject.attaches.length == ''" />
           <div v-for="(item,index) in dataObject.attaches" :key="index">
             <div class="file" v-for="(items,index) in item.files" :key="index" @click="gofilespage(items.originalName,items.name)">
                   <img :src="activeIcon0" class="fileIcon" />

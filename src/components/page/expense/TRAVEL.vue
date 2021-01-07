@@ -89,6 +89,7 @@
                 <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}}
               </div>
               <div v-for="(item,index) in dataObject.travelExpenses" :key="index">
+                <div v-if="index >= 1" class="spaceKey"></div>
                   <van-cell-group :border="false">
                   <van-cell :border="false"
                     title="出差人员"
@@ -131,11 +132,12 @@
                             <el-table-column prop="transportationFacility" label="交通工具" ></el-table-column>
                             <el-table-column prop="total" label="申请总金额"></el-table-column>
                           </el-table>
-                          <div class="total">合计: {{dataObject.reimbursement.amount | num}}</div>
                         </van-collapse-item>
                       </van-collapse>
                   </div>
               </div>
+              
+              <div class="total">合计: {{dataObject.reimbursement.amount | num}}</div>
           </div>
           </div>
           <div class="line"></div>
@@ -196,10 +198,10 @@
                 <div class="title">
                     <img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />收款明细
                 </div>
-                <van-collapse v-model="details">
+                <van-collapse v-model="details" >
                   <van-collapse-item title="收款人明细" name="1">
                     <el-table :data="dataObject.details" style="width: 100%">
-                      <el-table-column prop="payee.name" label="收款人" ></el-table-column>
+                      <el-table-column prop="bankAccount" label="收款人" ></el-table-column>
                       <el-table-column prop="collectionUserByNonUnit" label="非本单位收款人" ></el-table-column>
                       <el-table-column prop="totalAmount" label="金额(元)"></el-table-column>
                     </el-table>
@@ -243,7 +245,7 @@
       </div>
 
       <div v-show="index == 2" class="back">
-        <van-empty description="暂无数据" v-if="dataObject.attaches == ''" />
+        <van-empty description="暂无数据" v-if="dataObject.attaches.length == ''" />
           <div v-for="(item,index) in dataObject.attaches" :key="index">
             <div class="file" v-for="(items,index) in item.files" :key="index" @click="gofilespage(items.originalName,items.name)">
                   <img :src="activeIcon0" class="fileIcon" />
@@ -272,6 +274,7 @@ export default {
             AcTab: [""],
             title:localStorage.getItem('title'),
             state:false, //判断是否已办
+            
         }
     },
     created() {
@@ -280,7 +283,9 @@ export default {
       }else{
         // this.state = this.$route.query.state == 'DONE';//事前报销页面跳转过来判断是否已办 
         this.state = this.dataObject.reimbursement.state == 'DONE';
-      }
+      };
+      
+     
     },
     components: {
 

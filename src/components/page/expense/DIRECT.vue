@@ -49,7 +49,7 @@
     
   
       <!--  指标信息 -->
-      <div class="travel margin" v-if="!dataObject.indices.length == ''">
+      <div class="travel" v-if="!dataObject.indices.length == ''">
           <div class="margin">
             <div class="title">
               <img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息
@@ -102,7 +102,7 @@
               <van-collapse v-model="details">
                 <van-collapse-item title="收款人明细" name="1">
                   <el-table :data="dataObject.details" style="width: 100%">
-                    <el-table-column prop="payee.name" label="收款人" ></el-table-column>
+                    <el-table-column prop="bankAccount" label="收款人" ></el-table-column>
                     <el-table-column prop="collectionUserByNonUnit" label="非本单位收款人" ></el-table-column>
                     <el-table-column prop="totalAmount" label="金额(元)"></el-table-column>
                   </el-table>
@@ -142,7 +142,7 @@
       </div>
 
       <div v-show="index == 2" class="back">
-        <van-empty description="暂无数据" v-if="dataObject.attaches == ''" />
+        <van-empty description="暂无数据" v-if="dataObject.attaches.length == ''" />
           <div v-for="(item,index) in dataObject.attaches" :key="index">
             <div class="file" v-for="(items,index) in item.files" :key="index" @click="gofilespage(items.originalName,items.name)">
                   <img :src="activeIcon0" class="fileIcon" />

@@ -2,13 +2,21 @@
   background-color: #ffffff;
 }
 .shixiang /deep/ .van-cell__title {
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
+    width: 25%;
+    text-align: right;
+    padding-right: 5%;
 }
 .shixiang /deep/ .van-cell__value {
   /* text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden; */
+  width: 70%;
+  text-align: left;
+}
+.shixiang /deep/ .van-cell__title, .van-cell__value{
+  flex: none;
 }
 .shixiang .detail {
   margin: 0 0.25rem;
@@ -27,46 +35,20 @@
 }
 .shixiang .text_l {
   padding: 10px 0;
-  justify-content: space-between;
-  text-align: left;
+  /* justify-content: space-between;
+  text-align: left; */
 }
 
-.shixiang .text_l /deep/ .van-cell::after{
-  border-bottom: 0px solid #fff !important;
-  content: none !important;
-  content: -webkit-none !important;
-  display: none !important;
-  display: -webkit-none !important;
-}
+
 .travel{
   margin-bottom: 1rem;
-}
-.travel .van-cell-group /deep/ .van-cell::after{
-  border-bottom: 0px solid #fff !important;
-  content: none !important;
-  content: -webkit-none !important;
-  display: none !important;
-  display: -webkit-none !important;
-  visibility: hidden;
-}
-.detail .van-cell-group /deep/ .van-cell::after {
-  border-bottom: 0px solid #fff !important;  
-  right: 0;
-  bottom: 0; 
-  left: 0;
-  position: relative;
-  content: none !important;
-  content: -webkit-none !important;
-  display: none !important;
-  display: -webkit-none !important; 
-  visibility: hidden;
 }
 
 .indicator{
 
 }
 .shenpiBtn{
-  padding-top: 1rem;
+  height: 1.2rem;
 }
 .line {
   height: 0.2rem;
@@ -95,8 +77,8 @@
 
 }
 .direct /deep/ .van-cell__title{
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
 }
 .disbursement /deep/ .van-cell{
     padding: 10px 0;
@@ -128,10 +110,10 @@
   width: 100%;
   /* height: 1rem; */
   background-color: #1890ff;
-  position: fixed;
+  position: fixed !important;
   bottom: 0;
   left: 0;
-  z-index: 999;
+  z-index: 9999;
 }
 .back {
   /* background-color: #f3f6f9; */
@@ -253,4 +235,9 @@ color: #e54728;
     padding-left: 0.6rem;
     position: relative;
   } */
-  
+  .spaceKey{
+    width: 100%;
+    height: 0.5rem;
+    text-align: left;
+    font-size: 0.26rem;
+  }

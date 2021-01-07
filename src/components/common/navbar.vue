@@ -1,20 +1,22 @@
 <template>
-  <div>
-    <van-nav-bar
-      :title="$route.meta.navBarTxt" 
-      right-text=""
-      :left-arrow="$route.meta.showBack"
-      :class="$route.meta.class" 
-      @click-left="onClickLeft"
-      @click-right="onClickRight" >
-        <!-- <template #right>
-            <img v-show="$route.meta.rightIcon" 
-                 src="" slot="right" srcset=""
-                  class="rightIcon" @click="onClickRight()" />
-        </template> -->
+  <div id="page">
+    <div class="head">
+            <van-nav-bar
+          :title="$route.meta.navBarTxt" 
+          right-text=""
+          :left-arrow="$route.meta.showBack"
+          :class="$route.meta.class" 
+          @click-left="onClickLeft"
+          @click-right="onClickRight" >
+            <!-- <template #right>
+                <img v-show="$route.meta.rightIcon" 
+                    src="" slot="right" srcset=""
+                      class="rightIcon" @click="onClickRight()" />
+            </template> -->
 
-    </van-nav-bar>
-    <router-view></router-view>
+        </van-nav-bar>
+        <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -43,7 +45,16 @@ export default {
 }
 </script>
 <style scoped>
+#page{
 
+}
+.head /deep/ .van-nav-bar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
 .bluestyle {
   background-color: #1c92ff !important;
   height: 0.88rem !important;
@@ -71,9 +82,6 @@ export default {
 .whitestyle /deep/ .van-icon{
   color: #1d1d1d !important;
 }
-
-
-
 
 .rightIcon {
   width: 1rem;
