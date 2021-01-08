@@ -33,8 +33,8 @@ function equipment(val){
 
 // 调用原生打开页面
 function forward(url) {
-    let appUrl = location.origin+'/#';
-    // let appUrl = location.origin+'/icm-app';
+    // let appUrl = location.origin+'/#';
+    let appUrl = location.origin+'/icm-app';
     let linkUrl = appUrl  + url.path ;
     if(!linkUrl.includes('?')){
         linkUrl += '?';

@@ -7,7 +7,6 @@
 
 <script>
 import jsBridge from '@/jslibs/jsBridge';
-// import '../src/assets/css/style.css';s
 export default {
   name: 'App'
 }

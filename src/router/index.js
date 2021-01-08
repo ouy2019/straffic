@@ -4,9 +4,9 @@ import Router from 'vue-router'
 Vue.use(Router);
 
 export default new Router({  //hash   history
-  mode: 'hash',
-  // mode: 'history',
-  // base:'/icm-app/',
+  // mode: 'hash',
+  mode: 'history',
+  base:'/icm-app/',
   routes: [
     {
       path: '/',
@@ -33,14 +33,6 @@ export default new Router({  //hash   history
       }
     },
     {
-      path: '/matter',
-      name: 'matter',
-      component: ()=>import("../components/page/matter.vue"),//待办事项
-      meta:{
-        navBarTxt: '待办事项', showBack: true,rightIcon: true,class: 'bluestyle',
-      }
-    },
-    {
       path: '/charge', //报销待审 --> XX 费报销
       name: 'charge',
       component: ()=>import("../components/page/charge.vue"),
@@ -64,16 +56,6 @@ export default new Router({  //hash   history
         navBarTxt: '发起审批', showBack: true,rightIcon: true, class: 'whitestyle'
       }
     },
-    {
-      path: '/pdf', //pdf
-      name: 'pdf',
-      component: ()=>import("../components/page/pdf.vue"),
-      meta:{
-        navBarTxt: '', showBack: true,rightIcon: true, class: 'whitestyle'
-      }
-    },
-   
-   
   ]
 })
 

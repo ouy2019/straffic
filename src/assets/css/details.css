@@ -1,6 +1,18 @@
 .shixiang {
   background-color: #ffffff;
 }
+.van-cell__title {
+  width: 25%;
+  text-align: right;
+  padding-right: 5%;
+}
+.van-cell__value {
+  width: 70%;
+  text-align: left;
+}
+.van-cell__title, .van-cell__value{
+  flex: none;
+}
 .shixiang /deep/ .van-cell__title {
   /* display: flex;
   justify-content: space-between; */
@@ -16,6 +28,23 @@
   text-align: left;
 }
 .shixiang /deep/ .van-cell__title, .van-cell__value{
+  flex: none;
+}
+.details /deep/ .van-cell__title {
+  /* display: flex;
+  justify-content: space-between; */
+    width: 25%;
+    text-align: right;
+    padding-right: 5%;
+}
+.details /deep/ .van-cell__value {
+  /* text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden; */
+  width: 70%;
+  text-align: left;
+}
+.details /deep/ .van-cell__title, .van-cell__value{
   flex: none;
 }
 .shixiang .detail {
@@ -38,12 +67,9 @@
   /* justify-content: space-between;
   text-align: left; */
 }
-
-
 .travel{
   margin-bottom: 1rem;
 }
-
 .indicator{
 
 }
@@ -80,6 +106,26 @@
   /* display: flex;
   justify-content: space-between; */
 }
+.disbursement .van-cell{
+  padding: 10px 0;
+}
+.details .van-cell{
+  padding: 10px 0;
+  text-align: left;
+}
+.details .el-table th>.cell{
+white-space: nowrap;
+overflow-x: auto;
+text-overflow: initial;
+}
+.details .el-table .cell{
+white-space: nowrap;
+overflow-x: auto;
+text-overflow: initial;
+}
+.details .van-collapse-item__content{
+color: #2c3e50;
+}
 .disbursement /deep/ .van-cell{
     padding: 10px 0;
 }
@@ -97,15 +143,10 @@
   overflow-x: auto;
   text-overflow: initial;
 }
-/* .details /deep/ .el-table thead{
-  font-size: 0.22rem;
-} */
 .details /deep/ .van-collapse-item__content{
   color: #2c3e50;
 }
-.details /deep/ .el-table th{
-  width: 33%;
-}
+
 .info{
   width: 100%;
   /* height: 1rem; */
@@ -228,13 +269,7 @@ color: #e54728;
     color: #b4c5d5;
     margin-top: 0.25rem;
 }
-  /* .select{
-    background: url('../img/liuzhuan0.png') no-repeat;
-    background-size: 21px;
-    background-position: 0px 25px;
-    padding-left: 0.6rem;
-    position: relative;
-  } */
+
   .spaceKey{
     width: 100%;
     height: 0.5rem;

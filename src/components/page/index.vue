@@ -18,7 +18,7 @@
              </div>
         </div>
      </div>
-     
+     <!-- 待办--已办--全部数据 -->
      <div class="matter">
         <div class="tab" >
               <li v-for="(tab,index) in tabbar" :key="index" >
@@ -46,12 +46,8 @@
                         <span class="cost">{{item.workFlowName}}</span>
                     </div>
                 </div>
-               
-        
             </van-list>
             </van-pull-refresh>
-         
-
         </div>
      </div>
 
@@ -81,25 +77,21 @@ export default {
     },
     created() {
         for(var i=0; i<3;i++){
-        let vanPull = {
-            refreshing: false,
-            loading: false, // 是否处于加载状态
-            finished: false, // 是否已加载完成
-            list: [],
-            pageNum: 0,
+            let vanPull = {
+                refreshing: false,
+                loading: false, // 是否处于加载状态
+                finished: false, // 是否已加载完成
+                list: [],
+                pageNum: 0,
+            }
+            this.tabBarIndex.push(vanPull);
+            this.showPage();
         }
-        this.tabBarIndex.push(vanPull);
-        this.showPage();
-    }
-
     },
-    components: {
-      
-    },
+    components: {},
     mounted(){
          this.mssgae();//菜单总数信息
     },
-    
     methods:{
         showPage() {
             let that = this;
@@ -108,9 +100,8 @@ export default {
             var onVisibilityChange = function(){
                 if (!document[hiddenProperty]) {   
                         that.mssgae();
-                 }else{
-                 }
-             }
+                 }else{}
+            }
             console.log(document[visibilityChangeEvent],11)
             document.addEventListener(visibilityChangeEvent, onVisibilityChange)
         },
@@ -195,12 +186,11 @@ export default {
                 // 加载状态结束
                 loading = false;
             } else {
-                this.$toast(res.msg);
+                this.$toast('没有足够的权限访问，也许是token失效，请重新登录！');
             }
             refreshing = false;
             this.$set(this.tabBarIndex,this.active,{pageNum,finished,loading,refreshing,list})
-            })
-            .catch((err) => {
+            }).catch((err) => {
                console.log(err);
             });
         },
