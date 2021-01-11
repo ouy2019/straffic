@@ -48,6 +48,13 @@ export default {
 #page{
 
 }
+.van-nav-bar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
 .head /deep/ .van-nav-bar{
   position: fixed;
   top: 0;

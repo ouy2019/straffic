@@ -13,7 +13,7 @@
         <van-cell :border="false" title="申请人" :value="dataObject.applyUser.name" size="small" class="text_l" />
         <van-cell :border="false" title="申请时间" :value="dataObject.applyDate" size="small" class="text_l" />
         <van-cell :border="false" title="申请人电话" :value="dataObject.applyPhoneNumber" size="small" class="text_l" />
-        <van-cell :border="false" title="业务标题" :value="dataObject.title" size="small" class="text_l" />
+        <van-cell :border="false" title="租车事由" :value="dataObject.title" size="small" class="text_l" />
         <van-cell :border="false" title="请示内容" :value="dataObject.content" size="small" class="text_l" />
       </van-cell-group>
     </div>
@@ -22,46 +22,36 @@
       <div class="line"></div>
       <div class="detail">
         <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}} </div>
-        <div class="" v-for="(item,index) in dataObject.rentalFees" :key="index">
-          <div v-if="index >= 1" class="spaceKey"></div>
-          <van-cell-group :border="false"> <van-cell :border="false" title="租车供应商" :value="item.supplier" size="small" class="text_l" />
-          <van-cell :border="false" title="租用车型" :value="item.carType" size="small" class="text_l" />
-          <van-cell :border="false" title="租用总额" :value="item.total | num" size="small" class="text_l" />
-          </van-cell-group>
           <div class="details disbursement">
-            <van-collapse v-model="AcTab">
-            <van-collapse-item title="租车费用信息" name="1">
-              <el-table :data="item" stripe style="width: 100%" >
-                  <el-table-column prop="rentDay" label="租车供应商" ></el-table-column>
+              <el-table :data="dataObject.rentalFees" stripe style="width: 100%" >
+                  <el-table-column prop="supplier" label="租车供应商" ></el-table-column>
                   <el-table-column prop="carType" label="车型"></el-table-column>
                   <el-table-column prop="total" label="租金总额"></el-table-column>
               </el-table> 
-            </van-collapse-item>
-            </van-collapse>
+              <div class="total">合计: {{dataObject.total | num}}</div>
           </div>
         </div>
-        <div class="total">合计: {{dataObject.total | num}}</div>
       </div>
-    </div>
-    <div class="line"></div>
-    <!--  指标信息 -->
-    <div class="travel margin" v-if="!dataObject.rentalFeeIndexes.length==''">
-      <div class="title"><img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息</div>
-      <div class="indicator">
-        <el-table :data="dataObject.rentalFeeIndexes" style="width: 100%">
-          <el-table-column prop="index.projectName" label="项目名称" ></el-table-column>
-          <el-table-column prop="index.largeProjectName" label="支出明细" ></el-table-column>
-          <el-table-column prop="availableAmount" label="指标余额"></el-table-column>
-          <el-table-column prop="amount" label="申请金额"></el-table-column>
-        </el-table>
-        <div class="total">合计: {{dataObject.total | num}}</div>
+      <div class="line"></div>
+      <!--  指标信息 -->
+      <div class="travel margin" v-if="!dataObject.rentalFeeIndexes.length==''">
+        <div class="title"><img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息</div>
+        <div class="indicator">
+          <el-table :data="dataObject.rentalFeeIndexes" style="width: 100%">
+            <el-table-column prop="index.projectName" label="项目名称" ></el-table-column>
+            <el-table-column prop="index.largeProjectName" label="支出明细" ></el-table-column>
+            <el-table-column prop="availableAmount" label="指标余额"></el-table-column>
+            <el-table-column prop="amount" label="申请金额"></el-table-column>
+          </el-table>
+          <div class="total">合计: {{dataObject.total | num}}</div>
+        </div>
       </div>
-    </div>
-    <div class="line"></div>
-    <!-- 去审批 -->
-    <div v-if="!state" class="shenpiBtn">
-        <van-button class="info" type="info" @click="openNewOption">去审批</van-button>
-    </div>
+      <div class="line"></div>
+      <!-- 去审批 -->
+      <div class="shenpiBtn">
+        <van-button v-if="!state" class="info" type="info" @click="openNewOption">去审批</van-button>
+        <van-button v-if="state" disabled class="info" type="info">已提交</van-button>
+      </div>
   </div>
 
   <div v-show="index == 1" class="back">

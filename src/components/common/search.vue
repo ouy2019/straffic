@@ -41,14 +41,13 @@ export default {
 .searchBox{
   position: fixed;
   width: 100%;
-  top: 0.89rem;
+  top: 0.88rem;
   left: 0;
   z-index: 9999;
 }
 .search{
-    padding: 0.36rem 0.2rem 0 0.2rem;
-    background-color: #ffffff;
-    
+  padding: 0.36rem 0.2rem 0 0.2rem;
+  background-color: #ffffff;
 }
 
 </style>

@@ -1,6 +1,7 @@
 <template>
 <div id="page">
   <div class="shixiang" v-show="index == 0">
+    <!-- 一般经费 事项详情-->
     <div class="detail">
       <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />事项详情</div>
       <van-cell-group :border="false">
@@ -47,9 +48,10 @@
       </div>
     </div>
     <div class="line"></div>
-      <!-- 去审批 -->
-    <div v-if="!state" class="shenpiBtn">
-        <van-button class="info" type="info" @click="openNewOption">去审批</van-button>
+    <!-- 去审批 -->
+    <div class="shenpiBtn">
+      <van-button v-if="!state" class="info" type="info" @click="openNewOption">去审批</van-button>
+      <van-button v-if="state" disabled class="info" type="info">已提交</van-button>
     </div>
   </div>
 

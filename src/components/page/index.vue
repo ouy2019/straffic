@@ -144,7 +144,7 @@ export default {
                 path: linkUrl,
                 query: { 
                     id:applyDate.id,
-                    instanceId: applyDate.id,
+                    instanceId: applyDate.instanceId,
                     type: that.type,
                     title: applyDate.workFlowName,
                     isDone:applyDate.isDone, //首页判断已办和待办

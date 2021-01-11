@@ -51,8 +51,9 @@
 
     <div class="line"></div>
     <!-- 去审批 -->
-    <div v-if="!state" class="shenpiBtn">
-      <van-button class="info" type="info" @click="openNewOption">去审批</van-button>
+    <div class="shenpiBtn">
+      <van-button v-if="!state" class="info" type="info" @click="openNewOption">去审批</van-button>
+      <van-button v-if="state" disabled class="info" type="info">已提交</van-button>
     </div>
   </div>
 

@@ -14,7 +14,7 @@
         <van-cell :border="false" title="申请时间" :value="dataObject.applyDate" size="small" class="text_l"/>
         <van-cell :border="false" title="申请人电话" :value="dataObject.applyPhoneNumber" size="small" class="text_l"/>
         <van-cell :border="false" title="请示内容" :value="dataObject.content" size="small" class="text_l"/>
-        <van-cell :border="false" title="业务标题" :value="dataObject.title" size="small" class="text_l"  />
+        <van-cell :border="false" title="费用摘要" :value="dataObject.title" size="small" class="text_l"  />
       </van-cell-group>
     </div>
     <!-- 劳务费 -->
@@ -49,8 +49,9 @@
     </div>
     <div class="line"></div>
     <!-- 去审批 -->
-    <div v-if="!state" class="shenpiBtn">
-      <van-button class="info" type="info" @click="openNewOption">去审批</van-button>
+    <div class="shenpiBtn">
+      <van-button v-if="!state" class="info" type="info" @click="openNewOption">去审批</van-button>
+      <van-button v-if="state" disabled class="info" type="info">已提交</van-button>
     </div>
   </div>
 

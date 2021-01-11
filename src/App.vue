@@ -27,6 +27,7 @@ export default {
 }
 body{
   font-size: 0.28rem;
+  
 }
 input{ -webkit-appearance: none; } 
 </style>

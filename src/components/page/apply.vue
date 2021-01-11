@@ -205,6 +205,7 @@ export default {
 
 .listBox {
   padding: 0.2rem 0.25rem;
+   overflow: hidden;
 }
 .listBox .content {
   width: 92%;
