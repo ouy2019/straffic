@@ -11,7 +11,7 @@
         <van-cell :border="false" title="经办人" :value="dataObject.declarer.name" size="small" class="text_l" />
         <van-cell :border="false" title="申请部门" :value="dataObject.applyDepartment.name" size="small" class="text_l" />
         <van-cell :border="false" title="申请人" :value="dataObject.applyUser.name" size="small" class="text_l" />
-        <van-cell :border="false" title="申请时间" :value="dataObject.applyDate" size="small" class="text_l" /> 
+        <van-cell :border="false" title="申请时间" :value="dataObject.applyDate" size="small" class="text_l" />
         <van-cell :border="false" title="申请人电话" :value="dataObject.applyPhoneNumber" size="small" class="text_l" />
         <van-cell :border="false" title="申请总额" :value="dataObject.multipleTotal | num" size="small" class="text_l" />
         <van-cell :border="false" title="预估费用" :value="dataObject.withholdAndRemitTaxTotal | num" size="small" class="text_l"/>
@@ -45,7 +45,7 @@
             </van-collapse>
           </div>
         </div>
-        <div class="total">合计: {{dataObject.total | num}}</div>
+        <div class="total">合计: {{meetingPrice | num}}</div>
       </div>
     </div>
     <!--  会议费指标信息 -->
@@ -138,8 +138,8 @@
     <div class="line"></div>
     <!-- 去审批 -->
     <div class="shenpiBtn">
-      <van-button v-if="!state" class="info" type="info" @click="openNewOption">去审批</van-button>
-      <van-button v-if="state" disabled class="info" type="info">已提交</van-button>
+      <van-button v-if="dataObject.workflowTask" class="info" type="info" @click="openNewOption">去审批</van-button>
+      <van-button v-if="!dataObject.workflowTask" disabled class="info" type="info">已提交</van-button>
     </div>
   </div>
 
@@ -162,7 +162,7 @@
               <div :class="index > -1 && index < flow.length - 1 ? 'setp_line' :  '' "></div>
             </div>
       </div>
-  <div style="height:1rem;"></div>    
+  <div style="height:1rem;"></div>
   </div>
 
   <div v-show="index == 2" class="back">
@@ -194,6 +194,7 @@ export default {
             title:'',
             state:false,//判断已办和待办
             expenseType:[],
+            meetingPrice:0 //会议费总金额
         }
     },
     created() {
@@ -216,6 +217,14 @@ export default {
         useoptionChian(this.dataObject,`${item}?.length`) ? expenseArr.push(nameObj[item]) : ''
       }
       this.expenseType = expenseArr;
+
+
+      console.log('------------------------');
+      console.log(this.dataObject.meetings[0].total);
+
+
+     this.meetingPrice =  this.dataObject.meetings.map( o => o.total ).reduce( (acc,cur) =>{return acc+cur} );
+
     },
     methods:{
       openNewOption(){ //跳转到下一个处理节点 -- 填写意见

@@ -43,6 +43,7 @@
 <script>
 import Nav from "../common/navbar";
 import Search from "../common/search";
+import { pageChange } from '@/core/test';
 export default {
   data() {
     return {
@@ -80,16 +81,25 @@ export default {
   watch: {
    
   },
+  mixins:[pageChange],
   mounted() {
-
+    this.onShow();
+    this.onHide();
   },
   methods: {
+    onShow(){
+        console.log('onShow');//监听是否离开页面
+        this.init(); //详情基本信息
+    },
+    onHide(){
+        console.log('onHide');
+    },
     goDetail(applyDate) {
       //  this.$router.push({path:"/",query:{id:e.id,type:e.taskType,title:title}});
       this.$native.forward({  //relatedId
         path: "/charge",
         query: { 
-          id: applyDate.id,//查询详情id
+          id: applyDate.id,//查询详情id 
           type: applyDate.expenseType, 
           title: applyDate.title,
           instanceId:applyDate.instanceId, //查询流转信息id

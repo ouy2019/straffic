@@ -25,9 +25,9 @@
         <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}}</div>
         <div class="indicator">
         <el-table :data="dataObject.paymentDetails" style="width: 100%">
-          <el-table-column prop="useType" label="费用类型" ></el-table-column>
+          <el-table-column prop="expenseType.name" label="费用类型" ></el-table-column>
           <el-table-column prop="amount" label="申请金额(元)" ></el-table-column>
-          <el-table-column prop="expenseType.name" label="用途"></el-table-column>
+          <el-table-column prop="useType" label="用途"></el-table-column>
         </el-table>
         <div class="total">申请金额合计(元): {{dataObject.total | num}}</div>
       </div>
@@ -50,8 +50,8 @@
     <div class="line"></div>
     <!-- 去审批 -->
     <div class="shenpiBtn">
-      <van-button v-if="!state" class="info" type="info" @click="openNewOption">去审批</van-button>
-      <van-button v-if="state" disabled class="info" type="info">已提交</van-button>
+      <van-button v-if="dataObject.workflowTask" class="info" type="info" @click="openNewOption">去审批</van-button>
+      <van-button v-if="!dataObject.workflowTask" disabled class="info" type="info">已提交</van-button>
     </div>
   </div>
 
@@ -74,7 +74,7 @@
               <div :class="index > -1 && index < flow.length - 1 ? 'setp_line' :  '' "></div>
             </div>
       </div>
-  <div style="height:1rem;"></div>    
+  <div style="height:1rem;"></div>
   </div>
 
   <div v-show="index == 2" class="back">

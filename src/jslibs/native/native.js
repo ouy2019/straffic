@@ -8,11 +8,22 @@ var userAgent = navigator.userAgent.toLowerCase();
 function back() {
     if (equipment('iphone')) {
         naviBack();
+       
     } else if (equipment('ipad')) {
         naviBack();
-        //naviBack({ isRefresh: '0', callBack: 'isRefresh()' }); //返回到首页传递一个参数
     } else if(equipment('android')) {
         JsBridge.call('JSBridge', 'naviBack', { isRefresh: false, callBack: 'isRefresh()' }, (res) => {});
+    } else {
+        window.history.go(-1);
+    }
+}
+function backHome() {
+    if (equipment('iphone')) {
+        done({ isRefresh: '0', callBack: 'isRefresh()' });
+    } else if (equipment('ipad')) {
+        done({ isRefresh: '0', callBack: 'isRefresh()' }); //返回到首页传递一个参数
+    } else if(equipment('android')) {
+        JsBridge.call('JSBridge', 'naviBack', {backNum : 2, isRefresh: false, callBack: 'isRefresh()' }, (res) => {});
     } else {
         window.history.go(-1);
     }
@@ -33,8 +44,8 @@ function equipment(val){
 
 // 调用原生打开页面
 function forward(url) {
-    // let appUrl = location.origin+'/#';
-    let appUrl = location.origin+'/icm-app';
+    let appUrl = location.origin+'/#';
+    // let appUrl = location.origin+'/icm-app';
     let linkUrl = appUrl  + url.path ;
     if(!linkUrl.includes('?')){
         linkUrl += '?';
@@ -56,13 +67,14 @@ function forward(url) {
 }
 //调用原生打开文档页面
 function loadpage(url, title) {
- 
+    
     if (equipment('iphone') || equipment("ipad")) {
         watchFile({ 'url': url, 'title': title });
       } else {
         JsBridge.call('JSBridge', 'watchFile', { 'url': url ,'title': title}, function (res) {
         })
     }
+    
 }
 
 function openSearch() {
@@ -78,5 +90,5 @@ function openSearch() {
 }
 
 export default {
-    back, forward, loadpage, openSearch, 
+    back, forward, loadpage, openSearch, backHome
 }

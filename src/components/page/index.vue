@@ -10,7 +10,7 @@
              <div class="title">审批</div>
              <div class="MenuList" >
                  <div class="small"  v-for="(item,indexs) in menu" :key="indexs" @click="goApproval(item)">
-                    <el-badge :value="item.count" :max="99" class="item" >
+                    <el-badge :value="item.count > 0 ? item.count : '' " :max="99" class="item" >
                       <img :src="require('../../assets/img/menu'+indexs+'.png')" alt="" />
                     </el-badge>
                     <p>{{item.name}}</p>    
@@ -56,6 +56,7 @@
   </div>
 </template>
 <script>
+// import { pageChange } from '@/core/test';
 let isTrue = true;
 export default {
     data() {
@@ -89,10 +90,20 @@ export default {
         }
     },
     components: {},
+    // mixins:[pageChange],
     mounted(){
          this.mssgae();//菜单总数信息
+        //  this.onShow();
+        //  this.onHide();
     },
     methods:{
+        // onShow(){
+        //     console.log('onShow');//监听是否离开页面
+        //     this.init(); //详情基本信息
+        // },
+        // onHide(){
+        //     console.log('onHide');
+        // },
         showPage() {
             let that = this;
             var hiddenProperty = 'hidden' in document ? 'hidden' : 'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : null;
@@ -102,7 +113,6 @@ export default {
                         that.mssgae();
                  }else{}
             }
-            console.log(document[visibilityChangeEvent],11)
             document.addEventListener(visibilityChangeEvent, onVisibilityChange)
         },
         goApproval(menu) {  //菜单事件传参

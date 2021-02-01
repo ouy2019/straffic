@@ -17,29 +17,70 @@
         <van-cell :border="false" title="报销总额(元)" :value="dataObject.reimbursement.amount | num" size="small" class="text_l" />
       </van-cell-group>
     </div>
+    
     <!-- 公务接待费 -->
-    <div class="direct" v-if="!dataObject.paymentReport.length==''">
+    <div class="direct" v-if="dataObject.paymentReport">
       <div class="line"></div>
       <div class="detail">
       <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}}</div>
-        <div v-for="(item,index) in dataObject.paymentReport" :key="index">
-          <div v-if="index >= 1" class="spaceKey"></div>
+        <!-- <div v-for="(item,index) in dataObject.paymentReport" :key="index"> -->
+          <!-- <div v-if="index >= 1" class="spaceKey"></div> -->
           <van-cell-group :border="false">
-            <van-cell :border="false" title="接待类型" :value="item.receptionType" size="small" class="text_l" />
-            <van-cell :border="false" title="接待费用" :value="item.total | num" size="small" class="text_l" />
+            <van-cell :border="false" title="接待类型" :value="dataObject.paymentReport.receptionType" size="small" class="text_l" />
+            <van-cell :border="false" title="接待费用" :value="dataObject.paymentReport.total | num" size="small" class="text_l" />
+            <van-cell :border="false" title="贵宾人数" :value="dataObject.paymentReport.guestNumber" size="small" class="text_l" />
+            <van-cell :border="false" title="陪客人数" :value="dataObject.paymentReport.entertainNumber" size="small" class="text_l" />
           </van-cell-group>
             <!-- 支出详情 -->
           <div class="details disbursement">
+            <!--  接待对象-主要行程安排-住宿安排 -->
+        
+            <!-- <div class="indicator">
+                <van-collapse v-model="tab0">
+                  <van-collapse-item title="接待对象" name="1">
+                    <el-table :data="dataObject.accommodations" stripe style="width: 100%" >
+                      <el-table-column prop="" label="单位" ></el-table-column>
+                      <el-table-column prop="" label="姓名"></el-table-column>
+                      <el-table-column prop="" label="职务"></el-table-column>
+                    </el-table>
+                  </van-collapse-item>
+                </van-collapse>
+
+                <van-collapse v-model="tab1">
+                  <van-collapse-item title="主要行程安排" name="1">
+                    <div v-for="(item1,index1) in dataObject.itineraries" :key="index1">
+                      <el-table :data="item1" stripe style="width: 100%" >
+                        <el-table-column prop="projectName" label="项目" ></el-table-column>
+                        <el-table-column prop="time" label="时间"></el-table-column>
+                        <el-table-column prop="place" label="场所"></el-table-column>
+                      </el-table>
+                    </div>
+                  </van-collapse-item>
+                </van-collapse>
+
+                <van-collapse v-model="tab2">
+                  <van-collapse-item title="住宿安排" name="1">
+                    <div v-for="(item2,index2) in dataObject.accommodations" :key="index2">
+                      <el-table :data="item2" stripe style="width: 100%" >
+                        <el-table-column prop="hotelName" label="宾馆名称" ></el-table-column>
+                        <el-table-column prop="generalNumber" label="普通套间数"></el-table-column>
+                        <el-table-column prop="standardNumber" label="标准间数"></el-table-column>
+                      </el-table>
+                    </div>
+                  </van-collapse-item>
+                </van-collapse>
+            </div> -->
+            <div class="spaceKey"></div>
             <van-collapse v-model="AcTab">
               <van-collapse-item title="接待费用详情" name="1">
                 <el-table :data="dataObject.guestExpenses" stripe style="width: 100%" >
                   <el-table-column prop="expenseTypeDetail.name" label="费用类型" ></el-table-column>
                   <el-table-column prop="amount" label="申请金额(元)"></el-table-column>
-                </el-table> 
+                </el-table>
               </van-collapse-item>
             </van-collapse>
           </div>
-        </div>
+        <!-- </div> -->
         <div class="total">合计: {{dataObject.reimbursement.amount | num}}</div>
       </div>
     </div>
@@ -78,8 +119,8 @@
     <div class="line"></div>
     <!-- 去审批 -->
     <div class="shenpiBtn">
-      <van-button v-if="!state" class="info" type="info" @click="openNewOption">去审批</van-button>
-      <van-button v-if="state" disabled class="info" type="info">已提交</van-button>
+      <van-button v-if="dataObject.reimbursement.workflowTask" class="info" type="info" @click="openNewOption">去审批</van-button>
+      <van-button v-if="!dataObject.reimbursement.workflowTask" disabled class="info" type="info">已提交</van-button>
     </div>
   </div>
 
@@ -131,7 +172,10 @@ export default {
             activeIcon0: require("../../../assets/img/file.png"),
             activeNames: [""],
             details: [""],
-            AcTab: [""],
+            AcTab: ["1"],
+            tab0: ["1"],
+            tab1: ["1"],
+            tab2: ["1"],
             title:localStorage.getItem('title'),
             state:false, //判断是否已办
         }
@@ -156,16 +200,28 @@ export default {
           message: '加载中...',
           forbidClick: true,
         });
-       if(!this.$route.query.taskId){
+        
+        if(!this.dataObject.reimbursement.workflowTask){
           this.$toast("已经在审核中，请勿重新提交！");
           return;
         }
-        goOption(this,this.$route.query.taskId,{
+
+       if(!this.dataObject.reimbursement.workflowTask.id){
+          this.$toast("已经在审核中，请勿重新提交！");
+          return;
+        }
+
+        //这一步必须。不然流程走不通
+        if(this.dataObject.reimbursement.amount){
+          this.dataObject.amount = this.dataObject.reimbursement.amount;
+        }
+
+        goOption(this,this.dataObject.reimbursement.workflowTask.id,{
             test: false,
-            workflowKey: this.$route.query.type,
+            workflowKey: this.dataObject.reimbursement.workflowTask.instance.definition.workflowInfo.workflowKey,
             variables: this.dataObject
         })
-        
+
      },
      gofilespage(filesName,filesUrl){//调用原生跳转到pdf页面
         this.$toast.loading({

@@ -2,7 +2,19 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, viewport-fit=cover" />
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <!-- 用来标示移动站点 -->
+    <meta name="x5-fullscreen" content="true" />
+    <!-- 手机端全屏，去掉浏览器底部以及顶部 -->
+    <meta name="x5-orientation" content="portrait" />
+    <!-- 手机端全屏，去掉浏览器底部以及顶部 -->
+    <meta name="x5-page-mode" content="app" />
+    <!-- 手机端全屏，去掉浏览器底部以及顶部 -->
+    <meta name="full-screen" content="yes">
+    <!-- 手机端全屏，去掉浏览器底部以及顶部 -->
     <title>myapp</title>
     <script>
           (function (doc, win) {
@@ -24,8 +36,9 @@
     })(document, window);
     </script>
     <script>
-      var origin = window.location.origin;
+      // var origin = window.location.origin;
       // var apiAddress = origin+'/icm/server/api';
+      
       var apiAddress = "http://192.168.1.134:9746/icm/server/api"; //后台地址
       // var apiAddress = "http://192.168.0.58:9393/icm/server/api"; //后台地址
     </script>

@@ -35,6 +35,7 @@
                   <van-collapse-item title="支出详情" name="1">
                     <el-table :data="item.paymentDetails" stripe style="width: 100%" >
                       <el-table-column prop="transportationFacility" label="交通工具" ></el-table-column>
+                      <el-table-column prop="expenseTypeDetail.name" label="支出类型" ></el-table-column>
                       <el-table-column prop="total" label="申请总金额"></el-table-column>
                     </el-table>
                   </van-collapse-item>
@@ -44,7 +45,7 @@
         <div class="total">合计: {{dataObject.travelExpenseEstimateTotal | num}}</div>
       </div>
     </div>
-    
+
     <div class="line"></div>
     <!--  指标信息 -->
     <div class="travel margin" v-if="!dataObject.rentalFeeIndexes.length == ''">
@@ -64,8 +65,8 @@
     <div class="line"></div>
     <!-- 去审批 -->
     <div class="shenpiBtn">
-      <van-button v-if="!state" class="info" type="info" @click="openNewOption">去审批</van-button>
-      <van-button v-if="state" disabled class="info" type="info">已提交</van-button>
+      <van-button v-if="dataObject.workflowTask" class="info" type="info" @click="openNewOption">去审批</van-button>
+      <van-button v-if="!dataObject.workflowTask" disabled class="info" type="info">已提交</van-button>
     </div>
   </div>
 
@@ -88,7 +89,7 @@
               <div :class="index > -1 && index < flow.length - 1 ? 'setp_line' :  '' "></div>
             </div>
       </div>
-  <div style="height:1rem;"></div>    
+  <div style="height:1rem;"></div>
   </div>
 
   <div v-show="index == 2" class="back">
@@ -140,7 +141,7 @@ export default {
             workflowKey: this.$route.query.type,
             variables: this.dataObject,
         });
-        
+
       },
       gofilespage(filesName,filesUrl){//调用原生跳转到pdf页面
         this.$toast.loading({

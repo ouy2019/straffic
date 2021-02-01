@@ -8,7 +8,7 @@
       <van-cell :border="false" title="报销单号" :value="dataObject.code" size="small" class="text_l" />
       <van-cell :border="false" title="单位名称" :value="dataObject.unit.name" size="small" class="text_l" />
       <van-cell :border="false" title="申请部门" :value="dataObject.applyDepartment.name" size="small" class="text_l" />
-      <van-cell :border="false" title="申请人" :value="dataObject.applyUser.name" size="small" class="text_l" /> 
+      <van-cell :border="false" title="申请人" :value="dataObject.applyUser.name" size="small" class="text_l" />
       <van-cell :border="false" title="申请时间" :value="dataObject.applyDate" size="small" class="text_l" />
       <van-cell :border="false" title="支出事由" :value="dataObject.remark" size="small" class="text_l" />
       <van-cell :border="false" title="事前业务标题" :value="dataObject.paymentReport.title" size="small" class="text_l" />
@@ -51,8 +51,8 @@
   <div class="line"></div>
   <!-- 去审批 -->
   <div class="shenpiBtn">
-    <van-button v-if="!state" class="info" type="info" @click="openNewOption">去审批</van-button>
-    <van-button v-if="state" disabled class="info" type="info">已提交</van-button>
+    <van-button v-if="dataObject.reimbursement.workflowTask" class="info" type="info" @click="openNewOption">去审批</van-button>
+    <van-button v-if="!dataObject.reimbursement.workflowTask" disabled class="info" type="info">已提交</van-button>
   </div>
   </div>
 
@@ -88,7 +88,7 @@
               <van-icon name="arrow" class="rightIcon" />
         </div>
       </div>
-        
+
   </div>
 </div>
 </template>
@@ -131,16 +131,27 @@ export default {
           message: '加载中...',
           forbidClick: true,
         });
-        if(!this.$route.query.taskId){
+        
+        if(!this.dataObject.reimbursement.workflowTask){
           this.$toast("已经在审核中，请勿重新提交！");
           return;
         }
-        goOption(this,this.$route.query.taskId,{
+        
+        if(!this.dataObject.reimbursement.workflowTask.id){
+          this.$toast("已经在审核中，请勿重新提交！");
+          return;
+        }
+        //这一步必须。不然流程走不通
+        if(this.dataObject.reimbursement.amount){
+          this.dataObject.amount = this.dataObject.reimbursement.amount;
+        }
+
+        goOption(this,this.dataObject.reimbursement.workflowTask.id,{
             test: false,
-            workflowKey: this.$route.query.type,
+            workflowKey: this.dataObject.reimbursement.workflowTask.instance.definition.workflowInfo.workflowKey,
             variables: this.dataObject
         })
-        
+
       },
       gofilespage(filesName,filesUrl){//调用原生跳转到pdf页面
       console.log(filesName)

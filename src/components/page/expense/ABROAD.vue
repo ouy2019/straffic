@@ -13,7 +13,7 @@
       <van-cell :border="false" title="支出事由" :value="dataObject.reimbursement.reason" size="small" class="text_l" />
       <van-cell :border="false" title="事前业务标题" :value="dataObject.paymentReport.title" size="small" class="text_l" />
       <van-cell :border="false" title="事前申请单号" :value="dataObject.reimbursement.paymentReportCode" size="small" class="text_l"  />
-      <van-cell :border="false" title="本次报销(元)" :value="dataObject.paymentReport.meetingContractsTotal | num" size="small" class="text_l"  />
+      <van-cell :border="false" title="本次报销(元)" :value="dataObject.paymentReport.abroadContractsTotal | num" size="small" class="text_l"  />
       <van-cell :border="false" title="报销总额(元)" :value="dataObject.reimbursement.amount | num" size="small" class="text_l"  />
     </van-cell-group>
   </div>
@@ -79,8 +79,8 @@
   <div class="line"></div>
   <!-- 去审批 -->
   <div class="shenpiBtn">
-    <van-button v-if="!state" class="info" type="info" @click="openNewOption">去审批</van-button>
-    <van-button v-if="state" disabled class="info" type="info">已提交</van-button>
+    <van-button v-if="dataObject.reimbursement.workflowTask" class="info" type="info" @click="openNewOption">去审批</van-button>
+    <van-button v-if="!dataObject.reimbursement.workflowTask" disabled class="info" type="info">已提交</van-button>
   </div>
   </div>
 
@@ -152,13 +152,25 @@ export default {
           message: '加载中...',
           forbidClick: true,
         });
-        if(!this.$route.query.taskId){
+        
+        if(!this.dataObject.reimbursement.workflowTask){
           this.$toast("已经在审核中，请勿重新提交！");
           return;
         }
-        goOption(this,this.$route.query.taskId,{
+
+        if(!this.dataObject.reimbursement.workflowTask.id){
+          this.$toast("已经在审核中，请勿重新提交！");
+          return;
+        }
+
+        //这一步必须。不然流程走不通
+        if(this.dataObject.reimbursement.amount){
+          this.dataObject.amount = this.dataObject.reimbursement.amount;
+        }
+
+        goOption(this,this.dataObject.reimbursement.workflowTask.id,{
             test: false,
-            workflowKey: this.$route.query.type,
+            workflowKey: this.dataObject.reimbursement.workflowTask.instance.definition.workflowInfo.workflowKey,
             variables: this.dataObject
         })
       },

@@ -18,13 +18,16 @@
                     </van-radio-group>
                 </div>
             </div>
-        
-            <div class="handler title">下一环节处理人</div>
-            <div class="value" v-if="send === 'GENERAL'">
-                <van-dropdown-menu >
-                    <van-dropdown-item v-model="value2" :options="option2" />
-                </van-dropdown-menu>
+              
+            <div v-show='listDataNode[0].name !="结束"'>
+              <div class="handler title" >下一环节处理人</div>
+              <div class="value" v-if="send === 'GENERAL'">
+                  <van-dropdown-menu >
+                      <van-dropdown-item v-model="value2" :options="option2" />
+                  </van-dropdown-menu>
+              </div>
             </div>
+
             <div class="option title">
                   <span>审批意见</span>
                   <span class="popup" @click="showPopup">常用意见</span>
@@ -55,10 +58,10 @@
             </div>
 
 
-            
+
             <div class="textarea">
                 <van-field v-model="message" rows="1"  autosize type="textarea" placeholder="请输入内容" />
-            </div>  
+            </div>
         </div>
          <div class="bottom">
               <div class="submit">
@@ -84,7 +87,7 @@
                 </div>
             </van-popup>
         </div>
-        
+
    </van-form>
 </div>
 </template>
@@ -97,8 +100,8 @@ export default {
         return {
             checked: false,
             send:'1',
-            nextNodeFlag:[],//下一环节点数据 
-            listDataNode:[], //下一环节点判断后的数据 
+            nextNodeFlag:[],//下一环节点数据
+            listDataNode:[], //下一环节点判断后的数据
             optionSelect:'',//常用意见选择
             optionText:[],//常用意见数据
             details:[], //详情数据
@@ -125,10 +128,10 @@ export default {
             )
             this.option2 = nextNodeUser;
             this.value2 = this.option2[0] ? this.option2[0].value : '';
-            //下一环节点数据  
+            //下一环节点数据
             this.nextNodeFlag = JSON.parse(localStorage.getItem('nextNodeFlag'))
             this.send = this.nextNodeFlag[0] ? this.nextNodeFlag[0].nextNodeFlag : '';
-            
+
             this.details = JSON.parse(localStorage.getItem('details'))//详情数据
             let BACK_TO_START = false;
             let BACK_TO_PREVIOUS = false;
@@ -153,7 +156,7 @@ export default {
                this.workflowTask = this.details.reimbursement.workflowTask.id
             }
             if(localStorage.message){ this.message = localStorage.message; }
-            
+
         }else{
             this.$toast("获取处理人失败");
         }
@@ -166,19 +169,18 @@ export default {
        },
        showDisplay(newDisplay,oldDisplay){
            if(!newDisplay){
-               this.$native.back();//保存成功返回上一个页面
+               this.$native.backHome();//保存成功返回上一个页面
            }
        }
     },
-    
+
     components:{
         Nav,
     },
     mounted() {
-       
+
     },
     methods: {
-        
         onSubmit(values) {
             console.log('submit', values);
         },
@@ -189,8 +191,8 @@ export default {
             this.$toast("请输入常用意见")
           }else{
             //存储保存的处理人和常用意见
-            localStorage.value2 = this.value2; 
-            localStorage.message = this.message; 
+            localStorage.value2 = this.value2;
+            localStorage.message = this.message;
             this.showSave = true;
           };
         },
@@ -201,7 +203,7 @@ export default {
             var that = this;
             that.$axios.get(apiAddress+`/icm-base/common-opinion/all/${that.optionUserId}`).then((res)=>{
                 if(!res.status == 200) return;
-                that.optionText = res.data;      
+                that.optionText = res.data;
             }).catch((res)=>{
                 that.$toast("暂无常用意见");
             })
@@ -212,8 +214,8 @@ export default {
             this.$toast("请选择处理人")
           }else if(this.message == ''){
             this.$toast("请输入常用意见")
-          }else{  
-            var that = this; 
+          }else{
+            var that = this;
             if(useoptionChian(that.details,'workflowTask?.instance?.definition?.workflowInfo?.workflowKey')){
                that.workflowKeyType = that.details.workflowTask.instance.definition.workflowInfo.workflowKey;
             }
@@ -221,21 +223,21 @@ export default {
                 that.workflowKeyType = that.details.reimbursement.workflowTask.instance.definition.workflowInfo.workflowKey;
             }
             let listNode = that.listDataNode.filter(item=>item.nextNodeFlag == that.send);//过滤nextNodeFlag
-            
+
             if(listNode[0].nextNodeFlag == "GENERAL")listNode[0].nextNodeFlag = "COMPLETE"; //同意审批
             if(listNode[0].nextNodeFlag == "BACK_TO_START")listNode[0].nextNodeFlag = "REJECTION"//退回申请人
-            
-            
+
+
             that.$axios.put(apiAddress+`/app/complete/${that.details.id}?workflowKey=${that.workflowKeyType}`,{
-                action:listNode[0].nextNodeFlag, 
-                adivce:that.message, 
-                nextNodeId:listNode[0].id, 
+                action:listNode[0].nextNodeFlag,
+                adivce:that.message,
+                nextNodeId:listNode[0].id,
                 nextUserIds:[that.value2],
                 taskId:that.workflowTask,
                 workflowInstanceEditInfo:{
                     variables:{}
                 }
-        
+
             }).then((res)=>{
                 if(!res.status == 200) return;
                 that.showDisplay = true;
@@ -251,7 +253,7 @@ export default {
             this.showHidden = true;
         },
         preserve(){//保存数据
-            var that = this; 
+            var that = this;
             if(!that.inputValue == '' && !that.optionUserId == ''){
                 that.$axios.post(apiAddress+`/icm-base/common-opinion`,{opinion: that.inputValue,userId:that.optionUserId}).then((res)=>{
                     that.optionText.push(res.data);
@@ -262,8 +264,8 @@ export default {
             }else{
                 that.$toast("请输入常用意见");
             }
-            
-            
+
+
         },
         radioClick(){//单选框点击事件
             console.log(this.optionSelect);
@@ -277,12 +279,12 @@ export default {
             this.show = false;
         },
         succeed(){//待办已提交成功事件
-           this.$native.back();//保存成功返回上一个页面
+           this.$native.backHome();//保存成功返回上一个页面
         },
         hold(){//待办保存事件
           this.$native.back();//保存成功返回上一个页面
         },
-        
+
 
     },
 }
@@ -310,7 +312,7 @@ export default {
     flex-wrap: wrap; */
     margin: 0.32rem 0;
     font-size: 0.32rem;
-    
+
 }
 .send /deep/ .van-radio-group{
 font-size: 0.28rem;
@@ -424,7 +426,7 @@ justify-content: space-between;
     border: 1px solid #e5e5e5;
 }
 .inputDisplay .input /deep/ .van-cell{
-  padding: 6px 16px;  
+  padding: 6px 16px;
 }
 .clickButton{
     padding: 0.1rem;

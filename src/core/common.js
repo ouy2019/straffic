@@ -4,27 +4,36 @@
 //
 const goOption =  (that,id,query)=>{ //跳转意见页面
     that.$axios.post(apiAddress+`/workflow/runtime/tasks/${id}/outflows`,query).then(res=>{
+
+
         if(res.status != 200) return rej;
         var nextNodeId = res.data[0].id;
         localStorage.setItem("nextNodeFlag",JSON.stringify(res.data));
+
+        console.log(res.data[0]);
+        
+        
         if(!res.data[0].id) return;
+
+
+
         that.$axios.post(apiAddress+`/workflow/runtime/tasks/${id}/users`,{
-        nextNodeId:nextNodeId,
-        workflowInstanceEditInfo:{
-            test:false,
-            workflowKey: query.type,
-            variables: query.variables
-        }
+            nextNodeId:nextNodeId,
+
+            workflowInstanceEditInfo:{
+                test:false,
+                workflowKey: query.type,
+                variables: query.variables
+            }
         }).then(msg=>{
             if(msg.status != 200)return;
             localStorage.setItem("nextNodeUser",JSON.stringify(msg.data));
-            
-            that.$native.forward({path:'/option', query: {id:query.variables.id}}) 
+            that.$native.forward({path:'/option', query: {id:query.variables.id}})
         }).catch(err=>that.$toast("参数错误,请检查你的网络！"))
     })
 }
-// 链式调用 
-// target当前需要判断的对象  
+// 链式调用
+// target当前需要判断的对象
 // str所要判断是否有值的属性
 const useoptionChian = (target,str)=>{
     let  isTrue = true;
@@ -53,5 +62,5 @@ const useoptionChian = (target,str)=>{
 export {
     goOption,
     useoptionChian,
-    
+
 }

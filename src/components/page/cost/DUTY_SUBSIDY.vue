@@ -13,7 +13,7 @@
         <van-cell :border="false" title="申请人" :value="dataObject.applyUser.name" size="small" class="text_l" />
         <van-cell :border="false" title="申请时间" :value="dataObject.applyDate" size="small" class="text_l" />
         <van-cell :border="false" title="补助事由" :value="dataObject.title" size="small" class="text_l" />
-        <van-cell :border="false" title="请示内容" :value="dataObject.content" size="small" class="text_l" />
+    <!--    <van-cell :border="false" title="请示内容" :value="dataObject.content" size="small" class="text_l" /> -->
         <van-cell :border="false" title="值班代办时间" :value="dataObject.lastModifiedTime+'至'+dataObject.endDate" size="small" class="text_l" />
         <van-cell :border="false" title="值班代办人员" :value="dataObject.personnel" size="small" class="text_l"/>
       </van-cell-group>
@@ -35,8 +35,8 @@
     <div class="line"></div>
     <!-- 去审批 -->
     <div class="shenpiBtn">
-      <van-button v-if="!state" class="info" type="info" @click="openNewOption">去审批</van-button>
-      <van-button v-if="state" disabled class="info" type="info">已提交</van-button>
+      <van-button v-if="dataObject.workflowTask" class="info" type="info" @click="openNewOption">去审批</van-button>
+      <van-button v-if="!dataObject.workflowTask" disabled class="info" type="info">已提交</van-button>
     </div>
   </div>
 

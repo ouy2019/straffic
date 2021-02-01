@@ -35,12 +35,14 @@ function errorHandle (status, other) {
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 //请求拦截器
 axios.interceptors.request.use((config) => {
-	//config.headers.Authorization ='Bearer '+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLmnY7ngb_kupEiLCJleHAiOjE2MTAyNjY5NzQsImlhdCI6MTYwOTY2MjE3NCwianRpIjoiMjI2NjMzNzY4OTEwMzI3ODA4In0.beDBo0MZkVEHVSvJzLZulH3h7p2BF1-TZFrwgT2X1q7Rf0wzw-xovYpf59Rt852SQ_u4aWLjEvmOoLnJVC3MyA";
-	config.headers.Authorization ='Bearer '+localStorage.getItem('token');
+	config.headers.Authorization ='Bearer '+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLmnY7ngb_kupEiLCJleHAiOjE2MTI3ODIzMTUsImlhdCI6MTYxMjE3NzUxNSwianRpIjoiMjI2NjMzNzY4OTEwMzI3ODA4In0.LUqkljVCFZTMPqgxbfGQRjajxm9oWuQlI8MGyvzaMmMzayjUvVV4u7wQtTWq4upi7xyZHW-12KVxIsStB9FAlw";
+	// config.headers.Authorization ='Bearer '+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLlvKDmnbAiLCJleHAiOjE2MTI3ODA4NzYsImlhdCI6MTYxMjE3NjA3NiwianRpIjoiMjU1MzU2Mzc4OTcyMDMzMDI0In0.NE9OroJBencVMmDKqE0s3OZS3I83MlkAiNhAV7hLXPATugFgFWaJLbXCpN26ze2bMA9_uxxGSLhi5cTLFFCqow";
+  //config.headers.Authorization ='Bearer '+localStorage.getItem('token');
+  
 	// config.headers.Authorization = localStorage.getItem('Authorization');
 	return config;
 },(error)=>{
-    Toast('没有足够的权限访问，也许是token失效，请重新登录！');
+    Toast('登录已过期，请重新登录！');
     return Promise.reject(error);
 });
 

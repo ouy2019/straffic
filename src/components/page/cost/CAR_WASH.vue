@@ -35,8 +35,8 @@
       <div class="line"></div>
       <!-- 去审批 -->
       <div class="shenpiBtn">
-        <van-button v-if="!state" class="info" type="info" @click="openNewOption">去审批</van-button>
-        <van-button v-if="state" disabled class="info" type="info">已提交</van-button>
+        <van-button v-if="dataObject.workflowTask" class="info" type="info" @click="openNewOption">去审批</van-button>
+        <van-button v-if="!dataObject.workflowTask" disabled class="info" type="info">已提交</van-button>
       </div>
     </div>
 
