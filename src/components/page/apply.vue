@@ -92,6 +92,7 @@ export default {
           type: applyDate.expenseType, 
           title: applyDate.title,
           instanceId:applyDate.instanceId, //查询流转信息id 
+          opion:'details'
         },
       });
     },

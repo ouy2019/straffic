@@ -87,8 +87,9 @@
                 </div>
             </van-popup>
         </div>
-
+        <van-uploader v-model="fileList" multiple />
    </van-form>
+
 </div>
 </template>
 <script>
@@ -118,6 +119,13 @@ export default {
             succeedIcon:require("../../assets/img/succeed.png"),
             workflowTask:'',//送审的taskId
             workflowKeyType:'',//送审的workflowKey
+            opion:localStorage.getItem('opion'),
+            fileList: [
+                { url: 'https://img01.yzcdn.cn/vant/leaf.jpg' },
+                // Uploader 根据文件后缀来判断是否为图片文件
+                // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+                // { url: 'https://cloud-image', isImage: true },
+            ],
         }
     },
     created() {
@@ -168,9 +176,18 @@ export default {
            }
        },
        showDisplay(newDisplay,oldDisplay){
-           if(!newDisplay){
-               this.$native.backHome();//保存成功返回上一个页面
-           }
+            if(!newDisplay){
+                var u = navigator.userAgent;  
+                var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端  
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if(isiOS && this.opion == 'home'){
+                    this.$native.backHome();//提交成功返回上2个页面
+                }else if(isiOS && this.opion == 'details'){
+                    this.$native.back();
+                }else if(isAndroid){
+                    this.$native.backHome();//提交成功返回上2个页面
+                } 
+            }
        }
     },
 
@@ -181,6 +198,7 @@ export default {
 
     },
     methods: {
+       
         onSubmit(values) {
             console.log('submit', values);
         },
@@ -279,7 +297,16 @@ export default {
             this.show = false;
         },
         succeed(){//待办已提交成功事件
-           this.$native.backHome();//保存成功返回上一个页面
+            var u = navigator.userAgent;  
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端  
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            if(isiOS && this.opion == 'home'){
+                this.$native.backHome();//提交成功返回上2个页面
+            }else if(isiOS && this.opion == 'details'){
+                this.$native.back();
+            }else if(isAndroid){
+                this.$native.backHome();//提交成功返回上2个页面
+            }
         },
         hold(){//待办保存事件
           this.$native.back();//保存成功返回上一个页面

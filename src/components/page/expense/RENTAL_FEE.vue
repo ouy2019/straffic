@@ -17,7 +17,7 @@
         </van-cell-group>
       </div>
       <!--公务租车-->
-      <div class="direct" v-if="!dataObject.rentalFees.length == ''">
+      <div class="direct" v-if="dataObject.rentalFees && !dataObject.rentalFees.length == ''">
         <div class="line"></div>
        <div class="detail">
          <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}} </div>
@@ -45,7 +45,7 @@
       </div>
       <div class="line"></div>
       <!--  指标信息 -->
-      <div class="travel " v-if="!dataObject.rentalFeeIndexes.length==''">
+      <div class="travel " v-if="dataObject.rentalFeeIndexes &&　!dataObject.rentalFeeIndexes.length==''">
         <div class="margin">
           <div class="title"><img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息</div>
           <div class="indicator">
@@ -156,15 +156,16 @@ export default {
           forbidClick: true,
         });
         
-        if(!this.dataObject.reimbursement.workflowTask){
-          this.$toast("已经在审核中，请勿重新提交！");
-          return;
-        }
+        // if(!this.dataObject.reimbursement.workflowTask){
+        //   this.$toast("已经在审核中，请勿重新提交！");
+        //   return;
+        // }
         
-        if(!this.dataObject.reimbursement.workflowTask.id){
-          this.$toast("已经在审核中，请勿重新提交！");
-          return;
-        }
+        // if(!this.dataObject.reimbursement.workflowTask.id){
+        //   this.$toast("已经在审核中，请勿重新提交！");
+        //   return;
+        // }
+        localStorage.setItem('opion',this.$route.query.opion)
 
 
         //这一步必须。不然流程走不通

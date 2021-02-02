@@ -134,10 +134,11 @@ export default {
           message: '加载中...',
           forbidClick: true,
         });
-        if(!useoptionChian(this.dataObject,'workflowTask?.id')){
-          this.$toast("已经在审核中，请勿重新提交！");
-          return;
-        }
+        // if(!useoptionChian(this.dataObject,'workflowTask?.id')){
+        //   this.$toast("已经在审核中，请勿重新提交！");
+        //   return;
+        // }
+        localStorage.setItem('opion',this.$route.query.opion)
         goOption(this,this.dataObject.workflowTask.id,{
             test: false,
             workflowKey: this.$route.query.type,

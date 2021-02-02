@@ -58,7 +58,7 @@
           <el-table-column prop="availableAmount" label="指标余额"></el-table-column>
           <el-table-column prop="amount" label="申请金额"></el-table-column>
         </el-table>
-        <div class="total">合计: {{dataObject.total | num}}</div>
+        <div class="total">合计: {{dataObject.meetingContractsTotal | num}}</div>
       </div>
     </div>
     <!-- 差旅费 -->
@@ -219,8 +219,8 @@ export default {
       this.expenseType = expenseArr;
 
 
-      console.log('------------------------');
-      console.log(this.dataObject.meetings[0].total);
+      // console.log('------------------------');
+      // console.log(this.dataObject.meetings[0].total);
 
 
      this.meetingPrice =  this.dataObject.meetings.map( o => o.total ).reduce( (acc,cur) =>{return acc+cur} );
@@ -232,10 +232,11 @@ export default {
           message: '加载中...',
           forbidClick: true,
         });
-        if(!useoptionChian(this.dataObject,'workflowTask?.id')){
-          this.$toast("已经在审核中，请勿重新提交！");
-          return;
-        }
+        // if(!useoptionChian(this.dataObject,'workflowTask?.id')){
+        //   this.$toast("已经在审核中，请勿重新提交！");
+        //   return;
+        // }
+        localStorage.setItem('opion',this.$route.query.opion)
         goOption(this,this.dataObject.workflowTask.id,{
             test: false,
             workflowKey: this.$route.query.type,

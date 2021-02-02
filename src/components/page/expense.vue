@@ -106,6 +106,7 @@ export default {
           state:applyDate.state,  //判断已办和待办
           taskId:applyDate.workflowTask.id, //查询去审批下一环节处理人id
           // taskType:applyDate.workflowTask.taskType,
+          opion:'details'
         },
       });
     },

@@ -1,6 +1,9 @@
 .shixiang {
   background-color: #ffffff;
 }
+.van-cell__title, .van-cell__value{
+  flex: none !important;
+}
 .van-cell__title {
   width: 25%;
   text-align: right;
@@ -8,44 +11,7 @@
 }
 .van-cell__value {
   width: 70%;
-  text-align: left;
-}
-.van-cell__title, .van-cell__value{
-  flex: none;
-}
-.shixiang /deep/ .van-cell__title {
-  /* display: flex;
-  justify-content: space-between; */
-    width: 25%;
-    text-align: right;
-    padding-right: 5%;
-}
-.shixiang /deep/ .van-cell__value {
-  /* text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden; */
-  width: 70%;
-  text-align: left;
-}
-.shixiang /deep/ .van-cell__title, .van-cell__value{
-  flex: none;
-}
-.details /deep/ .van-cell__title {
-  /* display: flex;
-  justify-content: space-between; */
-    width: 25%;
-    text-align: right;
-    padding-right: 5%;
-}
-.details /deep/ .van-cell__value {
-  /* text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden; */
-  width: 70%;
-  text-align: left;
-}
-.details /deep/ .van-cell__title, .van-cell__value{
-  flex: none;
+  text-align: left !important;
 }
 .shixiang .detail {
   margin: 0 0.25rem;
@@ -64,8 +30,6 @@
 }
 .shixiang .text_l {
   padding: 10px 0;
-  /* justify-content: space-between;
-  text-align: left; */
 }
 .travel{
   margin-bottom: 1rem;
@@ -102,10 +66,7 @@
   justify-content: space-between;
 
 }
-.direct /deep/ .van-cell__title{
-  /* display: flex;
-  justify-content: space-between; */
-}
+
 .disbursement .van-cell{
   padding: 10px 0;
 }
@@ -126,26 +87,7 @@ text-overflow: initial;
 .details .van-collapse-item__content{
 color: #2c3e50;
 }
-.disbursement /deep/ .van-cell{
-    padding: 10px 0;
-}
-.details /deep/ .van-cell{
-    padding: 10px 0;
-    text-align: left;
-}
-.details /deep/ .el-table th>.cell{
-  white-space: nowrap;
-  overflow-x: auto;
-  text-overflow: initial;
-}
-.details /deep/ .el-table .cell{
-  white-space: nowrap;
-  overflow-x: auto;
-  text-overflow: initial;
-}
-.details /deep/ .van-collapse-item__content{
-  color: #2c3e50;
-}
+
 
 .info{
   width: 100%;
@@ -157,7 +99,7 @@ color: #2c3e50;
   z-index: 9999;
 }
 .van-button--disabled{ background-color: #b6bdc4;border: 0;opacity: 1; }
-.info /deep/ .van-button--disabled{ background-color: #b6bdc4;border: 0;opacity: 1; }
+
 .back {
   /* background-color: #f3f6f9; */
 }

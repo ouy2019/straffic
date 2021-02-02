@@ -32,6 +32,39 @@
           <van-cell :border="false" title="接待费用" :value="dataObject.total | num" size="small" class="text_l"/>
           </van-cell-group>
           <div class="details disbursement">
+            <!--  接待对象-主要行程安排-住宿安排 -->
+            <div class="indicator">
+                <van-collapse v-model="tab0">
+                  <van-collapse-item title="接待对象" name="1">
+                      <el-table :data="dataObject.guests" stripe style="width: 100%" >
+                        <el-table-column prop="unitName" label="来宾单位" ></el-table-column>
+                        <el-table-column prop="name" label="主宾姓名"></el-table-column>
+                        <el-table-column prop="duties" label="职务"></el-table-column>
+                      </el-table>
+                  </van-collapse-item>
+                </van-collapse>
+
+                <van-collapse v-model="tab1">
+                  <van-collapse-item title="主要行程安排" name="1">
+                      <el-table :data="dataObject.itineraries" stripe style="width: 100%" >
+                        <el-table-column prop="projectName" label="项目" ></el-table-column>
+                        <el-table-column prop="time" label="时间"></el-table-column>
+                        <el-table-column prop="place" label="场所"></el-table-column>
+                      </el-table>
+                  </van-collapse-item>
+                </van-collapse>
+
+                <van-collapse v-model="tab2">
+                  <van-collapse-item title="住宿安排" name="1">
+                      <el-table :data="dataObject.accommodations" stripe style="width: 100%" >
+                        <el-table-column prop="hotelName" label="宾馆名称" ></el-table-column>
+                        <el-table-column prop="generalNumber" label="普通套间数"></el-table-column>
+                        <el-table-column prop="standardNumber" label="标准间数"></el-table-column>
+                      </el-table>
+                  </van-collapse-item>
+                </van-collapse>
+            </div>
+            <div class="spaceKey"></div>
               <van-collapse v-model="AcTab">
                 <van-collapse-item title="接待费用详情" name="1">
                   <el-table :data="dataObject.guestExpenses" stripe style="width: 100%" >
@@ -114,6 +147,9 @@ export default {
             activeNames: [""],
             details: [""],
             AcTab: [""],
+            tab0: [""],
+            tab1: [""],
+            tab2: [""],
             title:'',
             state:false,  //判断已办和待办
             isEnable:true, //流转信息 亮灯
@@ -129,10 +165,11 @@ export default {
           message: '加载中...',
           forbidClick: true,
         });
-        if(!useoptionChian(this.dataObject,'workflowTask?.id')){
-          this.$toast("已经在审核中，请勿重新提交！");
-          return;
-        }
+        // if(!useoptionChian(this.dataObject,'workflowTask?.id')){
+        //   this.$toast("已经在审核中，请勿重新提交！");
+        //   return;
+        // }
+        localStorage.setItem('opion',this.$route.query.opion)
         goOption(this,this.dataObject.workflowTask.id,{
             test: false,
             workflowKey: this.$route.query.type,

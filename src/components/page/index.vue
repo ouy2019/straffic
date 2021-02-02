@@ -158,6 +158,7 @@ export default {
                     type: that.type,
                     title: applyDate.workFlowName,
                     isDone:applyDate.isDone, //首页判断已办和待办
+                    opion:'home'
                 },
             });
         },
@@ -196,7 +197,7 @@ export default {
                 // 加载状态结束
                 loading = false;
             } else {
-                this.$toast('没有足够的权限访问，也许是token失效，请重新登录！');
+                this.$toast('登录已过期，请重新登录！');
             }
             refreshing = false;
             this.$set(this.tabBarIndex,this.active,{pageNum,finished,loading,refreshing,list})
@@ -205,28 +206,28 @@ export default {
             });
         },
         onLoad(enevt) {
-        let {list,pageNum,loading} = this.tabBarIndex[this.active];
-        if (enevt !== "istrue") {
-            loading = true;
-        }
+            let {list,pageNum,loading} = this.tabBarIndex[this.active];
+            if (enevt !== "istrue") {
+                loading = true;
+            }
 
-        if (pageNum == 0) {
-            list = [];
-        }
-        this.init();
+            if (pageNum == 0) {
+                list = [];
+            }
+            this.init();
         },
 
         onRefresh() {
-        let {pageNum,finished,loading} = this.tabBarIndex[this.active];
-        // 清空列表数据
-        pageNum = 0;
-        finished = false;
-        // 重新加载数据
-        // 将 loading 设置为 true，表示处于加载状态
-        loading = false;
-        // this.onLoad(); //加载
-        this.onLoad("istrue");
-        this.$toast("努力加载中...");
+            let {pageNum,finished,loading} = this.tabBarIndex[this.active];
+            // 清空列表数据
+            pageNum = 0;
+            finished = false;
+            // 重新加载数据
+            // 将 loading 设置为 true，表示处于加载状态
+            loading = false;
+            // this.onLoad(); //加载
+            this.onLoad("istrue");
+            this.$toast("努力加载中...");
         },
        
         

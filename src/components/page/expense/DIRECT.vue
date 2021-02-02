@@ -122,15 +122,16 @@ export default {
           forbidClick: true,
         });
         
-        if(!this.dataObject.reimbursement.workflowTask){
-          this.$toast("已经在审核中，请勿重新提交！");
-          return;
-        }
+        // if(!this.dataObject.reimbursement.workflowTask){
+        //   this.$toast("已经在审核中，请勿重新提交！");
+        //   return;
+        // }
         
-        if(!this.dataObject.reimbursement.workflowTask.id){
-          this.$toast("已经在审核中，请勿重新提交！");
-          return;
-        }
+        // if(!this.dataObject.reimbursement.workflowTask.id){
+        //   this.$toast("已经在审核中，请勿重新提交！");
+        //   return;
+        // }
+        localStorage.setItem('opion',this.$route.query.opion)
 
         //这一步必须。不然流程走不通
         if(this.dataObject.reimbursement.amount){
