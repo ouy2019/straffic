@@ -22,7 +22,7 @@
       </van-cell-group>
     </div>
     <!-- 会议费 -->
-    <div class="direct" v-if="!dataObject.meetings.length == ''">
+    <div class="direct" v-if="dataObject.meetings &&　!dataObject.meetings.length == ''">
       <div class="line"></div>
       <div class="detail">
         <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />会议费</div>
@@ -34,11 +34,11 @@
             <van-cell :border="false" title="会议地点" :value="item.place" size="small" class="text_l" />
           </van-cell-group>
           <div class="details disbursement">
-            <van-collapse v-model="AcTab">
-              <van-collapse-item title="支出详情" name="1">
+            <van-collapse v-model="AcTab0">
+              <van-collapse-item title="支出详情" :name="index">
                 <el-table :data="item.paymentDetails" stripe style="width: 100%" >
                   <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
-                  <el-table-column prop="amount" label="金额"></el-table-column>
+                  <el-table-column prop="total" label="金额"></el-table-column>
                   <el-table-column prop="remark" label="备注" ></el-table-column>
                 </el-table>
               </van-collapse-item>
@@ -49,7 +49,7 @@
       </div>
     </div>
     <!--  会议费指标信息 -->
-    <div class="travel margin" v-if="!dataObject.meetingIndexes.length == ''">
+    <div class="travel margin" v-if="dataObject.meetingIndexes　&& !dataObject.meetingIndexes.length == ''">
       <div class="title"><img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息</div>
       <div class="indicator">
         <el-table :data="dataObject.meetingIndexes" style="width: 100%">
@@ -62,7 +62,7 @@
       </div>
     </div>
     <!-- 差旅费 -->
-    <div class="direct" v-if="!dataObject.travelExpenses.length==''">
+    <div class="direct" v-if="dataObject.travelExpenses && !dataObject.travelExpenses.length==''">
       <div class="line"></div>
       <div class="detail">
         <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />差旅费</div>
@@ -78,8 +78,8 @@
             </van-cell-group>
             <!-- 支出详情 -->
             <div class="details disbursement">
-                <van-collapse v-model="AcTab">
-                  <van-collapse-item title="支出详情" name="1">
+                <van-collapse v-model="AcTab1">
+                  <van-collapse-item title="支出详情" :name="index">
                     <el-table :data="item.paymentDetails" stripe style="width: 100%" >
                       <el-table-column prop="transportationFacility" label="交通工具" ></el-table-column>
                       <el-table-column prop="total" label="申请总金额"></el-table-column>
@@ -92,7 +92,7 @@
       </div>
     </div>
     <!-- 培训费 -->
-    <div class="direct" v-if="!dataObject.trainings.length == ''">
+    <div class="direct" v-if="dataObject.trainings && !dataObject.trainings.length == ''">
       <div class="line"></div>
       <div class="detail">
         <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />培训费</div>
@@ -105,11 +105,11 @@
             <van-cell :border="false" title="税后申请总金额(元)" :value="Number(item.teachers[0].amount)*Number(item.teachers[0].lessonPeriod) + parseInt(Number(item.teachers[0].withholdAndRemitTax)) | num" size="small" class="text_l"/>
             </van-cell-group>
             <div class="details disbursement">
-                <van-collapse v-model="AcTab">
-                <van-collapse-item title="支出详情" name="1">
+                <van-collapse v-model="AcTab2">
+                <van-collapse-item title="支出详情" :name="index">
                   <el-table :data="item.paymentDetails" stripe style="width: 100%" >
                       <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
-                      <el-table-column prop="amount" label="金额"></el-table-column>
+                      <el-table-column prop="total" label="金额"></el-table-column>
                       <el-table-column prop="remark" label="备注" ></el-table-column>
                   </el-table>
                   <div class="total">合计: {{Number(item.teachers[0].amount)*Number(item.teachers[0].lessonPeriod) + parseInt(Number(item.teachers[0].withholdAndRemitTax)) | num}}</div>
@@ -121,7 +121,7 @@
     </div>
     <div class="line"></div>
     <!-- 培训费指标信息 -->
-    <div class="travel margin" v-if="!dataObject.trainingIndexes.length==''">
+    <div class="travel margin" v-if="dataObject.trainingIndexes && !dataObject.trainingIndexes.length==''">
       <div class="title">
         <img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息
       </div>
@@ -166,7 +166,7 @@
   </div>
 
   <div v-show="index == 2" class="back">
-    <van-empty description="暂无数据" v-if="dataObject.attaches.length == ''" />
+    <van-empty description="暂无数据" v-if="dataObject.attaches && dataObject.attaches.length == ''" />
       <div v-for="(item,index) in dataObject.attaches" :key="index">
         <div class="file" v-for="(items,index) in item.files" :key="index" @click="gofilespage(items.originalName,items.name)">
               <img :src="activeIcon0" class="fileIcon" />
@@ -188,9 +188,9 @@ export default {
             shixiangIcon: require("../../../assets/img/shixianxiangqing.png"),
             zhibiaoxinxi: require("../../../assets/img/zhibiaoxinxi.png"),
             activeIcon0: require("../../../assets/img/file.png"),
-            activeNames: [""],
-            details: [""],
-            AcTab: [""],
+            AcTab0: [""],
+            AcTab1: [""],
+            AcTab2: [""],
             title:'',
             state:false,//判断已办和待办
             expenseType:[],

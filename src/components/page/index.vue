@@ -227,7 +227,7 @@ export default {
             loading = false;
             // this.onLoad(); //加载
             this.onLoad("istrue");
-            this.$toast("努力加载中...");
+            //this.$toast("努力加载中...");
         },
        
         

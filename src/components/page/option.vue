@@ -87,8 +87,12 @@
                 </div>
             </van-popup>
         </div>
-        <van-uploader v-model="fileList" multiple />
-   </van-form>
+
+        <!-- <div @click="beforeRead" class="fileUploader">
+           <van-uploader v-model="fileList"  :after-read="afterRead" accept="image/*" :max-count="4"  />
+        </div> -->
+
+       </van-form>
 
 </div>
 </template>
@@ -121,7 +125,7 @@ export default {
             workflowKeyType:'',//送审的workflowKey
             opion:localStorage.getItem('opion'),
             fileList: [
-                { url: 'https://img01.yzcdn.cn/vant/leaf.jpg' },
+                //{ url: 'https://img01.yzcdn.cn/vant/leaf.jpg' },
                 // Uploader 根据文件后缀来判断是否为图片文件
                 // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
                 // { url: 'https://cloud-image', isImage: true },
@@ -311,6 +315,28 @@ export default {
         hold(){//待办保存事件
           this.$native.back();//保存成功返回上一个页面
         },
+       //afterRead(file) {//图片上传   // file此时可以自行将文件上传至服务器
+            //console.log(file);
+              // 此时可以自行将文件上传至服务器
+            // let imgFile = new FormData();
+            // imgFile.append("fileType", 'IMAGE');
+            // imgFile.append("file", this.fileList[0].file);
+            // this.$service.apply
+            //     .uploadImage({
+            //     data: imgFile,
+            // })
+        //},
+        // beforeRead(file){ //安卓机型上传图片
+        //     var u = navigator.userAgent;  
+        //     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        //     if(isAndroid){
+        //       JsBridge.call('JSBridge', 'openCamera',{ isRefresh: false, callBack: '' }, (res) => {
+        //            console.log(res,'android终端')
+        //            var dataFile = JSON.stringify(res)
+        //            alert(dataFile.file,'android终端')
+        //       });
+        //     }
+        // }
 
 
     },
@@ -477,5 +503,13 @@ justify-content: space-between;
     color: #fff;
     line-height: 0.4rem;
     border-radius: 50%;
+}
+/*  */
+.fileUploader{
+    height: 5rem;
+    margin-top: 0.4rem;
+    line-height: 2.5rem;
+    text-align: left;
+    margin-left: 0.2rem;
 }
 </style>
