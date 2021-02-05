@@ -111,6 +111,7 @@ export default {
             var onVisibilityChange = function(){
                 if (!document[hiddenProperty]) {   
                         that.mssgae();
+                        that.onLoad();
                  }else{}
             }
             document.addEventListener(visibilityChangeEvent, onVisibilityChange)

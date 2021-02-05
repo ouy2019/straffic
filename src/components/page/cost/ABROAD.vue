@@ -37,8 +37,8 @@
           </van-cell-group>
           <!-- 申请财政经费人员名单 -->
           <div class="details disbursement">
-              <van-collapse v-model="AcTab">
-                <van-collapse-item title="申请财政经费人员名单" name="1">
+              <van-collapse v-model="AcTab0">
+                <van-collapse-item title="申请财政经费人员名单" :name="index">
                   <el-table :data="item.financialPersonnels" style="width: 100%" >
                     <el-table-column prop="name" label="姓名"></el-table-column>
                     <el-table-column prop="unit" label="单位"></el-table-column>
@@ -51,11 +51,11 @@
           </div>
           <!-- 支出详情 -->
           <div class="details disbursement">
-              <van-collapse v-model="AcTab">
-                <van-collapse-item title="支出详情" name="1">
+              <van-collapse v-model="AcTab1">
+                <van-collapse-item title="支出详情" :name="index">
                   <el-table :data="item.paymentDetails" style="width: 100%" >
                     <el-table-column prop="expenseTypeDetail.name" label="费用类型"></el-table-column>
-                    <el-table-column prop="passageAmount" label="申请金额(元)"></el-table-column>
+                    <el-table-column prop="total" label="申请金额(人民币/元)"></el-table-column>
                   </el-table>
                 </van-collapse-item>
               </van-collapse>
@@ -128,14 +128,13 @@ export default {
     props: ["index", "dataObject","flow"],
     data() {
         return {
-            shixiangIcon: require("../../../assets/img/shixianxiangqing.png"),
-            zhibiaoxinxi: require("../../../assets/img/zhibiaoxinxi.png"),
-            activeIcon0: require("../../../assets/img/file.png"),
-            activeNames: [""],
-            details: ["1"],
-            AcTab: ["1"],
-            title:'',
-            state:false,  //判断已办和待办
+          shixiangIcon: require("../../../assets/img/shixianxiangqing.png"),
+          zhibiaoxinxi: require("../../../assets/img/zhibiaoxinxi.png"),
+          activeIcon0: require("../../../assets/img/file.png"),
+          AcTab0: [""],
+          AcTab1: [""],
+          title:'',
+          state:false,  //判断已办和待办
         }
     },
     created() {

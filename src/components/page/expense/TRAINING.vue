@@ -18,7 +18,7 @@
       </van-cell-group>
     </div>
     <!--培训费-->
-    <div class="direct" v-if="!dataObject.trainings.length == ''">
+    <div class="direct" v-if="dataObject.trainings && !dataObject.trainings.length == ''">
       <div class="line"></div>
       <div class="detail">
         <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}} </div>
@@ -29,14 +29,27 @@
           <van-cell :border="false" title="培训地点" :value="item.place" size="small" class="text_l" />
           <van-cell :border="false" title="培训人数" :value="item.participantNumber" size="small" class="text_l" />
           <van-cell :border="false" title="培训日期" :value="item.beginDate+'至'+item.endDate" size="small" class="text_l" />
+          
           </van-cell-group>
           <div class="details disbursement">
-              <van-collapse v-model="AcTab">
+              <van-collapse v-model="AcTab0">
+              <van-collapse-item title="师资费" name="1">
+                <el-table :data="item.teachers" stripe style="width: 100%" >
+                    <el-table-column prop="content" label="授课内容"></el-table-column>
+                    <el-table-column prop="expert.accountName" label="专家名称"></el-table-column>
+                    <el-table-column prop="amount" label="报销金额"></el-table-column>
+                </el-table>
+              </van-collapse-item>
+              </van-collapse>
+          </div>
+          <div class="total">合计: {{teachers | num}}</div>
+          <div class="details disbursement">
+              <van-collapse v-model="AcTab1">
               <van-collapse-item title="支出详情" name="1">
-                <el-table :data="item.paymentDetails" stripe style="width: 100%" >
-                    <el-table-column prop="expenseTypeDetail.name" label="费用类型"></el-table-column>
-                    <el-table-column prop="total" label="金额(元)"></el-table-column>
-                    <el-table-column prop="total" label="申请总金额(元)"></el-table-column>
+                <el-table :data="item.details" stripe style="width: 100%" >
+                    <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
+                    <el-table-column prop="total" label="报销金额(元)"></el-table-column>
+                    <el-table-column prop="remark" label="备注"></el-table-column>
                 </el-table>
               </van-collapse-item>
               </van-collapse>
@@ -129,11 +142,12 @@ export default {
             shixiangIcon: require("../../../assets/img/shixianxiangqing.png"),
             zhibiaoxinxi: require("../../../assets/img/zhibiaoxinxi.png"),
             activeIcon0: require("../../../assets/img/file.png"),
-            activeNames: [""],
             details: [""],
-            AcTab: [""],
+            AcTab0: [""],
+            AcTab1: [""],
             title:localStorage.getItem('title'),
             state:false, //判断是否已办
+            teachers:0,
         }
     },
     created() { //SKETCH  UNDONE
@@ -143,6 +157,19 @@ export default {
         // this.state = this.$route.query.state == 'DONE';//事前报销页面跳转过来判断是否已办
         this.state = this.dataObject.reimbursement.state == 'DONE';
       }
+      //师资费合计金额
+      if(useoptionChian(this.dataObject,`trainings`)){
+         for(let i=0; i<this.dataObject.trainings.length; i++){
+           if(this.dataObject.trainings[i].teachers && this.dataObject.trainings[i].teachers.length){
+             for(let j=0;j<this.dataObject.trainings[i].teachers.length; j++){
+                this.teachers += this.dataObject.trainings[i].teachers[j].amount+this.dataObject.trainings[i].teachers[j].actualAmount
+             }
+           }
+           
+         }
+      }
+      // console.log(this.teachers,'相加-----')
+
     },
     components: {
 

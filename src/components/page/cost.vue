@@ -83,7 +83,20 @@ export default {
             "CAR":"汽车",
             "OTHER":"其他",
           }
+          let travel = {
+            "MEETING":"会议",
+            "TRAINING":"培训",
+            "EXAMINE":"督导检查",
+            "OTHER":"其他",
+          }
           let nwevalue = msg.data.data.travelExpenses;
+
+          nwevalue.map((itemA)=>{
+          
+            itemA.travelReason = travel[itemA.travelReason]
+          
+          })
+
           nwevalue.map((items)=>{
             items.paymentDetails.map((item)=> {
             item.transportationFacility = traffic[item.transportationFacility]

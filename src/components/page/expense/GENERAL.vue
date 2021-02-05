@@ -13,14 +13,30 @@
         <van-cell :border="false" title="报销单号" :value="dataObject.reimbursement.code" size="small" class="text_l" />
         <van-cell :border="false" title="支出事由" :value="dataObject.reimbursement.reason" size="small" class="text_l" />
         <van-cell :border="false" title="事前业务标题" :value="dataObject.paymentReport.title" size="small" class="text_l" />
-        <van-cell :border="false" title="事前资金申请金额(元)" :value="dataObject.paymentReport.meetingContractsTotal | num" size="small" class="text_l"  />
+        <van-cell :border="false" title="事前资金申请金额(元)" :value="dataObject.reimbursement.amount | num" size="small" class="text_l"  />
         <van-cell :border="false" title="本次报销(元)" :value="dataObject.reimbursement.amount | num" size="small" class="text_l"  />
         <van-cell :border="false" title="报销总额(元)" :value="dataObject.reimbursement.amount | num" size="small" class="text_l"  />
       </van-cell-group>
     </div>
     <div class="line"></div>
+     <!--  一般经费明细信息 -->
+      <div class="details margin" v-if="dataObject.paymentDetails && !dataObject.paymentDetails.length == ''">
+        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}}</div>
+        <van-collapse v-model="details">
+          <van-collapse-item title="一般经费明细信息" name="1">
+            <el-table :data="dataObject.paymentDetails" style="width: 100%">
+              <el-table-column prop="expenseType.name" label="费用类型" ></el-table-column>
+              <el-table-column prop="amount" label="申请金额(元)" ></el-table-column>
+              <el-table-column prop="useType" label="用途"></el-table-column>
+              <el-table-column prop="amount" label="报销金额(元)"></el-table-column>
+            </el-table>
+          </van-collapse-item>
+        </van-collapse>
+        <div class="total">合计: {{dataObject.reimbursement.amount | num}}</div>
+      </div>
+    <div class="line"></div>
     <!--  指标信息 -->
-    <div class="travel margin" v-if="!dataObject.indices.length==''">
+    <div class="travel margin" v-if="dataObject.indices && !dataObject.indices.length==''">
       <div class="margin">
         <div class="title"><img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息</div>
         <div class="indicator">
@@ -33,6 +49,7 @@
           <div class="total">合计: {{dataObject.reimbursement.amount | num}}</div>
         </div>
       </div>
+    </div>
       <div class="line"></div>
       <!-- 收款明细 -->
       <div class="details margin">
@@ -48,8 +65,8 @@
           </van-collapse-item>
         </van-collapse>
       </div>
-    </div>
-    <div class="line"></div>
+    
+    <!-- <div class="line"></div> -->
     <!-- 去审批 -->
     <div class="shenpiBtn">
       <van-button v-if="dataObject.reimbursement.workflowTask" class="info" type="info" @click="openNewOption">去审批</van-button>
@@ -142,9 +159,9 @@ export default {
           this.dataObject.amount = this.dataObject.reimbursement.amount;
         }
         goOption(this,this.dataObject.reimbursement.workflowTask.id,{
-            test: false,
-            workflowKey: this.dataObject.reimbursement.workflowTask.instance.definition.workflowInfo.workflowKey,
-            variables: this.dataObject
+          test: false,
+          workflowKey: this.dataObject.reimbursement.workflowTask.instance.definition.workflowInfo.workflowKey,
+          variables: this.dataObject
         })
 
       },

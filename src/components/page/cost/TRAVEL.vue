@@ -18,7 +18,7 @@
       </van-cell-group>
     </div>
     <!-- 差旅费 -->
-    <div class="direct" v-if="!dataObject.travelExpenses.length==''">
+    <div class="direct" v-if="dataObject.travelExpenses && !dataObject.travelExpenses.length==''">
       <div class="line"></div>
       <div class="detail">
         <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}}</div>
@@ -28,7 +28,7 @@
             <van-cell :border="false" title="出差人员" :value="item.users" size="small" class="text_l" />
             <van-cell :border="false" title="出差地区" :value="item.travelLocation" size="small" class="text_l" />
             <van-cell :border="false" title="出差日期" :value="item.beginDate+'至'+item.endDate" size="small" class="text_l" />
-            <van-cell :border="false" title="出差事由" :value="item.paymentDetails.content" size="small" class="text_l" />
+            <van-cell :border="false" title="出差事由" :value="item.travelReason" size="small" class="text_l" />
             </van-cell-group>
             <div class="details disbursement">
                 <van-collapse v-model="AcTab">

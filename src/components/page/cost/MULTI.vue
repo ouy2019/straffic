@@ -105,16 +105,27 @@
             <van-cell :border="false" title="税后申请总金额(元)" :value="Number(item.teachers[0].amount)*Number(item.teachers[0].lessonPeriod) + parseInt(Number(item.teachers[0].withholdAndRemitTax)) | num" size="small" class="text_l"/>
             </van-cell-group>
             <div class="details disbursement">
+                <van-collapse v-model="AcTab3">
+                <van-collapse-item title="师资费" :name="index">
+                  <el-table :data="item.teachers" stripe style="width: 100%" >
+                     <el-table-column prop="content" label="授课内容"></el-table-column>
+                    <el-table-column prop="expert.accountName" label="专家名称"></el-table-column>
+                    <el-table-column prop="amount" label="报销金额"></el-table-column>
+                  </el-table>
+                </van-collapse-item>
+                </van-collapse>
+            </div>
+            <div class="details disbursement">
                 <van-collapse v-model="AcTab2">
                 <van-collapse-item title="支出详情" :name="index">
                   <el-table :data="item.paymentDetails" stripe style="width: 100%" >
                       <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
-                      <el-table-column prop="total" label="金额"></el-table-column>
+                      <el-table-column prop="total" label="申请金额金额(元)"></el-table-column>
                       <el-table-column prop="remark" label="备注" ></el-table-column>
                   </el-table>
-                  <div class="total">合计: {{Number(item.teachers[0].amount)*Number(item.teachers[0].lessonPeriod) + parseInt(Number(item.teachers[0].withholdAndRemitTax)) | num}}</div>
                 </van-collapse-item>
                 </van-collapse>
+                <div class="total">合计: {{Number(item.teachers[0].amount)*Number(item.teachers[0].lessonPeriod) + parseInt(Number(item.teachers[0].withholdAndRemitTax)) | num}}</div>
             </div>
         </div>
       </div>
@@ -191,6 +202,7 @@ export default {
             AcTab0: [""],
             AcTab1: [""],
             AcTab2: [""],
+            AcTab3: [""],
             title:'',
             state:false,//判断已办和待办
             expenseType:[],

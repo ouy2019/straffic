@@ -31,11 +31,11 @@
           </van-cell-group>
           <div class="details disbursement">
               <van-collapse v-model="AcTab">
-                <van-collapse-item title="支出详情" name="1">
+                <van-collapse-item title="支出详情" :name="index">
                   <el-table :data="item.paymentDetails" style="width: 100%" >
                     <el-table-column prop="content" label="支出内容" ></el-table-column>
                     <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
-                    <el-table-column prop="amount" label="金额"></el-table-column>
+                    <el-table-column prop="total" label="申请总金额"></el-table-column>
                     <el-table-column prop="remark" label="备注" ></el-table-column>
                   </el-table>
                 </van-collapse-item>

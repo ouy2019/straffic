@@ -88,6 +88,8 @@
             </van-popup>
         </div>
 
+        <!-- <van-button id="submitRight2222" round block type="info" native-type="submitsss" @click="showSubmit222">提交测试</van-button> -->
+        
         <!-- <div @click="beforeRead" class="fileUploader">
            <van-uploader v-model="fileList"  :after-read="afterRead" accept="image/*" :max-count="4"  />
         </div> -->
@@ -202,7 +204,18 @@ export default {
 
     },
     methods: {
-       
+        // showSubmit222(){//用来测试返回的
+        //     var u = navigator.userAgent;  
+        //     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端  
+        //     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        //     if(isiOS && this.opion == 'home'){
+        //         this.$native.backHome();//提交成功返回上2个页面
+        //     }else if(isiOS && this.opion == 'details'){
+        //         this.$native.back();
+        //     }else if(isAndroid){
+        //         this.$native.backHome();//提交成功返回上2个页面
+        //     }
+        // },
         onSubmit(values) {
             console.log('submit', values);
         },

@@ -35,8 +35,8 @@
             <van-collapse v-model="AcTab">
             <van-collapse-item title="支出详情" name="1">
               <el-table :data="item.paymentDetails" stripe style="width: 100%" >
-                  <el-table-column prop="expenseTypeDetail.name" label="费用类型"></el-table-column>
-                  <el-table-column prop="amount" label="金额(元)"></el-table-column>
+                  <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
+                  <el-table-column prop="amount" label="申请金额金额(元)"></el-table-column>
                   <el-table-column prop="remark" label="备注"></el-table-column>
               </el-table>
             </van-collapse-item>
@@ -113,8 +113,6 @@ export default {
           shixiangIcon: require("../../../assets/img/shixianxiangqing.png"),
           zhibiaoxinxi: require("../../../assets/img/zhibiaoxinxi.png"),
           activeIcon0: require("../../../assets/img/file.png"),
-          activeNames: [""],
-          details: [""],
           AcTab: [""],
           title:'',
           state:false, //判断是否已办

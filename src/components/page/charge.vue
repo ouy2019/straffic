@@ -88,12 +88,14 @@ export default {
                 "CAR":"汽车",
                 "OTHER":"其他",
               }
+             
             let nwevalue = msg.data.data.travelExpenses;
             nwevalue.map((items)=>{
               items.details.map((item)=> {
                 item.transportationFacility = traffic[item.transportationFacility]
               })
             })
+            
           }
        
         if(useoptionChian(msg,'data?.data?.contract?.payments')){
