@@ -32,7 +32,7 @@
             </van-cell-group>
             <div class="details disbursement">
                 <van-collapse v-model="AcTab">
-                  <van-collapse-item title="支出详情" name="1">
+                  <van-collapse-item title="支出详情" :name="index">
                     <el-table :data="item.paymentDetails" stripe style="width: 100%" >
                       <el-table-column prop="transportationFacility" label="交通工具" ></el-table-column>
                       <el-table-column prop="expenseTypeDetail.name" label="支出类型" ></el-table-column>

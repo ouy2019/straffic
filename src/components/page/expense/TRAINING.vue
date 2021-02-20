@@ -33,7 +33,7 @@
           </van-cell-group>
           <div class="details disbursement">
               <van-collapse v-model="AcTab0">
-              <van-collapse-item title="师资费" name="1">
+              <van-collapse-item title="师资费" :name="index">
                 <el-table :data="item.teachers" stripe style="width: 100%" >
                     <el-table-column prop="content" label="授课内容"></el-table-column>
                     <el-table-column prop="expert.accountName" label="专家名称"></el-table-column>
@@ -45,7 +45,7 @@
           <div class="total">合计: {{teachers | num}}</div>
           <div class="details disbursement">
               <van-collapse v-model="AcTab1">
-              <van-collapse-item title="支出详情" name="1">
+              <van-collapse-item title="支出详情" :name="index">
                 <el-table :data="item.details" stripe style="width: 100%" >
                     <el-table-column prop="expenseTypeDetail.name" label="支出类型"></el-table-column>
                     <el-table-column prop="total" label="报销金额(元)"></el-table-column>

@@ -30,7 +30,7 @@
             </van-cell-group>
             <div class="details disbursement">
               <van-collapse v-model="AcTab">
-              <van-collapse-item title="租车费用信息" name="1">
+              <van-collapse-item title="租车费用信息" :name="index">
                 <el-table :data="item" stripe style="width: 100%" >
                     <el-table-column prop="rentDay" label="租用天数" ></el-table-column>
                     <el-table-column prop="price" label="租赁单价(元/天)"></el-table-column>
