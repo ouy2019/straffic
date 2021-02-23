@@ -220,3 +220,15 @@ color: #e54728;
     text-align: left;
     font-size: 0.26rem;
   }
+
+  .filePdf{
+    display: flex;
+    justify-content: space-between;
+  }
+  .filePdf .filePdfName{
+    line-height: 0.65rem;
+  }
+  .filePdf .van-button{
+    height: 28px !important;
+    margin-top: 0.1rem !important;
+  }

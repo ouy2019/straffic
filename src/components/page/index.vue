@@ -137,9 +137,9 @@ export default {
             })
         },
         async goDetail(applyDate) {
-            console.log(applyDate.id)
+            // console.log(applyDate.id)
              var that = this;
-            if(applyDate.taskType == 'payment'){ //跳转到事前申请  reimbursement报销申请
+            if(applyDate.type2 == 'payment'){ //跳转到事前申请  reimbursement报销申请
                 var linkUrl = "/cost";
                 var msg = await that.$axios.get( apiAddress+`/app/index/reports/${applyDate.id}/getType`)
                 if(!msg.code == 200)return;

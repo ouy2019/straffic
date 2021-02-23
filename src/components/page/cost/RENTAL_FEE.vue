@@ -69,6 +69,10 @@
                   <div class="option flex">
                       <div class="optionS">意见：{{item.advice}}</div>
                   </div>
+                  <div class="filePdf"  v-for="(items,indexs) in item.files" :key="indexs">
+                    <div class="filePdfName">{{items.originalName}}</div>
+                    <van-button round type="info" @click="gofilesPdf(items.originalName,items.name)">预览</van-button>
+                  </div>
               </div>
               <div :class="index > -1 && index < flow.length - 1 ? 'setp_line' :  '' "></div>
             </div>
@@ -130,6 +134,13 @@ export default {
       },
       gofilespage(filesName,filesUrl){//调用原生跳转到pdf页面
       console.log(filesName)
+        this.$toast.loading({
+          message: '加载中...',
+          forbidClick: true,
+        });
+        this.$native.loadpage(filesUrl,filesName);
+      },
+      gofilesPdf(filesName,filesUrl){
         this.$toast.loading({
           message: '加载中...',
           forbidClick: true,
