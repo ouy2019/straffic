@@ -85,7 +85,7 @@
       <!-- 去审批 -->
       <div class="shenpiBtn">
         <van-button v-if="dataObject.reimbursement.workflowTask" class="info" type="info" @click="openNewOption">去审批</van-button>
-        <van-button v-if="!dataObject.reimbursement.workflowTask" disabled class="info" type="info">已提交</van-button>
+        <!-- <van-button v-if="!dataObject.reimbursement.workflowTask" disabled class="info" type="info">已提交</van-button> -->
       </div>
   </div>
 
@@ -145,6 +145,7 @@ export default {
             AcTab: [""],
             title:localStorage.getItem('title'),
             state:false, //判断是否已办
+            instance:'', //workflowKey审批流程key
 
         }
     },
@@ -163,46 +164,31 @@ export default {
     methods:{
        openNewOption(){ //跳转到下一个处理节点 -- 填写意见
 
-        this.$toast.loading({
-          message: '加载中...',
-          forbidClick: true,
-        });
-        
-        // if(!this.dataObject.reimbursement.workflowTask){
-        //   this.$toast("已经在审核中，请勿重新提交！");
-        //   return;
-        // }
-        // if(!this.dataObject.reimbursement.workflowTask.id){
-        //   this.$toast("已经在审核中，请勿重新提交！");
-        //   return;
-        // }
+        this.$toast.loading({ message: '加载中...',forbidClick: true,});
+      
         localStorage.setItem('opion',this.$route.query.opion)
-
 
         //这一步必须。不然流程走不通
         if(this.dataObject.reimbursement.amount){
           this.dataObject.amount = this.dataObject.reimbursement.amount;
         }
 
+        if(this.dataObject.reimbursement.workflowTask.instance){
+          this.instance = this.dataObject.reimbursement.workflowTask.instance.definition.workflowInfo.workflowKey;
+        }
         goOption(this,this.dataObject.reimbursement.workflowTask.id,{
             test: false,
-            workflowKey: this.dataObject.reimbursement.workflowTask.instance.definition.workflowInfo.workflowKey,
+            workflowKey: this.instance,
             variables: this.dataObject
         })
 
       },
       gofilespage(filesName,filesUrl){//调用原生跳转到pdf页面
-        this.$toast.loading({
-          message: '加载中...',
-          forbidClick: true,
-        });
+        this.$toast.loading({ message: '加载中...',forbidClick: true,});
         this.$native.loadpage(filesUrl,filesName);
       },
-      gofilesPdf(filesName,filesUrl){
-        this.$toast.loading({
-          message: '加载中...',
-          forbidClick: true,
-        });
+      gofilesPdf(filesName,filesUrl){//在线预览文档
+       this.$toast.loading({ message: '加载中...',forbidClick: true,});
         this.$native.loadpage(filesUrl,filesName);
       }
 

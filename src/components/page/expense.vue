@@ -96,6 +96,7 @@ export default {
     },
     goDetail(applyDate) {
       //  this.$router.push({path:"/",query:{id:e.id,type:e.taskType,title:title}});
+    
       this.$native.forward({  //relatedId
         path: "/charge",
         query: { 
@@ -105,7 +106,7 @@ export default {
           instanceId:applyDate.instanceId, //查询流转信息id
           state:applyDate.state,  //判断已办和待办
           taskId:applyDate.workflowTask.id, //查询去审批下一环节处理人id
-          // taskType:applyDate.workflowTask.taskType,
+          //workFlowKey:applyDate.workFlowKey,
           opion:'details'
         },
       });

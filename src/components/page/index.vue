@@ -56,7 +56,7 @@
   </div>
 </template>
 <script>
-// import { pageChange } from '@/core/test';
+import { pageChange } from '@/core/test';
 let isTrue = true;
 export default {
     data() {
@@ -90,29 +90,34 @@ export default {
         }
     },
     components: {},
-    // mixins:[pageChange],
+    mixins:[pageChange],
     mounted(){
          this.mssgae();//菜单总数信息
-        //  this.onShow();
-        //  this.onHide();
+         this.onShow();
+         this.onHide();
     },
     methods:{
-        // onShow(){
-        //     console.log('onShow');//监听是否离开页面
-        //     this.init(); //详情基本信息
-        // },
-        // onHide(){
-        //     console.log('onHide');
-        // },
+        onShow(){
+            console.log('onShow','监听首页刷新事件');//监听是否离开页面
+            // this.init(); //详情基本信息
+            this.onLoad();
+            this.onRefresh();
+        },
+        onHide(){
+            console.log('onHide');
+        },
         showPage() {
             let that = this;
             var hiddenProperty = 'hidden' in document ? 'hidden' : 'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : null;
             var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
             var onVisibilityChange = function(){
                 if (!document[hiddenProperty]) {   
-                        that.mssgae();
-                        that.onLoad();
-                 }else{}
+                    that.mssgae();
+                    that.onLoad();
+                    that.onRefresh();
+                 }else{
+
+                 }
             }
             document.addEventListener(visibilityChangeEvent, onVisibilityChange)
         },
@@ -159,7 +164,8 @@ export default {
                     type: that.type,
                     title: applyDate.workFlowName,
                     isDone:applyDate.isDone, //首页判断已办和待办
-                    opion:'home'
+                    opion:'home',
+                   // workFlowKey:applyDate.workFlowKey,
                 },
             });
         },

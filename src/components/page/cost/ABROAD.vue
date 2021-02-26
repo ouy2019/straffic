@@ -143,20 +143,13 @@ export default {
     },
     created() {
       this.title = this.$route.query.title;
-      this.state = this.dataObject.state == 'DONE';//判断已办和待办
+      // this.state = this.dataObject.state == 'DONE';//判断已办和待办
     },
     components: {},
     mounted(){},
     methods:{
       openNewOption(){ //跳转到下一个处理节点 -- 填写意见
-        this.$toast.loading({
-          message: '加载中...',
-          forbidClick: true,
-        });
-        // if(!useoptionChian(this.dataObject,'workflowTask?.id')){
-        //   this.$toast("已经在审核中，请勿重新提交！");
-        //   return;
-        // }
+        this.$toast.loading({ message: '加载中...',forbidClick: true,});
         localStorage.setItem('opion',this.$route.query.opion)
         goOption(this,this.dataObject.workflowTask.id,{
             test: false,
@@ -166,17 +159,11 @@ export default {
         
       },
       gofilespage(filesName,filesUrl){//调用原生跳转到pdf页面
-        this.$toast.loading({
-          message: '加载中...',
-          forbidClick: true,
-        });
+       this.$toast.loading({ message: '加载中...',forbidClick: true,});
         this.$native.loadpage(filesUrl,filesName);
       },
       gofilesPdf(filesName,filesUrl){
-        this.$toast.loading({
-          message: '加载中...',
-          forbidClick: true,
-        });
+        this.$toast.loading({ message: '加载中...',forbidClick: true,});
         this.$native.loadpage(filesUrl,filesName);
       }
     }

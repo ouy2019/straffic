@@ -89,10 +89,10 @@
       </div>
     </div>
     <div class="line"></div>
-    <!-- 去审批 -->
+    <!--SKETCH 去审批 dataObject.reimbursement.workflowTask-->
     <div class="shenpiBtn">
       <van-button v-if="dataObject.reimbursement.workflowTask" class="info" type="info" @click="openNewOption">去审批</van-button>
-      <van-button v-if="!dataObject.reimbursement.workflowTask" disabled class="info" type="info">已提交</van-button>
+      <!-- <van-button v-if="!dataObject.reimbursement.workflowTask" disabled class="info" type="info">已提交</van-button> -->
     </div>
   </div>
 
@@ -150,18 +150,22 @@ export default {
             AcTab0: [""],
             AcTab1: [""],
             title:localStorage.getItem('title'),
-            state:false, //判断是否已办
+            state:true, //判断是否已办
             teachers:0,
-            instance:''
+            instance:'',
         }
     },
     created() { //SKETCH  UNDONE
-      if(this.$route.query.isDone){ //从首页跳转过来判断是否已办
-        this.state == this.$route.query.isDone;
-      }else{
+      // if(this.$route.query.isDone){ //从首页跳转过来判断是否已办
+      //   this.state == this.$route.query.isDone;
+      // }
+      //else{
         // this.state = this.$route.query.state == 'DONE';//事前报销页面跳转过来判断是否已办
-        this.state = this.dataObject.reimbursement.state == 'DONE';
-      }
+       // this.state = this.dataObject.reimbursement.state == 'DONE';
+      //}  useoptionChian(this.dataObject,'reimbursement?.workflowTask')
+     
+     
+
       //师资费合计金额
       if(useoptionChian(this.dataObject,`trainings`)){
          for(let i=0; i<this.dataObject.trainings.length; i++){
@@ -184,32 +188,16 @@ export default {
     },
     methods:{
        openNewOption(){ //跳转到下一个处理节点 -- 填写意见
-        this.$toast.loading({
-          message: '加载中...',
-          forbidClick: true,
-        });
-        
-        // if(!this.dataObject.reimbursement.workflowTask){
-        //   this.$toast("已经在审核中，请勿重新提交！");
-        //   return;
-        // }
-        // if(!this.dataObject.reimbursement.workflowTask.id){
-        //   this.$toast("已经在审核中，请勿重新提交！");
-        //   return;
-        // }
-        localStorage.setItem('opion',this.$route.query.opion)
+        this.$toast.loading({message: '加载中...',forbidClick: true,}); 
 
+        localStorage.setItem('opion',this.$route.query.opion)
         //这一步必须。不然流程走不通
         if(this.dataObject.reimbursement.amount){
           this.dataObject.amount = this.dataObject.reimbursement.amount;
         }
-        
-        if(this.dataObject.reimbursement.workflowTask.instance){
+        if(this.dataObject.reimbursement.workflowTask.instance){//有流程key才可以提交审批
           this.instance = this.dataObject.reimbursement.workflowTask.instance.definition.workflowInfo.workflowKey;
-        }else{
-          this.instance = this.dataObject.reimbursement.workflowTask.node.transfers[0].type;
         }
-
         goOption(this,this.dataObject.reimbursement.workflowTask.id,{
             test: false,
             workflowKey: this.instance,
@@ -218,17 +206,11 @@ export default {
 
       },
       gofilespage(filesName,filesUrl){//调用原生跳转到pdf页面
-        this.$toast.loading({
-          message: '加载中...',
-          forbidClick: true,
-        });
+        this.$toast.loading({ message: '加载中...',forbidClick: true,});
         this.$native.loadpage(filesUrl,filesName);
       },
       gofilesPdf(filesName,filesUrl){
-        this.$toast.loading({
-          message: '加载中...',
-          forbidClick: true,
-        });
+        this.$toast.loading({ message: '加载中...',forbidClick: true,});
         this.$native.loadpage(filesUrl,filesName);
       }
     }
