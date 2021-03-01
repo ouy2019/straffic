@@ -5,7 +5,7 @@
       <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />事项详情</div>
       <van-cell-group :border="false">
         <van-cell :border="false" title="事前申请单号" :value="dataObject.reimbursement.paymentReportCode" size="small" class="text_l" />
-        <van-cell :border="false" title="单位名称" :value="dataObject.reimbursement.unit.name" size="small" class="text_l" />
+        <!-- <van-cell :border="false" title="单位名称" :value="dataObject.reimbursement.unit.name" size="small" class="text_l" /> -->
         <van-cell :border="false" title="申请部门" :value="dataObject.reimbursement.department.name" size="small" class="text_l" />
         <van-cell :border="false" title="申请人" :value="dataObject.reimbursement.declarer.name" size="small" class="text_l" />
         <van-cell :border="false" title="申请时间" :value="dataObject.reimbursement.applyDate" size="small" class="text_l" />

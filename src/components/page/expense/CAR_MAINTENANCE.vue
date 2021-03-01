@@ -5,12 +5,12 @@
   <div class="detail">
     <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />事项详情</div>
     <van-cell-group :border="false">
-      <van-cell :border="false" title="报销单号" :value="dataObject.code" size="small" class="text_l" />
-      <van-cell :border="false" title="单位名称" :value="dataObject.unit.name" size="small" class="text_l" />
-      <van-cell :border="false" title="申请部门" :value="dataObject.applyDepartment.name" size="small" class="text_l" />
-      <van-cell :border="false" title="申请人" :value="dataObject.applyUser.name" size="small" class="text_l" />
-      <van-cell :border="false" title="申请时间" :value="dataObject.applyDate" size="small" class="text_l" />
-      <van-cell :border="false" title="支出事由" :value="dataObject.remark" size="small" class="text_l" />
+      <van-cell :border="false" title="报销单号" :value="dataObject.reimbursement.code" size="small" class="text_l" />
+      <!-- <van-cell :border="false" title="单位名称" :value="dataObject.unit.name" size="small" class="text_l" /> -->
+      <van-cell :border="false" title="申请部门" :value="dataObject.reimbursement.department.name" size="small" class="text_l" />
+      <van-cell :border="false" title="申请人" :value="dataObject.reimbursement.declarer.name" size="small" class="text_l" />
+      <van-cell :border="false" title="申请时间" :value="dataObject.reimbursement.applyDate" size="small" class="text_l" />
+      <van-cell :border="false" title="支出事由" :value="dataObject.reimbursement.reason" size="small" class="text_l" />
       <van-cell :border="false" title="事前业务标题" :value="dataObject.paymentReport.title" size="small" class="text_l" />
       <van-cell :border="false" title="事前申请单号" :value="dataObject.reimbursement.paymentReportCode" size="small" class="text_l" />
       <van-cell :border="false" title="报销总额(元)" :value="dataObject.reimbursement.amount | num" size="small" class="text_l" />
@@ -19,15 +19,15 @@
   </div>
   <div class="line"></div>
   <!--  指标信息 -->
-  <div class="travel" v-if="!dataObject.carWashIndexes.length==''">
+  <div class="travel" v-if="!dataObject.indices.length==''">
     <div class="margin">
       <div class="title"><img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />指标信息</div>
       <div class="indicator">
-        <el-table :data="dataObject.carWashIndexes" style="width: 100%">
-          <el-table-column prop="index.projectName" label="项目名称" ></el-table-column>
-          <el-table-column prop="index.largeProjectName" label="支出明细" ></el-table-column>
-          <el-table-column prop="index.allocationAmount" label="指标余额"></el-table-column>
-          <el-table-column prop="availableAmount" label="申请金额"></el-table-column>
+        <el-table :data="dataObject.indices" style="width: 100%">
+          <el-table-column prop="reportIndex.index.projectName" label="项目名称" ></el-table-column>
+          <el-table-column prop="reportIndex.index.largeProjectName" label="支出明细" ></el-table-column>
+          <el-table-column prop="reportIndex.index.allocationAmount" label="指标余额"></el-table-column>
+          <el-table-column prop="reportIndex.amount" label="申请金额"></el-table-column>
         </el-table>
         <div class="total">合计: {{dataObject.reimbursement.amount | num}}</div>
       </div>

@@ -6,7 +6,7 @@
       <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />事项详情</div>
       <van-cell-group :border="false">
         <van-cell :border="false" title="报销单号" :value="dataObject.reimbursement.code" size="small" class="text_l" />
-        <van-cell :border="false" title="单位名称" :value="dataObject.reimbursement.unit.name" size="small" class="text_l" />
+        <!-- <van-cell :border="false" title="单位名称" :value="dataObject.reimbursement.unit.name" size="small" class="text_l" /> -->
         <van-cell :border="false" title="经办部门" :value="dataObject.reimbursement.department.name" size="small" class="text_l" />
         <van-cell :border="false" title="经办人" :value="dataObject.reimbursement.declarer.name" size="small" class="text_l" />
         <van-cell :border="false" title="申请部门" :value="dataObject.applyDepartment.name" size="small" class="text_l" />
@@ -16,8 +16,8 @@
         <van-cell :border="false" title="支付事项" :value="dataObject.title" size="small" class="text_l" />
         <van-cell :border="false" title="付款说明" :value="dataObject.content" size="small" class="text_l" />
         <van-cell :border="false" title="备注" :value="dataObject.remark" size="small" class="text_l" />
-        <van-cell :border="false" title="支出事由" :value="dataObject.reason" size="small" class="text_l" />
-        <van-cell :border="false" title="关联合同编号" :value="dataObject.contract.contractNo" size="small" class="text_l" />
+        <van-cell :border="false" title="支出事由" :value="dataObject.reimbursement.reason" size="small" class="text_l" />
+        <van-cell :border="false" title="关联合同编号" :value="dataObject.contract.contractConclusion.contractNo" size="small" class="text_l" />
       </van-cell-group>
     </div>
     <!-- 合同资金 -->
