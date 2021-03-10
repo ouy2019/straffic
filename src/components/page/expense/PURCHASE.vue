@@ -3,7 +3,7 @@
       <!-- 非合同采购 -->
     <div class="shixiang" v-show="index == 0">
       <div class="detail">
-        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />事项详情</div>
+        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />基本信息</div>
         <van-cell-group :border="false">
           <van-cell :border="false" title="报销单号" :value="dataObject.reimbursement.code" size="small" class="text_l" />
           <!-- <van-cell :border="false" title="单位名称" :value="dataObject.reimbursement.unit.name" size="small" class="text_l" /> -->
@@ -22,7 +22,7 @@
       <div class="direct" v-if="!dataObject.purchaseReport.categories.length==''">
         <div class="line"></div>
         <div class="detail">
-          <div class="title"><img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />{{title}}</div>
+          <div class="title"><img :src="zhibiaoxinxi" alt="" srcset="" class="sxIcon" />采购信息</div>
           <div class="indicator">
             <el-table :data="dataObject.purchaseReport.categories" style="width: 100%">
               <el-table-column prop="name" label="项目名称" ></el-table-column>

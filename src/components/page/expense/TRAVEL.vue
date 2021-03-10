@@ -3,7 +3,7 @@
   <div class="shixiang" v-show="index == 0">
         <!-- 差旅费 事项详情-->
         <div class="detail">
-          <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />事项详情</div>
+          <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />基本信息</div>
           <van-cell-group :border="false">
             <van-cell :border="false" title="事前申请单号" :value="dataObject.reimbursement.paymentReportCode" size="small" class="text_l" />
             <!-- <van-cell :border="false" title="单位名称" :value="dataObject.reimbursement.unit.name" size="small" class="text_l"/> -->
@@ -23,7 +23,7 @@
         <div class="direct" v-if="!dataObject.travelExpenses.length==''">
           <div class="line"></div>
           <div class="detail">
-            <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}}</div>
+            <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />差旅信息</div>
             <div v-for="(item,index) in dataObject.travelExpenses" :key="index">
               <div v-if="index >= 1" class="spaceKey"></div>
                 <van-cell-group :border="false">

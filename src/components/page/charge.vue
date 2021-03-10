@@ -23,7 +23,7 @@ export default {
     return {
       activeName:0,
       tabName:[
-          {name:'基本详情'},
+          {name:'报销详情'},
           {name:'流转信息'},
           {name:'附件信息'},
       ],
@@ -34,7 +34,8 @@ export default {
     };
   },
   created() {
-    this.$route.meta.navBarTxt = this.$route.query.title;
+    //replace(/报销/i, "")
+    this.$route.meta.navBarTxt = this.$route.query.title.replace(/[报销 |申请]/g,'')+"报销审批单";
     if (this.$route.query.type) {
        this.active = this.$route.query.type;
        localStorage.setItem('title',this.$route.query.title);

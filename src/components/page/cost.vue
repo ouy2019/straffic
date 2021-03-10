@@ -22,7 +22,7 @@ export default {
         return {
           activeName:0,
           tabName:[
-              {name:'基本详情'},
+              {name:'申请详情'},
               {name:'流转信息'},
               {name:'附件信息'},
           ],
@@ -33,12 +33,17 @@ export default {
         }
     },
     created(){
-        this.$route.meta.navBarTxt = this.$route.query.title;
-        if (this.$route.query.type) {
-          this.active = this.$route.query.type;
-        }else{
-          this.$toast("获取详情失败，返回后重新进入");
-        }
+      if(this.$route.query.opion == "home"){
+        this.$route.meta.navBarTxt = this.$route.query.title
+      }else{
+        this.$route.meta.navBarTxt = this.$route.query.title+"事前申请";
+      }
+       
+      if (this.$route.query.type) {
+        this.active = this.$route.query.type;
+      }else{
+        this.$toast("获取详情失败，返回后重新进入");
+      }
         
     },
     components: {  //

@@ -3,7 +3,7 @@
   <!--多类经费-->
   <div class="shixiang" v-show="index == 0">
     <div class="detail">
-      <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />事项详情</div>
+      <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />基本信息</div>
       <van-cell-group :border="false">
         <van-cell :border="false" title="申请单号" :value="dataObject.code" size="small" class="text_l" />
         <!-- <van-cell :border="false" title="单位名称" :value="dataObject.unit.name" size="small" class="text_l" /> -->
@@ -25,7 +25,7 @@
     <div class="direct" v-if="dataObject.meetings &&　!dataObject.meetings.length == ''">
       <div class="line"></div>
       <div class="detail">
-        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />会议费</div>
+        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />会议信息</div>
         <div class="" v-for="(item,index) in dataObject.meetings" :key="index">
           <van-cell-group :border="false">
             <van-cell :border="false" title="会议名称" :value="item.name"  size="small" class="text_l"/>
@@ -65,7 +65,7 @@
     <div class="direct" v-if="dataObject.travelExpenses && !dataObject.travelExpenses.length==''">
       <div class="line"></div>
       <div class="detail">
-        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />差旅费</div>
+        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />差旅信息</div>
         <div v-for="(item,index) in dataObject.travelExpenses" :key="index">
             <van-cell-group :border="false">
             <van-cell :border="false" title="出差人员" :value="item.users" size="small" class="text_l" />
@@ -95,7 +95,7 @@
     <div class="direct" v-if="dataObject.trainings && !dataObject.trainings.length == ''">
       <div class="line"></div>
       <div class="detail">
-        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />培训费</div>
+        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />培训信息</div>
         <div class="" v-for="(item,index) in dataObject.trainings" :key="index">
             <van-cell-group :border="false">
             <van-cell :border="false" title="培训班名称"  :value="item.name" size="small" class="text_l" />

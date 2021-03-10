@@ -3,7 +3,7 @@
      <div class="shixiang" v-show="index == 0">
       <!--洗车费 事项详情-->
       <div class="detail">
-        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />事项详情</div>
+        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />基本信息</div>
         <van-cell-group :border="false">
           <van-cell :border="false" title="申请单号" :value="dataObject.code" size="small" class="text_l" />
           <!-- <van-cell :border="false" title="单位名称" :value="dataObject.unit.name" size="small" class="text_l" /> -->

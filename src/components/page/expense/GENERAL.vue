@@ -3,7 +3,7 @@
   <div class="shixiang" v-show="index == 0">
     <!-- 一般经费   事项详情-->
     <div class="detail">
-      <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />事项详情</div>
+      <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />基本信息</div>
       <van-cell-group :border="false">
         <van-cell :border="false" title="事前申请单号" :value="dataObject.reimbursement.paymentReportCode" size="small" class="text_l"  />
         <!-- <van-cell :border="false" title="单位名称" :value="dataObject.reimbursement.unit.name" size="small" class="text_l" /> -->
@@ -21,7 +21,7 @@
     <div class="line"></div>
      <!--  一般经费明细信息 -->
       <div class="details margin" v-if="dataObject.paymentDetails && !dataObject.paymentDetails.length == ''">
-        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />{{title}}</div>
+        <div class="title"><img :src="shixiangIcon" alt="" srcset="" class="sxIcon" />一般经费信息</div>
         <van-collapse v-model="details">
           <van-collapse-item title="一般经费明细信息" name="1">
             <el-table :data="dataObject.paymentDetails" style="width: 100%">
